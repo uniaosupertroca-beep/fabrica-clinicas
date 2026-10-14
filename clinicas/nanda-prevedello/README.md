@@ -28,12 +28,13 @@ Ficaram de fora, de propósito:
 
 ## Fotos
 
-O retrato da abertura (`src/assets/fotos/nanda-prevedello.png`) foi recortado de uma captura do site atual, por isso tem resolução baixa.
+Ficam em `src/assets/fotos/`, escolhidas entre as baixadas pelo workflow **Baixar fotos** (lista em `fotos.txt`, arquivos em `baixadas/`):
 
-As fotos originais estão listadas em `fotos.txt`:
+- **Abertura:** `nanda-prevedello.png`, o retrato do site atual (blusa rosa), recortado com fundo transparente.
+- **Frase da Dra. Nanda:** `nanda-prevedello-rosto.jpg`, da foto de perfil do Instagram.
+- **Corpo Detox:** `corpo-detox.jpg`, a imagem que ilustra o protocolo no site atual.
 
-1. Ao enviar esse arquivo, o workflow **Baixar fotos** baixa tudo para `baixadas/`.
-2. Daí escolhemos as melhores e trocamos em `src/assets/fotos/`.
+Os posts do Instagram são, na maioria, artes gráficas, antes e depois ou conteúdo íntimo, por isso não entraram. Fotos do espaço da clínica, se ela mandar, podem entrar numa galeria.
 
 ## Regras de publicidade
 

@@ -285,6 +285,7 @@ export const tratamentos: Tratamento[] = [
     nome: "Protocolo Corpo Detox",
     categoria: "Corpo",
     icone: "folha",
+    foto: { arquivo: "corpo-detox.jpg", alt: "Mulher bebendo água com limão numa bancada com plantas e frutas cítricas" },
     destaque: "o protocolo idealizado pela Dra. Nanda.",
     assunto: "do Protocolo Corpo Detox",
     resumo:
