@@ -1,0 +1,219 @@
+---
+import Cabecalho from "../../components/Cabecalho.astro";
+import CartaoTratamento from "../../components/CartaoTratamento.astro";
+import Chamada from "../../components/Chamada.astro";
+import Icone from "../../components/Icone.astro";
+import Rodape from "../../components/Rodape.astro";
+import Topo from "../../components/Topo.astro";
+import ZapFlutuante from "../../components/ZapFlutuante.astro";
+import { clinica, linkWhatsapp } from "../../data/clinica.ts";
+import { categorias, iconeDaCategoria, nomeDaCategoria, porCategoria } from "../../data/tratamentos.ts";
+import Base from "../../layouts/Base.astro";
+
+const descricaoDaCategoria = {
+  Íntima: "Para mulheres e homens: volume, contorno, firmeza e conforto, com consulta reservada.",
+  Corpo: "Gordura localizada, flacidez, contorno, glúteos, lipedema e o Protocolo Corpo Detox.",
+  Pele: "Renovação, acne e limpeza de pele, com tecnologias combinadas.",
+};
+/** Âncora sem acento: "Íntima" vira "intima". */
+const ancora = (c: string) => c.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
+---
+
+<Base
+  titulo={`Tratamentos de harmonização íntima, corpo e pele em ${clinica.cidade} (${clinica.uf}) | Dra. Nanda Prevedello`}
+  descricao="Harmonização íntima feminina e masculina, NinfoSlim, Lipolaser Slim, harmonização glútea, Power Shape, lipedema, ozonioterapia, Protocolo Corpo Detox, Royal Glow e tratamentos de pele. Com a Dra. Nanda Prevedello, em Balneário Camboriú (SC)."
+>
+  <Topo interna />
+  <main id="conteudo">
+    <Cabecalho
+      id="t-tratamentos"
+      chapeu="Tratamentos"
+      titulo="Harmonização íntima, corpo e pele,"
+      destaque="sempre depois de uma avaliação."
+      resumo="Cada plano é pensado para você: o seu corpo, a sua saúde, a sua rotina e o que você deseja."
+      palavra="Prevedello"
+    >
+      <a class="botao zap" href={linkWhatsapp()} target="_blank" rel="noopener">
+        <Icone nome="whatsapp" tamanho={20} />
+        Agendar avaliação
+      </a>
+    </Cabecalho>
+
+    <nav class="atalhos" aria-label="Áreas de tratamento">
+      <ul class="envolve">
+        {
+          categorias.map((c) => (
+            <li>
+              <a href={`#${ancora(c)}`}>
+                <Icone nome={iconeDaCategoria[c]} tamanho={20} />
+                {c}
+                <span class="conta">{porCategoria(c).length}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <section class="secao suave lista-tratamentos" aria-label="Lista de tratamentos">
+      <div class="envolve">
+        {
+          categorias.map((c) => (
+            <div class="grupo" id={ancora(c)}>
+              <header class="cabeca">
+                <span class="selo">
+                  <Icone nome={iconeDaCategoria[c]} tamanho={26} traco={1.4} />
+                </span>
+                <div>
+                  <h2>
+                    {c} <span class="conta">{porCategoria(c).length} {porCategoria(c).length === 1 ? "tratamento" : "tratamentos"}</span>
+                  </h2>
+                  <p>{descricaoDaCategoria[c]}</p>
+                </div>
+              </header>
+              <ul class="grade">
+                {porCategoria(c).map((t) => (
+                  <li>
+                    <CartaoTratamento nome={t.nome} resumo={t.resumo} href={`/tratamentos/${t.slug}/`} icone={t.icone} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <Chamada />
+    <ZapFlutuante />
+  </main>
+  <Rodape />
+</Base>
+
+<style>
+  /* Atalhos para as áreas, logo abaixo da abertura. */
+  .atalhos {
+    background: var(--escuro-2);
+    border-top: 1px solid color-mix(in oklab, var(--claro) 8%, transparent);
+  }
+  .atalhos ul {
+    list-style: none;
+    padding: 14px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .atalhos a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 0 18px 0 14px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in oklab, var(--claro) 16%, transparent);
+    color: var(--claro);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: border-color 0.2s;
+  }
+  .atalhos a:hover {
+    border-color: var(--acento);
+  }
+  .atalhos :global(svg) {
+    color: var(--acento);
+  }
+  .atalhos .conta {
+    display: grid;
+    place-items: center;
+    min-width: 24px;
+    height: 24px;
+    padding-inline: 6px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--acento) 22%, transparent);
+    color: var(--acento-claro);
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .lista-tratamentos .envolve {
+    display: grid;
+    gap: clamp(64px, 8vw, 96px);
+  }
+  .grupo {
+    scroll-margin-top: 96px;
+  }
+  .cabeca {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding-bottom: 22px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--linha);
+  }
+  .selo {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--escuro);
+    color: var(--acento);
+  }
+  .cabeca h2 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 14px;
+    font-family: var(--fonte-titulo);
+    font-size: clamp(32px, 4vw, 44px);
+    font-weight: 400;
+    line-height: 1.05;
+  }
+  .cabeca h2 .conta {
+    font-family: var(--fonte);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--acento-texto);
+  }
+  .cabeca p {
+    margin-top: 4px;
+    color: var(--tinta-2);
+    font-size: 16px;
+  }
+  .grade {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+  }
+  @media (min-width: 720px) {
+    .grade {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1080px) {
+    .grade {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .grade li {
+    display: grid;
+    container-type: inline-size;
+  }
+  @media (min-width: 720px) and (max-width: 1079px) {
+    .grade li:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (min-width: 1080px) {
+    .grade li:last-child:nth-child(3n + 1) {
+      grid-column: 1 / -1;
+    }
+    .grade:has(> li:nth-child(2):last-child) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

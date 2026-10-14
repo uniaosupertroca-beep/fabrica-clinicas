@@ -1,0 +1,14 @@
+---
+// Escudo com N e P, o mesmo desenho do logo e do ícone da aba (public/monograma.svg), em traço da cor do texto.
+interface Props {
+  tamanho?: number;
+}
+const { tamanho = 18 } = Astro.props;
+---
+
+<svg width={tamanho} height={tamanho} viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true">
+  <path d="M7 8.5C7 3.6 25 3.6 25 8.5V24l-9 5.5L7 24z" />
+  <path d="M7 8.5h18" />
+  <path d="M11 22V12.5l7 9.5V12" stroke-width="1.5" />
+  <path d="M18 12h3.2a2.9 2.9 0 0 1 0 5.8H18" stroke-width="1.5" />
+</svg>

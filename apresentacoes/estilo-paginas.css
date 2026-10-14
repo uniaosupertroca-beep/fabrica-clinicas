@@ -1,0 +1,219 @@
+/* Arco: a moldura do site da clínica, com topo todo arredondado e um fio rosé por dentro. */
+.arco {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 999px 999px 20px 20px;
+  box-shadow: 0 40px 80px -48px rgba(42, 23, 28, 0.8);
+}
+.arco::after {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 1px solid color-mix(in oklab, var(--rosa) 70%, transparent);
+  border-radius: inherit;
+}
+.arco img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Capa */
+.capa {
+  justify-content: center;
+  background:
+    radial-gradient(40% 55% at 82% 36%, color-mix(in oklab, var(--ameixa-clara) 34%, transparent), transparent 70%),
+    radial-gradient(36% 40% at 4% 100%, color-mix(in oklab, var(--ameixa-clara) 18%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--po), var(--nude));
+}
+.capa-texto { position: relative; z-index: 1; max-width: 590px; }
+.capa-logo { display: block; height: 54px; width: auto; margin-bottom: 44px; }
+.capa h1 { font-size: 70px; line-height: 0.98; font-weight: 400; letter-spacing: -0.015em; }
+.capa h1 em, .final h2 em { display: block; font-weight: 500; color: var(--rose-texto); }
+.capa .lead { max-width: 30em; font-size: 19px; margin-top: 26px; }
+.capa-troca { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--linha); font-size: 15.5px; font-weight: 500; color: var(--rose-texto); max-width: 30em; }
+.capa-arte { position: absolute; right: 96px; top: 70px; width: 390px; height: 580px; }
+.capa-arte .arco { position: absolute; inset: 0 0 0 0; }
+.capa-celular { position: absolute; left: -128px; bottom: -28px; }
+.capa-celular .tela { height: 468px; }
+
+/* Grades genéricas */
+.duas { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; margin-top: 30px; align-items: start; }
+.lista-limpa { list-style: none; padding: 0; display: grid; gap: 12px; }
+.lista-limpa li { position: relative; padding-left: 20px; font-size: 17px; line-height: 1.45; }
+.lista-limpa li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 7px; height: 7px; border-radius: 50%; background: var(--ameixa-clara); }
+.lista-limpa b { font-weight: 500; }
+.noite .lista-limpa li::before { background: var(--champanhe); }
+.miudo-titulo { font-weight: 500; font-size: 14px; color: var(--rose-texto); margin-bottom: 10px; }
+.miudo { font-size: 12.5px; color: var(--tinta-2); line-height: 1.45; }
+.faixa-fatos { margin-top: 26px; padding: 16px 20px; border-left: 2px solid var(--ameixa); background: color-mix(in oklab, var(--rosa) 40%, var(--po)); font-size: 16px; border-radius: 0 12px 12px 0; }
+.faixa-fatos b, .nota-lateral b { font-weight: 500; }
+.lead.menor { font-size: 17px; margin-top: 14px; }
+
+/* Resumo */
+.resumo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px 30px; margin-top: 34px; }
+.resumo > div { padding-top: 16px; border-top: 1px solid var(--linha); }
+.resumo h3 { font-size: 25px; margin-bottom: 6px; }
+.resumo p { font-size: 15.5px; color: var(--tinta-2); line-height: 1.5; }
+.resumo .decisao { background: var(--noite); color: var(--po); border-radius: 18px; padding: 18px 20px; border: 0; }
+.resumo .decisao h3 { color: var(--rosa); }
+.resumo .decisao p { color: color-mix(in oklab, var(--po) 82%, transparent); }
+
+/* Jornada */
+.jornada { list-style: none; padding: 0; margin-top: 40px; display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; counter-reset: passo; }
+.jornada li { counter-increment: passo; background: var(--branco); border: 1px solid var(--linha); border-radius: 16px; padding: 16px 14px 18px; position: relative; }
+.jornada li::before { content: counter(passo); display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--ameixa-clara); color: var(--rose-texto); font-family: var(--display); font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+.jornada b { font-family: var(--display); font-weight: 600; font-size: 24px; display: block; margin-bottom: 6px; line-height: 1; }
+.jornada p { font-size: 14px; line-height: 1.42; color: var(--tinta-2); }
+.jornada .dor { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--linha); color: var(--alerta); font-weight: 500; }
+
+/* Ciclo */
+.ciclo { margin-top: 40px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; position: relative; }
+.ciclo::before { content: ""; position: absolute; left: 0; right: 0; top: 13px; height: 1px; background: linear-gradient(90deg, var(--ameixa), var(--champanhe)); }
+.marco { position: relative; padding: 36px 18px 0 0; }
+.marco::before { content: ""; position: absolute; left: 0; top: 5px; width: 18px; height: 18px; border-radius: 50%; background: var(--po); border: 2px solid var(--ameixa); }
+.marco.destaque::before { background: var(--ameixa); box-shadow: 0 0 0 5px color-mix(in oklab, var(--ameixa-clara) 35%, transparent); }
+.marco span { font-size: 13.5px; font-weight: 500; color: var(--rose-texto); }
+.marco b { display: block; font-family: var(--display); font-weight: 600; font-size: 28px; margin: 2px 0 6px; }
+.marco p { font-size: 15px; color: var(--tinta-2); line-height: 1.45; }
+.nota-lateral { margin-top: 34px; max-width: 900px; padding: 16px 20px; border-radius: 14px; background: var(--branco); border: 1px solid var(--linha); font-size: 16px; }
+
+/* Por que um app próprio */
+.lead.primeira { margin-top: 0; margin-bottom: 22px; font-size: 18.5px; color: var(--tinta); }
+.numeros { display: grid; gap: 14px; }
+.numeros div { padding: 18px 22px; background: var(--noite); color: var(--po); border-radius: 18px; display: grid; grid-template-columns: 160px 1fr; gap: 16px; align-items: center; }
+.numeros b { font-family: var(--display); font-size: 40px; font-weight: 500; color: var(--rosa); white-space: nowrap; line-height: 1; }
+.numeros p { font-size: 15px; color: color-mix(in oklab, var(--po) 80%, transparent); line-height: 1.4; }
+
+/* Regras */
+.regras { margin-top: 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.regra { background: var(--branco); border: 1px solid var(--linha); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; }
+.regra h3 { font-size: 21px; margin-bottom: 6px; }
+.regra p { font-size: 13.6px; line-height: 1.42; color: var(--tinta-2); }
+.regra span { margin-top: auto; padding-top: 8px; font-size: 11.5px; font-weight: 500; color: var(--rose-texto); }
+
+/* Proposta: painel e celular juntos */
+.proposta { margin-top: 0; height: 100%; align-items: center; grid-template-columns: 0.9fr 1.1fr; gap: 40px; }
+.principios { list-style: none; padding: 0; margin-top: 26px; display: grid; gap: 12px; }
+.principios li { font-size: 16.5px; line-height: 1.45; color: var(--tinta-2); }
+.principios b { color: var(--tinta); font-weight: 500; }
+.dois-lados { position: relative; height: 580px; }
+.dois-lados .janela { position: absolute; right: 0; top: 0; width: 510px; }
+.dois-lados .janela .area { display: grid; grid-template-columns: 116px 1fr; padding: 0; min-height: 390px; }
+.painel-menu { display: flex; flex-direction: column; gap: 4px; padding: 16px 12px; background: var(--po); border-right: 1px solid var(--linha); font-size: 12px; color: var(--tinta-2); }
+.painel-menu img { height: 12px; width: auto; align-self: flex-start; margin: 2px 0 14px 6px; }
+.painel-menu span { padding: 6px 8px; border-radius: 8px; }
+.painel-menu .ativo { background: var(--rosa); color: var(--rose-texto); font-weight: 500; }
+.painel-corpo { padding: 16px 18px; }
+.dois-lados .celular { position: absolute; left: 0; bottom: 0; }
+.dois-lados .celular .tela { height: 410px; }
+.linha-agenda { display: grid; grid-template-columns: 44px 1fr auto; gap: 10px; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--linha); }
+.linha-agenda:last-child { border-bottom: 0; }
+.linha-agenda > span:first-child { font-weight: 500; color: var(--tinta-2); }
+.linha-agenda b { display: block; font-weight: 500; font-size: 12.5px; }
+.linha-agenda small { display: block; color: var(--tinta-2); font-size: 11px; }
+
+/* Telas da paciente */
+.celular .tela { min-height: 0; }
+.tres-celulares { margin-top: 14px; display: flex; justify-content: center; gap: 52px; }
+.tres-celulares > div { display: grid; justify-items: center; gap: 8px; }
+.tres-celulares .tela { height: 404px; }
+.tres-celulares .app-titulo { font-size: 20px; margin-bottom: 8px; }
+.tres-celulares .cartao-app { margin-bottom: 7px; padding: 10px 11px; }
+.tres-celulares .assinatura { height: 40px; }
+.legenda { font-size: 14px; font-weight: 500; color: var(--tinta-2); }
+.horarios { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0 4px; }
+.horarios span { padding: 4px 8px; border-radius: 8px; border: 1px solid var(--linha); font-size: 11px; background: var(--branco); }
+.horarios .sel { background: var(--ameixa); color: var(--po); border-color: var(--ameixa); }
+.assinatura { font-weight: 500; }
+
+/* Painel */
+.painel-lado { margin-top: 0; height: 100%; align-items: center; grid-template-columns: 0.8fr 1.2fr; gap: 40px; }
+.painel-lado h2 { font-size: 44px; }
+.painel-lado .lista-limpa { margin-top: 22px; }
+.painel-lado .lista-limpa li { font-size: 15.5px; }
+.topo-painel { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 12px; font-size: 13px; }
+.topo-painel b { margin-right: auto; font-family: var(--display); font-weight: 600; font-size: 19px; }
+.alerta-lote { margin-top: 12px; padding: 10px 12px; border-radius: 10px; background: #f6dcd3; color: #6e2f1f; font-size: 12px; }
+.alerta-lote b { display: block; font-size: 13px; font-weight: 500; }
+.janela .linha-app { font-size: 12.5px; gap: 10px; }
+.tabela { width: 100%; border-collapse: collapse; font-size: 15px; }
+.tabela td, .tabela th { padding: 7px 10px; border-bottom: 1px solid var(--linha); text-align: left; }
+.tabela th { font-size: 11.5px; color: var(--tinta-2); font-weight: 500; }
+.tabela.compacta { font-size: 12px; }
+.tabela.compacta td, .tabela.compacta th { padding: 6px 8px; }
+.tabela.compacta td:last-child { font-weight: 500; }
+.etiqueta { font-weight: 500; }
+
+/* Prontuário */
+.pront-lado { grid-template-columns: 1.25fr 0.75fr; gap: 36px; margin-top: 18px; }
+.pront-lado .lista-limpa li { font-size: 15px; }
+.pront { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 14px; align-items: start; }
+.pront-mapa { background: var(--po); border-radius: 12px; padding: 6px; display: grid; place-items: center; }
+.pront-mapa svg { width: 240px; height: auto; }
+.pront-dados .fotos-par.pequeno { grid-template-columns: 1fr 1fr; max-width: 220px; }
+.pront-dados .foto-falsa { aspect-ratio: 4 / 3; }
+
+/* Retenção */
+.regua { margin-top: 34px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.regua div { background: var(--branco); border-radius: 16px; border: 1px solid var(--linha); padding: 16px; border-top: 3px solid var(--ameixa-clara); }
+.regua span { font-size: 13px; font-weight: 500; color: var(--rose-texto); }
+.regua b { display: block; font-family: var(--display); font-weight: 600; font-size: 24px; margin: 4px 0 8px; line-height: 1.1; }
+.regua p { font-size: 14px; color: var(--tinta-2); line-height: 1.42; }
+
+/* Oito números */
+.oito { margin-top: 14px; padding-left: 22px; columns: 2; column-gap: 28px; font-size: 15.5px; line-height: 1.5; }
+.oito li { margin-bottom: 6px; break-inside: avoid; }
+.oito li::marker { color: var(--rose-texto); font-weight: 500; }
+
+/* Segurança */
+.grade-seg { margin-top: 30px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.grade-seg div { padding: 18px 20px; background: var(--branco); border: 1px solid var(--linha); border-radius: 16px; }
+.grade-seg h3 { font-size: 24px; margin-bottom: 6px; }
+.grade-seg p { font-size: 14.5px; color: var(--tinta-2); line-height: 1.45; }
+
+/* Não começa do zero */
+.reuso { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.reuso .col { border-radius: 20px; padding: 22px 26px; }
+.reuso h3 { font-size: 27px; margin-bottom: 12px; }
+.reuso ul { padding-left: 18px; display: grid; gap: 6px; font-size: 15.5px; line-height: 1.35; }
+.reuso li::marker { color: var(--ameixa-clara); }
+.reuso .pronto { background: var(--branco); border: 1px solid var(--linha); }
+.reuso .novo { background: var(--rosa); }
+
+/* Etapas */
+.etapas-plano { margin-top: 32px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.etapas-plano > div { background: var(--branco); border: 1px solid var(--linha); border-radius: 18px; padding: 20px 20px 22px; display: flex; flex-direction: column; gap: 8px; }
+.etapas-plano .tempo { font-size: 13.5px; font-weight: 500; color: var(--rose-texto); }
+.etapas-plano h3 { font-size: 26px; }
+.etapas-plano p { font-size: 15.5px; line-height: 1.45; color: var(--tinta-2); }
+.etapas-plano .piloto { background: var(--noite); color: var(--po); border-color: var(--noite); }
+.etapas-plano .piloto p { color: color-mix(in oklab, var(--po) 80%, transparent); }
+.etapas-plano .piloto .tempo { color: var(--ameixa-clara); }
+.etapas-plano .piloto b { margin-top: auto; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.15); font-size: 14px; font-weight: 500; color: var(--rosa); }
+
+/* Parceria */
+.parceria { margin-top: 30px; display: grid; grid-template-columns: 1.15fr 1fr 0.95fr; gap: 16px; }
+.parceria .lado { border-radius: 20px; padding: 22px 24px; }
+.parceria h3 { font-size: 25px; margin-bottom: 12px; }
+.parceria .lista-limpa { gap: 9px; }
+.parceria .lista-limpa li { font-size: 15.5px; }
+.parceria .recebe { background: var(--branco); }
+.parceria .troca { background: var(--noite); color: var(--po); }
+.parceria .troca h3 { color: var(--rosa); }
+.parceria .troca p { font-size: 16.5px; line-height: 1.5; color: color-mix(in oklab, var(--po) 85%, transparent); }
+.parceria .troca .segundo { margin-top: 22px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, 0.14); }
+.parceria .medir { background: color-mix(in oklab, var(--rosa) 55%, var(--po)); }
+
+/* Próximos passos */
+.final { position: relative; z-index: 1; max-width: 700px; }
+.final-logo { display: block; height: 40px; width: auto; margin-bottom: 30px; }
+.final h2 { font-size: 52px; font-weight: 400; line-height: 1.02; }
+.final h2 em { color: var(--rosa); }
+.final ol { margin-top: 26px; padding-left: 24px; display: grid; gap: 10px; font-size: 17px; line-height: 1.45; color: color-mix(in oklab, var(--po) 82%, transparent); }
+.final ol b { color: var(--po); font-weight: 500; }
+.final ol li::marker { color: var(--ameixa-clara); font-family: var(--display); font-weight: 600; font-size: 20px; }
+.final .lead { margin-top: 24px; font-size: 18px; color: var(--champanhe); }
+.final-arco { position: absolute; right: 96px; top: 72px; width: 330px; height: 520px; }

@@ -1,0 +1,38 @@
+---
+import ADra from "../components/ADra.astro";
+import Abertura from "../components/Abertura.astro";
+import Chamada from "../components/Chamada.astro";
+import Contato from "../components/Contato.astro";
+import Corpo from "../components/Corpo.astro";
+import CorpoDetox from "../components/CorpoDetox.astro";
+import Duvidas from "../components/Duvidas.astro";
+import Etapas from "../components/Etapas.astro";
+import Intima from "../components/Intima.astro";
+import Pele from "../components/Pele.astro";
+import Rodape from "../components/Rodape.astro";
+import Topo from "../components/Topo.astro";
+import ZapFlutuante from "../components/ZapFlutuante.astro";
+import Base from "../layouts/Base.astro";
+---
+
+<Base
+  titulo="Dra. Nanda Prevedello | Harmonização íntima e corporal em Balneário Camboriú (SC)"
+  descricao="Clínica Nanda Prevedello Estética Avançada, em Balneário Camboriú (SC). Harmonização íntima feminina e masculina, NinfoSlim, Lipolaser Slim, harmonização glútea, lipedema e o Protocolo Corpo Detox. Agende sua avaliação pelo WhatsApp."
+  comDadosEstruturados
+>
+  <Topo />
+  <main id="conteudo">
+    <Abertura />
+    <ADra />
+    <Intima />
+    <Corpo />
+    <CorpoDetox />
+    <Pele />
+    <Etapas chapeu="Como funciona" titulo="Do primeiro contato" destaque="ao acompanhamento." />
+    <Duvidas />
+    <Contato />
+    <Chamada />
+    <ZapFlutuante />
+  </main>
+  <Rodape />
+</Base>

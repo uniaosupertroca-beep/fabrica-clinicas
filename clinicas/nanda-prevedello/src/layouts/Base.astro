@@ -1,0 +1,77 @@
+---
+import "@fontsource/marcellus/400.css";
+import "@fontsource-variable/figtree/wght.css";
+import fonteTitulo from "@fontsource/marcellus/files/marcellus-latin-400-normal.woff2?url";
+import fonteTexto from "@fontsource-variable/figtree/files/figtree-latin-wght-normal.woff2?url";
+import "../styles/global.css";
+import { clinica, linkWhatsapp, temEndereco } from "../data/clinica.ts";
+
+interface Props {
+  titulo: string;
+  descricao: string;
+  /** Página fora do Google (ex.: 404). */
+  semIndice?: boolean;
+  /** Dados estruturados (schema.org) só na página principal. */
+  comDadosEstruturados?: boolean;
+}
+
+const { titulo, descricao, semIndice = false, comDadosEstruturados = false } = Astro.props;
+const canonico = new URL(Astro.url.pathname, clinica.endereco).href;
+const imagem = new URL("/og.png", clinica.endereco).href;
+
+const dados = {
+  "@context": "https://schema.org",
+  "@type": "HealthAndBeautyBusiness",
+  name: clinica.nomeCompleto,
+  url: clinica.endereco,
+  image: imagem,
+  description: descricao,
+  telephone: `+${clinica.whatsapp.agenda}`,
+  email: clinica.email,
+  address: {
+    "@type": "PostalAddress",
+    ...(temEndereco() ? { streetAddress: clinica.rua, postalCode: clinica.cep } : {}),
+    addressLocality: clinica.cidade,
+    addressRegion: clinica.uf,
+    addressCountry: "BR",
+  },
+  areaServed: "Balneário Camboriú e região",
+  sameAs: Object.values(clinica.redes),
+  potentialAction: { "@type": "ReserveAction", target: linkWhatsapp() },
+};
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descricao} />
+    {semIndice ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonico} />}
+    <meta name="theme-color" content="#141011" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" href={fonteTitulo} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={fonteTexto} as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={clinica.nomeCompleto} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descricao} />
+    <meta property="og:url" content={canonico} />
+    <meta property="og:image" content={imagem} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${clinica.nomeCompleto}, em ${clinica.cidade} (${clinica.uf})`} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    {comDadosEstruturados && <script type="application/ld+json" set:html={JSON.stringify(dados)} />}
+  </head>
+  <body>
+    <a class="pular" href="#conteudo">Ir para o conteúdo</a>
+    <slot />
+  </body>
+</html>

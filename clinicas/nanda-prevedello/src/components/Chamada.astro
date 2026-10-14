@@ -1,0 +1,78 @@
+---
+import { linkWhatsapp } from "../data/clinica.ts";
+import Icone from "./Icone.astro";
+
+interface Props {
+  mensagem?: string;
+}
+const { mensagem } = Astro.props;
+import Monograma from "./Monograma.astro";
+---
+
+<section class="chamada" aria-labelledby="t-chamada">
+  <div class="envolve">
+    <span class="selo"><Monograma tamanho={32} /></span>
+    <h2 id="t-chamada">O primeiro passo <em>é uma conversa reservada.</em></h2>
+    <p>Chame no WhatsApp e agende a sua avaliação. Você conhece o plano pensado para você e decide com calma, sem compromisso.</p>
+    <a class="botao zap" href={linkWhatsapp(mensagem)} target="_blank" rel="noopener">
+      <Icone nome="whatsapp" tamanho={20} />
+      Agendar avaliação
+    </a>
+  </div>
+</section>
+
+<style>
+  .chamada {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--escuro);
+    color: var(--claro);
+    padding-block: clamp(96px, 12vw, 160px);
+    text-align: center;
+  }
+  .chamada::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(50% 70% at 50% 100%, color-mix(in oklab, var(--acento) 24%, transparent), transparent 70%);
+  }
+  .envolve {
+    display: grid;
+    justify-items: center;
+  }
+  .selo {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    border: 1px solid color-mix(in oklab, var(--acento) 50%, transparent);
+    color: var(--acento);
+  }
+  h2 {
+    margin-top: 32px;
+    font-family: var(--fonte-titulo);
+    font-size: clamp(42px, 6.4vw, 80px);
+    line-height: 1.02;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    max-width: 13em;
+  }
+  h2 em {
+    display: block;
+    font-weight: 500;
+    color: var(--acento);
+  }
+  p {
+    margin-top: 24px;
+    max-width: 34em;
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--claro-2);
+  }
+  .botao {
+    margin-top: 40px;
+  }
+</style>

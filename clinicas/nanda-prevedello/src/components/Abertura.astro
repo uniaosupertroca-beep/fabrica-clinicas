@@ -1,0 +1,235 @@
+---
+// Abertura da home: ônix, o nome da Dra. Nanda em ouro e, à direita, o retrato dentro do escudo do logo,
+// com um segundo escudo em fio de ouro deslocado atrás. Sem o retrato, o escudo mostra o monograma.
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+import { clinica, linkWhatsapp } from "../data/clinica.ts";
+import type { NomeIcone } from "../data/icones.ts";
+import Icone from "./Icone.astro";
+
+const fotos = import.meta.glob<{ default: ImageMetadata }>("../assets/fotos/nanda-prevedello.{png,jpg,jpeg,webp}", { eager: true });
+const foto = Object.values(fotos)[0]?.default;
+const p = clinica.profissional;
+
+const selos: { icone: NomeIcone; texto: string }[] = [
+  { icone: "prancheta", texto: `${p.profissao}, ${p.registro}` },
+  { icone: "estrela", texto: "Certificação internacional" },
+  { icone: "cadeado", texto: "Atendimento reservado" },
+];
+---
+
+<section class="abertura" aria-labelledby="t-abertura">
+  <div class="luz" aria-hidden="true"></div>
+  <svg class="defs" width="0" height="0" aria-hidden="true">
+    <clipPath id="recorte-escudo" clipPathUnits="objectBoundingBox">
+      <path d="M0 .165C0-.05 1-.05 1 .165V.862L.5 1 0 .862Z" />
+    </clipPath>
+  </svg>
+
+  <div class="envolve grade">
+    <div class="texto">
+      <p class="chapeu">Estética avançada em {clinica.cidade}</p>
+      <h1 id="t-abertura">
+        <span class="nome">Nanda<br />Prevedello</span>
+        <span class="frase">Harmonização íntima e corporal, com ciência e discrição.</span>
+      </h1>
+      <p class="apoio">
+        Protocolos para o corpo, a região íntima e a pele, montados depois de uma avaliação individual. Tecnologia, cuidado com a saúde e o tempo
+        que cada corpo precisa para responder.
+      </p>
+      <div class="acoes">
+        <a class="botao zap" href={linkWhatsapp()} target="_blank" rel="noopener">
+          <Icone nome="whatsapp" tamanho={20} />
+          Agendar avaliação
+        </a>
+        <a class="botao linha" href="/tratamentos/">Conhecer os tratamentos</a>
+      </div>
+      <ul class="selos">
+        {
+          selos.map((s) => (
+            <li>
+              <Icone nome={s.icone} tamanho={18} />
+              {s.texto}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="retrato">
+      <svg class="eco" viewBox="0 0 100 140" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 23C0-7 100-7 100 23V120.7L50 140 0 120.7Z" vector-effect="non-scaling-stroke" />
+      </svg>
+      {
+        foto ? (
+          <figure class="escudo">
+            <Image
+              src={foto}
+              alt={`${p.nome}, de blusa rosa e calça clara, em pé`}
+              widths={[360, 520, 720]}
+              sizes="(min-width: 960px) 420px, 80vw"
+              loading="eager"
+              decoding="async"
+            />
+          </figure>
+        ) : (
+          <div class="escudo arte" aria-hidden="true">
+            <img src="/logo-nanda.svg" alt="" width="260" height="226" />
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .abertura {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--escuro);
+    color: var(--claro);
+    padding: clamp(120px, 13vw, 160px) 0 clamp(72px, 9vw, 112px);
+  }
+  .luz {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(42% 52% at 78% 42%, color-mix(in oklab, var(--acento) 22%, transparent), transparent 70%),
+      radial-gradient(40% 40% at 0% 100%, color-mix(in oklab, #e7c6bb 10%, transparent), transparent 70%),
+      linear-gradient(180deg, var(--escuro), var(--escuro-2));
+  }
+  .defs {
+    position: absolute;
+  }
+
+  .grade {
+    display: grid;
+    gap: 64px;
+    align-items: center;
+  }
+  @media (min-width: 960px) {
+    .grade {
+      grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+      gap: 56px;
+    }
+  }
+
+  .chapeu {
+    color: var(--acento);
+  }
+  h1 {
+    margin-top: 26px;
+    font-weight: 400;
+  }
+  /* O nome em ouro, como no logo: o elemento que marca a página. */
+  .nome {
+    display: block;
+    font-family: var(--fonte-titulo);
+    font-size: clamp(58px, 9vw, 118px);
+    line-height: 0.94;
+    letter-spacing: -0.01em;
+    background: var(--ouro);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    padding-bottom: 0.06em;
+  }
+  .frase {
+    display: block;
+    margin-top: 26px;
+    max-width: 17em;
+    font-family: var(--fonte-titulo);
+    font-size: clamp(23px, 2.6vw, 31px);
+    line-height: 1.25;
+    color: var(--claro);
+  }
+  .apoio {
+    margin-top: 22px;
+    max-width: 33em;
+    font-size: clamp(16.5px, 1.5vw, 18px);
+    font-weight: 300;
+    color: var(--claro-2);
+  }
+  .acoes {
+    margin-top: 36px;
+  }
+  .abertura .botao.linha {
+    border-color: color-mix(in oklab, var(--acento) 45%, transparent);
+    color: var(--claro);
+  }
+  .abertura .botao.linha:hover {
+    border-color: var(--acento);
+  }
+  .selos {
+    list-style: none;
+    padding: 26px 0 0;
+    margin-top: 42px;
+    border-top: 1px solid color-mix(in oklab, var(--acento) 25%, transparent);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 30px;
+    font-size: 14.5px;
+    color: var(--claro-2);
+  }
+  .selos li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .selos :global(svg) {
+    flex: none;
+    color: var(--acento);
+  }
+
+  /* Retrato no escudo do logo, com um segundo escudo em fio de ouro deslocado. */
+  .retrato {
+    position: relative;
+    justify-self: center;
+    width: min(100%, 430px);
+    padding: 0 0 26px 26px;
+  }
+  .eco {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: calc(100% - 26px);
+    height: calc(100% - 26px);
+    overflow: visible;
+  }
+  .eco path {
+    fill: none;
+    stroke: var(--acento);
+    stroke-width: 1;
+    opacity: 0.7;
+  }
+  .escudo {
+    position: relative;
+    margin: 0;
+    aspect-ratio: 100 / 140;
+    clip-path: url(#recorte-escudo);
+    background:
+      radial-gradient(70% 50% at 50% 30%, #fbf2ed, transparent 80%),
+      linear-gradient(180deg, #f4e9e3, #e3c9bd);
+  }
+  .escudo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 12%;
+    /* O fundo claro da foto se funde com a seda do escudo. */
+    mix-blend-mode: multiply;
+  }
+  .arte {
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(60% 45% at 50% 35%, color-mix(in oklab, var(--acento) 20%, transparent), transparent 75%),
+      var(--escuro-3);
+  }
+  .arte img {
+    width: 62%;
+    height: auto;
+  }
+</style>

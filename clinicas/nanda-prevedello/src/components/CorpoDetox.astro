@@ -1,0 +1,117 @@
+---
+// O protocolo exclusivo da Dra. Nanda, com o escudo do logo em fio de ouro ao fundo.
+import { linkWhatsapp, mensagemPara } from "../data/clinica.ts";
+import Icone from "./Icone.astro";
+
+const olhares = [
+  { titulo: "Inflamação e retenção", texto: "O corpo inchado e inflamado responde pior a qualquer tratamento." },
+  { titulo: "Qualidade dos tecidos", texto: "Oxigenação, circulação e firmeza, cuidadas com tecnologia e ativos." },
+  { titulo: "Hábitos e rotina", texto: "Orientações que levam o cuidado da clínica para o dia a dia." },
+];
+---
+
+<section class="secao branca detox" id="corpo-detox" aria-labelledby="t-detox">
+  <svg class="escudo-fundo" viewBox="0 0 100 140" aria-hidden="true">
+    <path d="M0 23C0-7 100-7 100 23V120.7L50 140 0 120.7Z" />
+    <path d="M0 23H100" />
+  </svg>
+  <div class="envolve miolo">
+    <p class="chapeu">Exclusivo</p>
+    <h2 class="titulo" id="t-detox">Protocolo Corpo Detox <em>idealizado pela Dra. Nanda.</em></h2>
+    <p class="abre">
+      Um protocolo integrativo, desenvolvido a partir de dezenas de estudos e de descobertas recentes da ciência, que une o cuidado com a saúde e a
+      estética do corpo. As etapas são escolhidas depois da avaliação, conforme a sua saúde e os seus objetivos.
+    </p>
+    <ol class="olhares">
+      {
+        olhares.map((o) => (
+          <li>
+            <h3>{o.titulo}</h3>
+            <p>{o.texto}</p>
+          </li>
+        ))
+      }
+    </ol>
+    <div class="acoes">
+      <a class="botao zap" href={linkWhatsapp(mensagemPara("do Protocolo Corpo Detox"))} target="_blank" rel="noopener">
+        <Icone nome="whatsapp" tamanho={20} />
+        Quero saber mais
+      </a>
+      <a class="botao linha" href="/tratamentos/corpo-detox/">Ver o protocolo</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .detox {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    text-align: center;
+  }
+  .escudo-fundo {
+    position: absolute;
+    z-index: -1;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    height: 118%;
+    width: auto;
+    overflow: visible;
+  }
+  .escudo-fundo path {
+    fill: none;
+    stroke: color-mix(in oklab, var(--acento) 38%, transparent);
+    stroke-width: 0.25;
+  }
+  .miolo {
+    max-width: 880px;
+    display: grid;
+    justify-items: center;
+  }
+  .abre {
+    margin-inline: auto;
+  }
+  .olhares {
+    list-style: none;
+    padding: 0;
+    margin-top: 48px;
+    display: grid;
+    gap: 28px;
+    counter-reset: olhar;
+    text-align: left;
+    width: 100%;
+  }
+  @media (min-width: 760px) {
+    .olhares {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 28px;
+    }
+  }
+  .olhares li {
+    padding: 22px 22px 24px;
+    background: color-mix(in oklab, var(--branco) 80%, transparent);
+    border: 1px solid var(--linha);
+    border-radius: var(--raio);
+  }
+  .olhares h3 {
+    font-family: var(--fonte-titulo);
+    font-size: 21px;
+    font-weight: 400;
+  }
+  .olhares p {
+    margin-top: 6px;
+    font-size: 15.5px;
+    color: var(--tinta-2);
+  }
+  .acoes {
+    margin-top: 40px;
+    justify-content: center;
+  }
+  .chapeu::after {
+    content: "";
+    width: 30px;
+    height: 1px;
+    background: var(--ouro);
+  }
+</style>

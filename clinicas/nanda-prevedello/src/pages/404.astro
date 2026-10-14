@@ -1,0 +1,39 @@
+---
+import Rodape from "../components/Rodape.astro";
+import Topo from "../components/Topo.astro";
+import Base from "../layouts/Base.astro";
+---
+
+<Base titulo="Página não encontrada | Dra. Nanda Prevedello" descricao="Esta página não existe. Volte para o início do site da Dra. Nanda Prevedello." semIndice>
+  <Topo interna />
+  <main id="conteudo" class="nao-achou">
+    <div class="envolve">
+      <p class="chapeu">Página não encontrada</p>
+      <h1 class="titulo">Este endereço <em>não existe.</em></h1>
+      <p class="abre">Confira o link ou volte para o início para conhecer a clínica.</p>
+      <a class="botao acento" href="/">Voltar para o início</a>
+    </div>
+  </main>
+  <Rodape />
+</Base>
+
+<style>
+  .nao-achou {
+    background: var(--escuro);
+    color: var(--claro);
+    min-height: 80vh;
+    display: grid;
+    align-items: center;
+    padding: 160px 0 96px;
+  }
+  .nao-achou .chapeu,
+  .nao-achou .titulo em {
+    color: var(--acento);
+  }
+  .nao-achou .abre {
+    color: var(--claro-2);
+  }
+  .nao-achou .botao {
+    margin-top: 32px;
+  }
+</style>

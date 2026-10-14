@@ -1,0 +1,128 @@
+/* Identidade da Essenciale, a mesma do site: ameixa, malva, rosé e nude,
+   títulos em Cormorant Garamond e texto em Jost. */
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("fontes/cormorant-garamond-latin-wght-normal.woff2") format("woff2");
+  font-weight: 300 700;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  src: url("fontes/cormorant-garamond-latin-wght-italic.woff2") format("woff2");
+  font-weight: 300 700;
+}
+@font-face {
+  font-family: "Jost";
+  src: url("fontes/jost-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+}
+
+:root {
+  --noite: #2a171c;
+  --noite-2: #3a2228;
+  --ameixa: #8d5f6a;
+  --ameixa-clara: #c99a92;
+  --rose-texto: #8a4b52;
+  --rosa: #ecd3cc;
+  --nude: #f4e8e2;
+  --po: #fbf6f2;
+  --branco: #fffcfa;
+  --champanhe: #c9a46c;
+  --salvia: #6b8070;
+  --salvia-clara: #e4ebe3;
+  --tinta: #2a171c;
+  --tinta-2: #6a5458;
+  --linha: #e9d9d2;
+  --alerta: #a4483a;
+  --display: "Cormorant Garamond", Garamond, "Times New Roman", serif;
+  --texto: "Jost", "Futura", "Avenir Next", sans-serif;
+}
+
+body {
+  font-weight: 400;
+}
+h1,
+h2,
+h3 {
+  font-variation-settings: normal;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+h2 {
+  font-size: 50px;
+  line-height: 1.04;
+}
+h3 {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.12;
+}
+.secao {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--rose-texto);
+}
+.noite .secao {
+  color: var(--ameixa-clara);
+}
+.lead {
+  font-weight: 300;
+}
+
+/* Páginas escuras: ameixa com o brilho rosé do site. */
+.slide.noite {
+  background:
+    radial-gradient(42% 60% at 88% 20%, color-mix(in oklab, var(--ameixa-clara) 22%, transparent), transparent 70%),
+    radial-gradient(40% 50% at 0% 100%, color-mix(in oklab, var(--ameixa) 30%, transparent), transparent 70%),
+    var(--noite);
+  color: var(--po);
+}
+.slide.rosa {
+  background: var(--nude);
+}
+
+.rodape {
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+}
+.rodape b {
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ameixa);
+  margin-right: 12px;
+  letter-spacing: 0.04em;
+}
+.noite .rodape b {
+  color: var(--ameixa-clara);
+}
+
+/* Telas do app com o logo da clínica. */
+.app-logo {
+  display: block;
+  height: 15px;
+  width: auto;
+}
+.celular {
+  background: #23141a;
+}
+.celular .tela::before {
+  background: #23141a;
+}
+.app-titulo {
+  font-weight: 600;
+  font-size: 21px;
+}
+.foto-falsa {
+  background: linear-gradient(160deg, #efdcd6, #d2aaa5);
+}
+.janela .barra {
+  background: #f1e5e0;
+}
+.agenda .cab {
+  background: var(--nude);
+}
+.evento {
+  background: color-mix(in oklab, var(--rosa) 80%, white);
+}

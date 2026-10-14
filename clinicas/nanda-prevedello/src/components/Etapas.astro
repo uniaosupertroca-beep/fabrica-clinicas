@@ -1,0 +1,176 @@
+---
+// Os passos são uma sequência de verdade, por isso levam número, além do ícone.
+import type { NomeIcone } from "../data/icones.ts";
+import Icone from "./Icone.astro";
+
+interface Etapa {
+  titulo: string;
+  texto: string;
+  icone: NomeIcone;
+}
+interface Props {
+  etapas?: Etapa[];
+  chapeu?: string;
+  titulo?: string;
+  destaque?: string;
+  id?: string;
+}
+const padrao: Etapa[] = [
+  {
+    titulo: "Você chama no WhatsApp",
+    icone: "conversa",
+    texto: "Conte o que você deseja e agende a sua avaliação. Sem formulário e sem cadastro no site.",
+  },
+  {
+    titulo: "Avaliação detalhada",
+    icone: "prancheta",
+    texto: "Uma conversa para entender o seu corpo, a sua rotina, o seu histórico de saúde e o que você espera.",
+  },
+  {
+    titulo: "Protocolo personalizado",
+    icone: "lista",
+    texto: "As técnicas e tecnologias certas para você, com o número de sessões e os cuidados explicados antes de começar.",
+  },
+  {
+    titulo: "Acompanhamento",
+    icone: "calendario",
+    texto: "Reavaliações ao longo do caminho para acompanhar a evolução e ajustar o que for preciso.",
+  },
+]
+const {
+  etapas = padrao,
+  chapeu = "Como funciona",
+  titulo = "Do primeiro contato",
+  destaque = "ao retorno.",
+  id = "como-funciona",
+} = Astro.props;
+---
+
+<section class="secao branca" id={id} aria-labelledby={`t-${id}`}>
+  <div class="envolve">
+    <p class="chapeu">{chapeu}</p>
+    <h2 class="titulo" id={`t-${id}`}>{titulo} <em>{destaque}</em></h2>
+    <ol class="etapas">
+      {
+        etapas.map((e, i) => (
+          <li>
+            <span class="marca">
+              <Icone nome={e.icone} tamanho={26} traco={1.4} />
+              <span class="numero">{String(i + 1).padStart(2, "0")}</span>
+            </span>
+            <h3>{e.titulo}</h3>
+            <p>{e.texto}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .etapas {
+    list-style: none;
+    padding: 0;
+    margin-top: 64px;
+    display: grid;
+    gap: 40px;
+  }
+  @media (min-width: 720px) {
+    .etapas {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 48px 40px;
+    }
+  }
+  @media (min-width: 1080px) {
+    .etapas {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 32px;
+    }
+  }
+  li {
+    position: relative;
+  }
+  /* No celular, linha do tempo vertical: ícone à esquerda, texto à direita. */
+  @media (max-width: 719px) {
+    .etapas {
+      gap: 28px;
+    }
+    li {
+      display: grid;
+      grid-template-columns: 64px minmax(0, 1fr);
+      column-gap: 18px;
+      align-items: start;
+    }
+    .marca {
+      grid-row: span 2;
+    }
+    li:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      left: 32px;
+      top: 72px;
+      bottom: -24px;
+      width: 1px;
+      background: var(--linha);
+    }
+    h3 {
+      margin-top: 8px;
+    }
+    p {
+      margin-top: 6px;
+    }
+  }
+  .marca {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 1px solid color-mix(in oklab, var(--acento) 60%, transparent);
+    color: var(--acento-texto);
+    background: radial-gradient(circle at 30% 25%, var(--branco), var(--suave));
+    box-shadow: 0 10px 24px -14px color-mix(in oklab, var(--acento-texto) 60%, transparent);
+    position: relative;
+    z-index: 1;
+  }
+  .numero {
+    position: absolute;
+    top: -4px;
+    right: -6px;
+    display: grid;
+    place-items: center;
+    min-width: 26px;
+    height: 26px;
+    padding-inline: 5px;
+    border-radius: 999px;
+    background: var(--escuro);
+    color: var(--acento-claro);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  @media (min-width: 1080px) {
+    li:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 32px;
+      left: 80px;
+      right: -20px;
+      height: 1px;
+      background: var(--linha);
+    }
+  }
+  h3 {
+    margin-top: 22px;
+    font-family: var(--fonte-titulo);
+    font-size: clamp(19px, 5.6vw, 26px);
+    hyphens: auto;
+    font-weight: 400;
+    line-height: 1.15;
+  }
+  p {
+    margin-top: 10px;
+    color: var(--tinta-2);
+    font-size: 16px;
+  }
+</style>

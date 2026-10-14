@@ -1,0 +1,227 @@
+/* Identidade da Dra. Nanda Prevedello, a mesma do site: ônix e ouro (logo NP), seda rosada,
+   títulos em Marcellus e texto em Figtree. O retrato e as fotos ficam no escudo do logo. */
+@font-face {
+  font-family: "Marcellus";
+  src: url("fontes/marcellus-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Figtree";
+  src: url("fontes/figtree-latin-wght-normal.woff2") format("woff2");
+  font-weight: 300 900;
+}
+
+:root {
+  --noite: #141011;
+  --noite-2: #1f191a;
+  --ameixa: #1f191a;
+  --ameixa-clara: #c9a465;
+  --rose-texto: #84602f;
+  --rosa: #f4e9e3;
+  --nude: #efe3dc;
+  --po: #fbf7f4;
+  --branco: #fffdfb;
+  --champanhe: #c9a465;
+  --salvia: #6b8070;
+  --salvia-clara: #e4ebe3;
+  --tinta: #141011;
+  --tinta-2: #66585a;
+  --linha: #eadcd3;
+  --alerta: #a4483a;
+  --ouro: linear-gradient(135deg, #8a6431 0%, #e6cb8e 38%, #b58b4f 62%, #f2dfae 100%);
+  --display: "Marcellus", Georgia, serif;
+  --texto: "Figtree", "Segoe UI", sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  font-variation-settings: normal;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+}
+h2 {
+  font-size: 44px;
+  line-height: 1.08;
+}
+h3 {
+  font-size: 23px;
+  line-height: 1.15;
+}
+em {
+  font-style: normal;
+}
+.secao {
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--rose-texto);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.secao::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--ouro);
+}
+.noite .secao,
+.capa-escura .secao {
+  color: var(--champanhe);
+}
+.lead {
+  font-weight: 300;
+}
+.slide.noite {
+  background:
+    radial-gradient(42% 60% at 85% 30%, color-mix(in oklab, #c9a465 20%, transparent), transparent 70%),
+    var(--noite);
+  color: var(--po);
+}
+.slide.rosa {
+  background: var(--rosa);
+}
+.rodape b {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--rose-texto);
+  margin-right: 12px;
+}
+.noite .rodape b {
+  color: var(--champanhe);
+}
+
+/* Capa escura: nome em ouro e o retrato no escudo do logo. */
+.capa.capa-escura {
+  background:
+    radial-gradient(40% 55% at 78% 40%, color-mix(in oklab, #c9a465 24%, transparent), transparent 70%),
+    linear-gradient(180deg, #141011, #1f191a);
+  color: #f6eee8;
+}
+.capa-escura .capa-logo {
+  height: 62px;
+}
+.capa-escura h1 {
+  color: #f6eee8;
+  font-size: 64px;
+}
+/* Ouro sólido: o degradê recortado no texto deixa fios no PDF. */
+.capa-escura h1 em {
+  display: block;
+  color: #dcbd82;
+}
+.capa-escura .lead {
+  color: #c4b6af;
+}
+.capa-escura .capa-troca {
+  color: var(--champanhe);
+  border-top-color: color-mix(in oklab, #c9a465 30%, transparent);
+}
+.arco {
+  border-radius: 0;
+  clip-path: path("M0 83C0-24 370-24 370 83V447L185 520 0 447Z");
+  background: linear-gradient(180deg, #f4e9e3, #e3c9bd);
+  box-shadow: none;
+}
+.arco::after {
+  display: none;
+}
+.arco img {
+  mix-blend-mode: multiply;
+  object-position: 50% 10%;
+}
+.capa-arte {
+  width: 370px;
+  height: 520px;
+  top: 100px;
+}
+/* Eco do escudo em fio de ouro, deslocado atrás do retrato, como no site. */
+.capa-arte::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  translate: 24px -24px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 370 520' preserveAspectRatio='none'%3E%3Cpath d='M0.5 83C0.5-24 369.5-24 369.5 83V447L185 519.5 0.5 447Z' fill='none' stroke='%23c9a465' stroke-opacity='.7'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+}
+
+/* Telas do app com o logo NP. */
+.app-logo {
+  display: block;
+  height: 17px;
+  width: auto;
+}
+.celular {
+  background: #141011;
+}
+.celular .tela::before {
+  background: #141011;
+}
+.cartao-app.forte small {
+  color: #c4b6af;
+}
+.cartao-app.forte .botao-app {
+  background: var(--ouro);
+  color: #141011;
+}
+.horarios .sel {
+  background: #1f191a;
+}
+.avatar {
+  background: #f4e9e3;
+  color: #84602f;
+}
+.app-titulo {
+  font-weight: 400;
+  font-size: 20px;
+}
+.foto-falsa {
+  background: linear-gradient(160deg, #efdcd6, #d2b5a8);
+}
+.janela .barra {
+  background: #f1e7e1;
+}
+.painel-menu .ativo {
+  background: #f4e9e3;
+  color: #84602f;
+}
+.etiqueta.ouro {
+  background: #f3e8d2;
+  color: #6e4f22;
+}
+
+/* Fim: logo vertical dentro do escudo em fio de ouro, no lugar da foto. */
+.final-logo-grande {
+  display: grid;
+  place-items: center;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 330 520' preserveAspectRatio='none'%3E%3Cpath d='M0.5 74C0.5-21 329.5-21 329.5 74V448L165 519.5 0.5 448Z' fill='%23c9a465' fill-opacity='.06' stroke='%23c9a465' stroke-opacity='.6'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+}
+.final-logo-grande img {
+  width: 76%;
+}
+.reuso .novo {
+  background: #f4e9e3;
+}
+.etapas-plano .piloto b,
+.resumo .decisao h3,
+.parceria .troca h3 {
+  color: #ecd9b0;
+}
+.numeros b {
+  color: #ecd9b0;
+}
+
+.numeros div {
+  grid-template-columns: 196px 1fr;
+}
+.numeros b {
+  font-size: 36px;
+}
+.regua b {
+  font-size: 21px;
+}
+.tres-celulares .app-titulo,
+.dois-lados .app-titulo {
+  font-size: 18px;
+}

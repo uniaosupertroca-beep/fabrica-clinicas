@@ -1,0 +1,48 @@
+# Baixa as fotos listadas em clinicas/<pasta>/fotos.txt para clinicas/<pasta>/baixadas/ e guarda no
+# repositório. Serve para fotos de sites e do Instagram que não abrem fora do GitHub.
+# Formato de cada linha do fotos.txt:  nome-do-arquivo.jpg  https://endereco-da-foto
+name: Baixar fotos
+
+on:
+  push:
+    paths: ["clinicas/*/fotos.txt"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: baixar-fotos-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  baixar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Baixar as fotos
+        run: |
+          for lista in clinicas/*/fotos.txt; do
+            pasta="$(dirname "$lista")/baixadas"
+            mkdir -p "$pasta"
+            while read -r nome url; do
+              case "$nome" in ""|\#*) continue ;; esac
+              [ -s "$pasta/$nome" ] && continue
+              if curl -fsSL --retry 3 --max-time 60 -A "Mozilla/5.0" -o "$pasta/$nome" "$url"; then
+                echo "baixada: $pasta/$nome"
+              else
+                rm -f "$pasta/$nome"
+                echo "::warning::não foi possível baixar $nome"
+              fi
+            done < "$lista"
+          done
+
+      - name: Guardar no repositório
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add clinicas/*/baixadas
+          if git diff --cached --quiet; then echo "Nenhuma foto nova."; exit 0; fi
+          git commit -m "Fotos baixadas pelo GitHub Actions"
+          git push

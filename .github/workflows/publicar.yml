@@ -1,0 +1,116 @@
+# Gera, confere e publica no Cloudflare Pages cada clínica que mudou em clinicas/<pasta>/.
+# Cada pasta vira um projeto próprio: clinicas/nanda-prevedello -> nanda-prevedello.pages.dev.
+#
+# Segredo do repositório (Settings -> Secrets and variables -> Actions), configurado uma vez só:
+#   CLOUDFLARE_API_TOKEN   token com a permissão Conta -> Cloudflare Pages -> Editar
+# Sem o token, os sites são gerados e conferidos, mas não publicados (aparece um aviso).
+name: Publicar
+
+on:
+  push:
+    branches: [main]
+    paths: ["clinicas/**", ".github/workflows/publicar.yml"]
+  workflow_dispatch:
+    inputs:
+      clinica:
+        description: "Pasta da clínica (ex.: nanda-prevedello). Em branco publica todas."
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publicar-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  CONTA: 06f7b50c56ad607422d73fd18fe4ea29
+  WRANGLER: wrangler@4.149.0
+
+jobs:
+  descobrir:
+    runs-on: ubuntu-latest
+    outputs:
+      clinicas: ${{ steps.lista.outputs.clinicas }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: lista
+        env:
+          EVENTO: ${{ github.event_name }}
+          ESCOLHIDA: ${{ github.event.inputs.clinica }}
+          ANTES: ${{ github.event.before }}
+        run: |
+          todas() { ls clinicas; }
+          if [ "$EVENTO" = "workflow_dispatch" ]; then
+            if [ -n "$ESCOLHIDA" ]; then lista="$ESCOLHIDA"; else lista="$(todas)"; fi
+          elif [ -z "$ANTES" ] || [ "$ANTES" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$ANTES" 2>/dev/null; then
+            lista="$(todas)"
+          else
+            mudou="$(git diff --name-only "$ANTES" "$GITHUB_SHA")"
+            if echo "$mudou" | grep -q '^.github/workflows/publicar.yml$'; then lista="$(todas)"
+            else lista="$(echo "$mudou" | sed -n 's#^clinicas/\([^/]*\)/.*#\1#p' | sort -u)"; fi
+          fi
+          json="$(for c in $lista; do [ -f "clinicas/$c/package.json" ] && echo "$c"; done | jq -R . | jq -cs .)"
+          echo "clinicas=$json" >> "$GITHUB_OUTPUT"
+          echo "Clínicas para publicar: $json"
+
+  site:
+    needs: descobrir
+    if: needs.descobrir.outputs.clinicas != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        clinica: ${{ fromJson(needs.descobrir.outputs.clinicas) }}
+    defaults:
+      run:
+        working-directory: clinicas/${{ matrix.clinica }}
+    env:
+      PROJETO: ${{ matrix.clinica }}
+      TEM_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: clinicas/${{ matrix.clinica }}/package-lock.json
+
+      - run: npm ci
+
+      - name: Gerar e conferir o site
+        run: npm run build
+
+      - name: Aviso de publicação pendente
+        if: env.TEM_TOKEN != 'true'
+        run: echo "::warning::Site de ${PROJETO} gerado e conferido, mas NÃO publicado. Falta o segredo CLOUDFLARE_API_TOKEN (veja o README)."
+
+      - name: Criar o projeto no Cloudflare Pages (só na primeira vez)
+        if: env.TEM_TOKEN == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || env.CONTA }}
+        run: |
+          if ! saida=$(npx --yes "$WRANGLER" pages project create "$PROJETO" --production-branch main 2>&1); then
+            echo "$saida"
+            echo "$saida" | grep -qiE "already exist" || exit 1
+            echo "O projeto $PROJETO já existe."
+          fi
+
+      - name: Publicar
+        if: env.TEM_TOKEN == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || env.CONTA }}
+        run: |
+          npx --yes "$WRANGLER" pages deploy dist --project-name "$PROJETO" --branch main --commit-dirty=true
+          {
+            echo "## ${PROJETO} publicado"
+            echo
+            echo '```'
+            npx --yes "$WRANGLER" pages project list | grep -E "Project Name|${PROJETO}" || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

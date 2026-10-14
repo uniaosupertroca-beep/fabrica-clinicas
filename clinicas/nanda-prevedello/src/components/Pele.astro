@@ -1,0 +1,46 @@
+---
+// Pele e rosto: os três tratamentos de pele em cartões compactos, ao lado do título.
+import { porCategoria } from "../data/tratamentos.ts";
+import CartaoTratamento from "./CartaoTratamento.astro";
+---
+
+<section class="secao" id="pele" aria-labelledby="t-pele">
+  <div class="envolve grade">
+    <div>
+      <p class="chapeu">Pele e rosto</p>
+      <h2 class="titulo" id="t-pele">Pele cuidada <em>em cada fase.</em></h2>
+      <p class="abre">Renovação, acne e limpeza profunda, com tecnologias combinadas e um plano para o seu tipo de pele.</p>
+    </div>
+    <ul class="lista">
+      {
+        porCategoria("Pele").map((t) => (
+          <li>
+            <CartaoTratamento nome={t.nome} resumo={t.resumo} href={`/tratamentos/${t.slug}/`} icone={t.icone} compacto />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .grade {
+    display: grid;
+    gap: 40px 72px;
+    align-items: center;
+  }
+  @media (min-width: 960px) {
+    .grade {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    }
+  }
+  .lista {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+  }
+  .lista li {
+    display: grid;
+  }
+</style>

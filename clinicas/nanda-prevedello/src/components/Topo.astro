@@ -1,0 +1,120 @@
+---
+import { linkWhatsapp } from "../data/clinica.ts";
+import Icone from "./Icone.astro";
+import Marca from "./Marca.astro";
+
+interface Props {
+  /** Nas páginas internas o topo fica sobre a abertura escura e os links voltam para a home. */
+  interna?: boolean;
+}
+const { interna = false } = Astro.props;
+
+const menu = interna
+  ? [
+      { href: "/", texto: "Início" },
+      { href: "/tratamentos/", texto: "Tratamentos" },
+      { href: "/#contato", texto: "Contato" },
+    ]
+  : [
+      { href: "#a-dra", texto: "A Dra. Nanda" },
+      { href: "#intima", texto: "Íntima" },
+      { href: "#corpo", texto: "Corpo" },
+      { href: "/tratamentos/", texto: "Tratamentos" },
+      { href: "#contato", texto: "Contato" },
+    ];
+---
+
+<header class="topo">
+  <div class="envolve barra">
+    <a class="inicio" href={interna ? "/" : "#conteudo"}><Marca altura={48} claro /></a>
+    <nav aria-label="Seções">
+      <ul>
+        {menu.map((item) => <li><a href={item.href}>{item.texto}</a></li>)}
+      </ul>
+    </nav>
+    <a class="botao agendar acento" href={linkWhatsapp()} target="_blank" rel="noopener">
+      <Icone nome="whatsapp" tamanho={18} />
+      Agendar
+    </a>
+  </div>
+</header>
+
+<style>
+  /* O topo fica sempre sobre a abertura escura, na home e nas páginas internas. */
+  .topo {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 20;
+    color: var(--claro);
+  }
+  .barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-block: 22px;
+  }
+  .inicio {
+    text-decoration: none;
+    flex: none;
+  }
+  nav {
+    display: none;
+  }
+  nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 36px;
+  }
+  nav a {
+    position: relative;
+    text-decoration: none;
+    font-size: 14.5px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--claro-2);
+    transition: color 0.2s;
+  }
+  nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 1px;
+    background: currentColor;
+    scale: 0 1;
+    transition: scale 0.25s;
+  }
+  nav a:hover {
+    color: var(--acento-claro);
+  }
+  nav a:hover::after {
+    scale: 1 1;
+  }
+  .agendar {
+    min-height: 44px;
+    padding: 0 20px;
+    font-size: 14px;
+  }
+  @media (min-width: 980px) {
+    nav {
+      display: block;
+    }
+  }
+  /* No celular, o logo encolhe para caber ao lado do botão. */
+  @media (max-width: 440px) {
+    .inicio :global(.marca) {
+      height: 40px;
+    }
+  }
+  @media (max-width: 360px) {
+    .inicio :global(.marca) {
+      height: 34px;
+    }
+    .agendar {
+      padding: 0 14px;
+    }
+  }
+</style>

@@ -1,0 +1,268 @@
+---
+// Contato e endereço. Sem mapa embutido: com o endereço preenchido, os botões abrem a rota
+// no Google Maps ou no Waze (página mais leve e sem rastreio).
+import { clinica, linkRotaGoogle, linkRotaWaze, linkWhatsapp, telefone, temEndereco } from "../data/clinica.ts";
+import Icone from "./Icone.astro";
+---
+
+<section class="secao branca" id="contato" aria-labelledby="t-contato">
+  <div class="envolve">
+    <p class="chapeu">Contato</p>
+    <h2 class="titulo" id="t-contato">Em {clinica.cidade}, <em>com hora marcada.</em></h2>
+    <div class="grade">
+      <div class="cartao">
+        <span class="icone"><Icone nome="local" /></span>
+        <h3>{clinica.nomeCompleto}</h3>
+        {
+          temEndereco() ? (
+            <address>
+              {clinica.rua}
+              <br />
+              {clinica.bairro && `${clinica.bairro}, `}
+              {clinica.cidade} ({clinica.uf})<br />
+              CEP {clinica.cep}
+            </address>
+          ) : (
+            <address>
+              {clinica.cidade} ({clinica.uf})<br />
+              <span class="preencher">rua, número e CEP</span>
+            </address>
+          )
+        }
+        <div class="horarios">
+          <Icone nome="relogio" tamanho={18} />
+          {
+            clinica.horarios ? (
+              <ul>
+                {clinica.horarios.map((h) => (
+                  <li>{h}</li>
+                ))}
+              </ul>
+            ) : (
+              <span>Atendimento com agendamento pelo WhatsApp</span>
+            )
+          }
+        </div>
+        <ul class="telefones">
+          <li>
+            <a href={linkWhatsapp()} target="_blank" rel="noopener">
+              <Icone nome="whatsapp" tamanho={18} />
+              <span><small>Agendamento</small>{telefone()}</span>
+            </a>
+          </li>
+          <li>
+            <a href={linkWhatsapp(clinica.whatsapp.mensagem, clinica.whatsapp.local)} target="_blank" rel="noopener">
+              <Icone nome="whatsapp" tamanho={18} />
+              <span><small>{clinica.cidade}</small>{telefone(clinica.whatsapp.local)}</span>
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${clinica.email}`}>
+              <Icone nome="conversa" tamanho={18} />
+              <span><small>E-mail</small>{clinica.email}</span>
+            </a>
+          </li>
+        </ul>
+        {
+          clinica.googleMaps && clinica.avaliacoes && (
+            <a class="nota" href={clinica.googleMaps} target="_blank" rel="noopener">
+              <span class="estrelas" aria-hidden="true">
+                {[1, 2, 3, 4, 5].map(() => <Icone nome="estrela" tamanho={16} traco={1.2} />)}
+              </span>
+              <span>
+                <b>{clinica.avaliacoes.nota}</b> no Google, com {clinica.avaliacoes.total} avaliações. <u>Ler as avaliações</u>
+              </span>
+            </a>
+          )
+        }
+        {
+          temEndereco() && (
+            <div class="acoes">
+              <a class="botao linha" href={linkRotaGoogle()} target="_blank" rel="noopener">
+                <Icone nome="rota" tamanho={17} />
+                Traçar rota no Google Maps
+              </a>
+              <a class="botao linha" href={linkRotaWaze()} target="_blank" rel="noopener">
+                Abrir no Waze
+              </a>
+            </div>
+          )
+        }
+      </div>
+      <a class="cartao insta" href={clinica.redes.instagram} target="_blank" rel="noopener">
+        <span class="icone"><Icone nome="instagram" /></span>
+        <h3>@dranandaprevedello</h3>
+        <p>Explicações sobre os procedimentos, bastidores e novidades, acompanhados por mais de 29 mil pessoas no Instagram.</p>
+        <span class="mais">
+          Seguir no Instagram
+          <Icone nome="seta" tamanho={16} />
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grade {
+    margin-top: 56px;
+    display: grid;
+    gap: 20px;
+  }
+  @media (min-width: 880px) {
+    .grade {
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: start;
+    }
+  }
+  .cartao {
+    padding: clamp(26px, 3.4vw, 40px);
+    border: 1px solid var(--linha);
+    border-radius: var(--raio);
+    background: var(--fundo);
+    display: grid;
+    gap: 18px;
+    align-content: start;
+    min-width: 0;
+  }
+  .icone {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    border: 1px solid color-mix(in oklab, var(--acento-texto) 35%, transparent);
+    background: var(--branco);
+    color: var(--acento-texto);
+    flex: none;
+  }
+  h3 {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(22px, 6.4vw, 30px);
+    font-weight: 400;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+  }
+  address {
+    font-style: normal;
+    font-size: 18px;
+    line-height: 1.7;
+  }
+  .horarios {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    color: var(--tinta-2);
+  }
+  .horarios :global(svg) {
+    flex: none;
+    color: var(--acento-texto);
+    translate: 0 3px;
+  }
+  .horarios ul {
+    list-style: none;
+    padding: 0;
+  }
+  .telefones {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .telefones li {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .telefones a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px 12px 14px;
+    border: 1px solid var(--linha);
+    border-radius: var(--raio);
+    overflow-wrap: anywhere;
+    background: var(--branco);
+    text-decoration: none;
+    font-weight: 500;
+    transition: border-color 0.2s;
+  }
+  .telefones a:hover {
+    border-color: var(--zap);
+  }
+  .telefones :global(svg) {
+    color: var(--zap);
+    flex: none;
+  }
+  .telefones a[href^="mailto"] :global(svg) {
+    color: var(--acento-texto);
+  }
+  .telefones span {
+    display: grid;
+    line-height: 1.3;
+  }
+  .telefones small {
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--tinta-2);
+  }
+  .nota {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+    color: var(--tinta);
+    text-decoration: none;
+    font-size: 15.5px;
+  }
+  .nota b {
+    font-family: var(--fonte-titulo);
+    font-size: 22px;
+    font-weight: 600;
+  }
+  .nota u {
+    color: var(--acento-texto);
+    text-underline-offset: 3px;
+  }
+  .estrelas {
+    display: inline-flex;
+    gap: 2px;
+    color: var(--metal);
+  }
+  .estrelas :global(svg) {
+    fill: currentColor;
+  }
+  .insta {
+    text-decoration: none;
+    background:
+      radial-gradient(70% 60% at 100% 0%, color-mix(in oklab, var(--acento) 40%, transparent), transparent 70%),
+      var(--escuro);
+    border-color: var(--escuro);
+    color: var(--claro);
+    transition: translate 0.25s;
+  }
+  .insta .icone {
+    background: transparent;
+    border-color: color-mix(in oklab, var(--acento) 55%, transparent);
+    color: var(--acento);
+  }
+  .insta p {
+    color: var(--claro-2);
+  }
+  .insta .mais {
+    margin-top: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--acento);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .insta:hover {
+      translate: 0 -3px;
+    }
+  }
+</style>

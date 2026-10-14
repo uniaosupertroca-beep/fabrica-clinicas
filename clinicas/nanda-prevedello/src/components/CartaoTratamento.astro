@@ -1,0 +1,226 @@
+---
+import type { NomeIcone } from "../data/icones.ts";
+import Icone from "./Icone.astro";
+
+interface Props {
+  nome: string;
+  resumo: string;
+  href: string;
+  icone: NomeIcone;
+  /** Cartão menor, sem o resumo (usado na home). */
+  compacto?: boolean;
+  /** Cartão escuro e largo, para um destaque. */
+  escuro?: boolean;
+  /** Linha curta acima do nome (só no cartão escuro). */
+  rotulo?: string;
+}
+const { nome, resumo, href, icone, compacto = false, escuro = false, rotulo } = Astro.props;
+---
+
+<a class:list={["cartao", { compacto, escuro }]} href={href}>
+  <span class="icone"><Icone nome={icone} tamanho={compacto ? 22 : 30} traco={1.4} /></span>
+  <span class="texto">
+    {escuro && rotulo && <span class="rotulo">{rotulo}</span>}
+    <h3>{nome}</h3>
+    {!compacto && <p>{resumo}</p>}
+  </span>
+  <span class="mais">
+    {!compacto && "Saiba mais"}
+    <Icone nome="seta" tamanho={compacto ? 18 : 16} />
+  </span>
+</a>
+
+<style>
+  .cartao {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 28px 28px 26px;
+    background: var(--branco);
+    border: 1px solid var(--linha);
+    border-radius: var(--raio);
+    text-decoration: none;
+    color: var(--tinta);
+    min-width: 0;
+    transition:
+      border-color 0.25s,
+      box-shadow 0.25s,
+      translate 0.25s;
+  }
+  /* Brilho de bronze no canto, que acende ao passar o mouse. */
+  .cartao::before {
+    content: "";
+    position: absolute;
+    inset: -40% -40% auto auto;
+    width: 70%;
+    aspect-ratio: 1;
+    z-index: -1;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, color-mix(in oklab, var(--acento) 22%, transparent), transparent);
+    opacity: 0;
+    transition: opacity 0.35s;
+  }
+  .cartao:hover {
+    border-color: color-mix(in oklab, var(--acento) 70%, transparent);
+    box-shadow: 0 22px 40px -28px color-mix(in oklab, var(--acento-texto) 70%, transparent);
+  }
+  .cartao:hover::before {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .cartao:hover {
+      translate: 0 -3px;
+    }
+  }
+
+  .icone {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    color: var(--acento-texto);
+    background: radial-gradient(circle at 30% 25%, var(--branco), var(--suave));
+    border: 1px solid color-mix(in oklab, var(--acento) 50%, transparent);
+    transition:
+      background-color 0.25s,
+      color 0.25s;
+  }
+  .cartao:hover .icone {
+    background: var(--acento);
+    color: var(--escuro);
+  }
+
+  .texto {
+    display: grid;
+    gap: 10px;
+  }
+  h3 {
+    font-family: var(--fonte-titulo);
+    font-size: 27px;
+    font-weight: 500;
+    line-height: 1.12;
+  }
+  p {
+    color: var(--tinta-2);
+    font-size: 15.5px;
+  }
+  .mais {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--acento-texto);
+  }
+  .mais :global(svg) {
+    transition: translate 0.25s;
+  }
+  .cartao:hover .mais :global(svg) {
+    translate: 4px 0;
+  }
+
+  /* Largo (quando sobra sozinho na última linha da grade): ícone, texto e seta lado a lado. */
+  @container (min-width: 640px) {
+    .cartao:not(.compacto, .escuro) {
+      flex-direction: row;
+      align-items: center;
+      gap: 28px;
+    }
+    .cartao:not(.compacto, .escuro) .texto {
+      flex: 1;
+    }
+    .cartao:not(.compacto, .escuro) .mais {
+      margin-top: 0;
+    }
+  }
+
+  /* Compacto: ícone, nome e seta numa linha. */
+  .compacto {
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 18px;
+  }
+  .compacto .icone {
+    width: 46px;
+    height: 46px;
+  }
+  .compacto .texto {
+    flex: 1;
+    min-width: 0;
+  }
+  .compacto h3 {
+    font-size: 22px;
+  }
+  .compacto .mais {
+    margin-top: 0;
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--linha);
+    transition: border-color 0.25s;
+  }
+  .compacto:hover .mais {
+    border-color: var(--acento);
+  }
+
+  /* Escuro: um tratamento em destaque. */
+  .escuro {
+    background: var(--escuro);
+    border-color: var(--escuro-3);
+    color: var(--claro);
+    padding: clamp(28px, 4vw, 44px);
+  }
+  .escuro::before {
+    opacity: 0.8;
+    width: 60%;
+  }
+  .escuro .icone {
+    width: 72px;
+    height: 72px;
+    color: var(--acento);
+    background: var(--escuro-2);
+    border-color: color-mix(in oklab, var(--acento) 55%, transparent);
+  }
+  .escuro h3 {
+    font-size: clamp(30px, 3.4vw, 40px);
+    font-weight: 400;
+  }
+  .escuro p {
+    color: var(--claro-2);
+    max-width: 40em;
+  }
+  .escuro .rotulo {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    color: var(--acento);
+  }
+  .escuro .mais {
+    color: var(--acento);
+  }
+  .escuro:hover {
+    border-color: var(--acento);
+  }
+  @media (min-width: 860px) {
+    .escuro {
+      flex-direction: row;
+      align-items: center;
+      gap: 36px;
+    }
+    .escuro .texto {
+      flex: 1;
+    }
+    .escuro .mais {
+      margin-top: 0;
+    }
+  }
+</style>

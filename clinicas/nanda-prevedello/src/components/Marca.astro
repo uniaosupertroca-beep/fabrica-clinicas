@@ -1,0 +1,25 @@
+---
+// Logo da Dra. Nanda Prevedello em vetor (scripts/logo.py): escudo NP dourado, nome e "Estética Avançada".
+// Ouro claro sobre fundo escuro; ouro escuro sobre fundo claro.
+interface Props {
+  /** Altura do logo na tela, em pixels. */
+  altura?: number;
+  /** Ouro claro, para fundo escuro. */
+  claro?: boolean;
+  /** "linha": escudo ao lado do nome (topo e rodapé); "vertical": escudo em cima do nome. */
+  formato?: "linha" | "vertical";
+}
+const { altura = 44, claro = false, formato = "linha" } = Astro.props;
+const proporcao = formato === "linha" ? 521 / 143 : 660.23 / 575;
+const arquivo = `/logo-nanda${formato === "linha" ? "-linha" : ""}${claro ? "" : "-escuro"}.svg`;
+---
+
+<img class="marca" src={arquivo} alt="Nanda Prevedello, Estética Avançada" width={Math.round(altura * proporcao)} height={altura} decoding="async" />
+
+<style>
+  .marca {
+    display: block;
+    width: auto;
+    max-width: 100%;
+  }
+</style>

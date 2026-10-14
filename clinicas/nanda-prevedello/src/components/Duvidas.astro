@@ -1,0 +1,143 @@
+---
+// Respostas honestas: sem promessa de resultado, sem preço e sem "risco zero"
+// (Código de Defesa do Consumidor, art. 37, e regras de publicidade dos conselhos de saúde).
+import { linkWhatsapp } from "../data/clinica.ts";
+import Icone from "./Icone.astro";
+
+interface Props {
+  perguntas?: { p: string; r: string }[];
+  titulo?: string;
+  destaque?: string;
+  /** Mensagem pronta do botão do WhatsApp. */
+  mensagem?: string;
+}
+
+const padrao = [
+  {
+    p: "A consulta de harmonização íntima é reservada?",
+    r: "Sim. A avaliação é individual, em sala reservada, e as suas informações ficam protegidas no prontuário, com sigilo. O primeiro contato pode ser feito pelo WhatsApp.",
+  },
+  {
+    p: "Os procedimentos têm cirurgia ou internação?",
+    r: "Não. São procedimentos não cirúrgicos ou minimamente invasivos, feitos na clínica. Quando o seu caso pede cirurgia, isso é dito com clareza na avaliação.",
+  },
+  {
+    p: "Em quanto tempo vejo diferença?",
+    r: "Depende do protocolo e de cada organismo. Tratamentos que estimulam colágeno, por exemplo, têm evolução progressiva, ao longo de semanas. Não existe milagre, existe fisiologia.",
+  },
+  {
+    p: "Quantas sessões vou precisar?",
+    r: "O número de sessões é definido no seu plano, depois da avaliação. Ele depende da região, do objetivo e de como o seu corpo responde.",
+  },
+  {
+    p: "Posso combinar tratamentos?",
+    r: "Sim, quando faz sentido para o seu caso. Muitos planos unem técnicas para gordura localizada, flacidez e contorno, ou cuidados íntimos e de pele.",
+  },
+  {
+    p: "Os produtos são seguros?",
+    r: "A clínica usa somente produtos e equipamentos registrados na Anvisa. Os riscos e os cuidados de cada procedimento são explicados antes de começar.",
+  },
+  {
+    p: "Quem não pode fazer?",
+    r: "Gestantes e pessoas com algumas condições de saúde não devem fazer certos procedimentos. Por isso a avaliação sempre vem antes de qualquer sessão.",
+  },
+  {
+    p: "Quanto custa?",
+    r: "O valor depende do plano definido na avaliação. Chame no WhatsApp para agendar e tirar essa dúvida diretamente com a clínica.",
+  },
+];
+const { perguntas = padrao, titulo = "O que você", destaque = "costuma perguntar.", mensagem } = Astro.props;
+---
+
+<section class="secao suave" id="duvidas" aria-labelledby="t-duvidas">
+  <div class="envolve grade">
+    <div class="lado">
+      <p class="chapeu">Dúvidas</p>
+      <h2 class="titulo" id="t-duvidas">{titulo} <em>{destaque}</em></h2>
+      <p class="abre">Ficou alguma dúvida? Pergunte no WhatsApp: a resposta vem da própria clínica.</p>
+      <a class="botao linha" href={linkWhatsapp(mensagem)} target="_blank" rel="noopener">
+        <Icone nome="whatsapp" tamanho={18} />
+        Perguntar no WhatsApp
+      </a>
+    </div>
+    <div class="lista">
+      {
+        perguntas.map(({ p, r }) => (
+          <details>
+            <summary>
+              <h3>{p}</h3>
+              <Icone nome="mais" tamanho={22} />
+            </summary>
+            <p>{r}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .grade {
+    display: grid;
+    gap: 48px;
+    align-items: start;
+  }
+  @media (min-width: 960px) {
+    .grade {
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 88px;
+    }
+    .lado {
+      position: sticky;
+      top: 32px;
+    }
+  }
+  .lado .botao {
+    margin-top: 32px;
+  }
+  .lista {
+    border-top: 1px solid var(--linha);
+  }
+  details {
+    border-bottom: 1px solid var(--linha);
+  }
+  summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 0;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary h3 {
+    font-family: var(--fonte-titulo);
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  summary :global(svg) {
+    flex: none;
+    color: var(--acento-texto);
+    transition: rotate 0.25s ease;
+  }
+  details[open] summary :global(svg) {
+    rotate: 45deg;
+  }
+  summary:hover h3 {
+    color: var(--acento-texto);
+  }
+  details p {
+    padding: 0 40px 26px 0;
+    color: var(--tinta-2);
+    max-width: 40em;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    summary :global(svg) {
+      transition: none;
+    }
+  }
+</style>

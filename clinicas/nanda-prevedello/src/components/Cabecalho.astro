@@ -1,0 +1,271 @@
+---
+// Abertura escura das páginas internas: luz dourada, palavra gigante em traço e, à direita,
+// a foto do tratamento no escudo do logo; sem foto, o escudo em fio de ouro com o ícone.
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+import type { NomeIcone } from "../data/icones.ts";
+import Icone from "./Icone.astro";
+import Monograma from "./Monograma.astro";
+
+interface Props {
+  id: string;
+  chapeu: string;
+  /** Link antes do chapéu, como uma trilha ("Procedimentos · Rosto"). */
+  trilha?: { href: string; texto: string };
+  titulo: string;
+  destaque: string;
+  resumo: string;
+  /** Sem ícone, o emblema mostra o monograma da clínica. */
+  icone?: NomeIcone;
+  /** Palavra gigante, em traço, no fundo. */
+  palavra: string;
+  /** Foto em src/assets/fotos/, mostrada num arco. */
+  foto?: { arquivo: string; alt: string };
+}
+const { id, chapeu, trilha, titulo, destaque, resumo, icone, palavra, foto } = Astro.props;
+
+const fotos = import.meta.glob<{ default: ImageMetadata }>("../assets/fotos/*.{jpg,jpeg,png,webp}", { eager: true });
+const imagem = foto ? fotos[`../assets/fotos/${foto.arquivo}`]?.default : undefined;
+if (foto && !imagem) throw new Error(`Foto não encontrada em src/assets/fotos/: ${foto.arquivo}`);
+
+const selos: { icone: NomeIcone; texto: string }[] = [
+  { icone: "prancheta", texto: "Avaliação individual" },
+  { icone: "cadeado", texto: "Atendimento reservado" },
+  { icone: "escudo", texto: "Produtos registrados na Anvisa" },
+];
+---
+
+<section class="cabecalho escura" aria-labelledby={id}>
+  <div class="aurora" aria-hidden="true"></div>
+  <span class="palavra" aria-hidden="true">{palavra}</span>
+  <div class="envolve grade">
+    {
+      imagem && foto ? (
+        <div class="lado-foto">
+          <figure class="arco escudo">
+            <Image src={imagem} alt={foto.alt} widths={[360, 620]} sizes="(min-width: 960px) 360px, 70vw" loading="eager" decoding="async" />
+          </figure>
+          {icone && (
+            <span class="selo-icone" aria-hidden="true">
+              <Icone nome={icone} tamanho={34} traco={1.2} />
+            </span>
+          )}
+        </div>
+      ) : (
+        <div class="emblema" aria-hidden="true">
+          <svg class="escudo-linha" viewBox="0 0 100 140" preserveAspectRatio="none">
+            <path d="M0 23C0-7 100-7 100 23V120.7L50 140 0 120.7Z" />
+            <path d="M0 23H100" />
+          </svg>
+          <span class="nucleo">{icone ? <Icone nome={icone} tamanho={76} traco={1.05} /> : <Monograma tamanho={64} />}</span>
+        </div>
+      )
+    }
+    <div class="texto">
+      <p class="chapeu">
+        {
+          trilha && (
+            <>
+              <a href={trilha.href}>{trilha.texto}</a>
+              <span aria-hidden="true">/</span>
+            </>
+          )
+        }
+        {chapeu}
+      </p>
+      <h1 class="titulo" id={id}>{titulo} <em>{destaque}</em></h1>
+      <p class="abre">{resumo}</p>
+      <div class="acoes"><slot /></div>
+      <ul class="selos">
+        {
+          selos.map((s) => (
+            <li>
+              <Icone nome={s.icone} tamanho={18} />
+              {s.texto}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cabecalho {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--escuro);
+    color: var(--claro);
+    padding: clamp(128px, 15vw, 184px) 0 clamp(104px, 15vw, 196px);
+  }
+  .aurora {
+    position: absolute;
+    inset: -20% -10% 0;
+    z-index: -2;
+    background:
+      radial-gradient(42% 56% at 80% 40%, color-mix(in oklab, var(--acento) 30%, transparent), transparent 70%),
+      radial-gradient(40% 46% at 8% 92%, color-mix(in oklab, var(--acento) 14%, transparent), transparent 70%),
+      radial-gradient(60% 60% at 50% 0%, var(--escuro-3), transparent 75%);
+    filter: blur(8px);
+  }
+  .palavra {
+    position: absolute;
+    right: -0.04em;
+    bottom: -0.34em;
+    z-index: -1;
+    font-family: var(--fonte-titulo);
+    font-size: clamp(120px, 19vw, 300px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    color: transparent;
+    -webkit-text-stroke: 1px color-mix(in oklab, var(--acento) 26%, transparent);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .grade {
+    display: grid;
+    gap: 28px;
+    align-items: center;
+  }
+  @media (min-width: 960px) {
+    .grade {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 72px;
+    }
+    .emblema {
+      order: 2;
+    }
+  }
+
+  /* Foto num arco, com o ícone do tratamento num selo sobreposto. */
+  .lado-foto {
+    order: 2;
+    position: relative;
+    width: clamp(220px, 27vw, 360px);
+    padding: 0 0 26px 26px;
+  }
+  .arco {
+    position: relative;
+    margin: 0;
+    aspect-ratio: 100 / 140;
+    clip-path: polygon(0 16%, 8% 6%, 25% 1%, 50% 0, 75% 1%, 92% 6%, 100% 16%, 100% 86%, 50% 100%, 0 86%);
+  }
+  .arco :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .selo-icone {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: grid;
+    place-items: center;
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    background: var(--escuro);
+    border: 1px solid color-mix(in oklab, var(--acento) 60%, transparent);
+    color: var(--acento);
+    box-shadow: 0 0 0 6px var(--escuro), 0 0 50px -10px color-mix(in oklab, var(--acento) 50%, transparent);
+  }
+  @media (max-width: 959px) {
+    .lado-foto {
+      justify-self: start;
+      width: min(68vw, 300px);
+    }
+  }
+
+  .chapeu {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .chapeu a {
+    color: inherit;
+    text-underline-offset: 4px;
+  }
+  .titulo {
+    font-size: clamp(42px, 6.6vw, 84px);
+    line-height: 1;
+  }
+  .acoes {
+    margin-top: 32px;
+  }
+
+  .selos {
+    list-style: none;
+    padding: 24px 0 0;
+    margin-top: 36px;
+    border-top: 1px solid color-mix(in oklab, var(--claro) 12%, transparent);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    font-size: 14.5px;
+    color: var(--claro-2);
+  }
+  .selos li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .selos :global(svg) {
+    flex: none;
+    color: var(--acento);
+  }
+
+  /* Emblema: o escudo do logo em fio de ouro, com um eco deslocado e o ícone no centro. */
+  .emblema {
+    position: relative;
+    width: clamp(150px, 21vw, 270px);
+    aspect-ratio: 100 / 140;
+    display: grid;
+    place-items: center;
+  }
+  .escudo-linha {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    background: radial-gradient(50% 40% at 50% 50%, color-mix(in oklab, var(--acento) 16%, transparent), transparent);
+  }
+  .escudo-linha path {
+    fill: none;
+    stroke: var(--acento);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+  .nucleo {
+    position: relative;
+    width: 46%;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    color: var(--acento);
+  }
+  .nucleo :global(svg) {
+    width: 72%;
+    height: auto;
+  }
+  @media (max-width: 959px) {
+    .emblema {
+      justify-self: start;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .texto {
+      animation: surge 0.9s cubic-bezier(0.2, 0.7, 0.1, 1) both;
+    }
+  }
+  @keyframes surge {
+    from {
+      opacity: 0;
+      translate: 0 14px;
+    }
+  }
+</style>

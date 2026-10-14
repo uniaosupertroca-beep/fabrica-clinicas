@@ -1,0 +1,160 @@
+---
+// Quem cuida da paciente: a Dra. Nanda, com a frase dela no Instagram em destaque e os três pilares do atendimento.
+import { clinica } from "../data/clinica.ts";
+import type { NomeIcone } from "../data/icones.ts";
+import Icone from "./Icone.astro";
+
+const p = clinica.profissional;
+const pilares: { icone: NomeIcone; titulo: string; texto: string }[] = [
+  {
+    icone: "prancheta",
+    titulo: "Avaliação antes de tudo",
+    texto: "Cada plano nasce de uma consulta individual: o seu corpo, a sua saúde, a sua rotina e o que você deseja.",
+  },
+  {
+    icone: "cadeado",
+    titulo: "Discrição em cada etapa",
+    texto: "Consultas reservadas e sigilo do primeiro contato ao acompanhamento, sobretudo na harmonização íntima.",
+  },
+  {
+    icone: "camadas",
+    titulo: "Saúde e estética juntas",
+    texto: "Tecnologia, ativos e cuidado com o corpo inteiro, respeitando a proporção e o tempo de cada organismo.",
+  },
+];
+---
+
+<section class="secao branca" id="a-dra" aria-labelledby="t-a-dra">
+  <div class="envolve grade">
+    <figure class="frase">
+      <span class="monograma" aria-hidden="true"><img src="/logo-nanda-escuro.svg" alt="" width="132" height="115" /></span>
+      <blockquote>
+        <p>Não existe milagre. Existe fisiologia.</p>
+      </blockquote>
+      <figcaption>
+        O corpo precisa de tempo para responder ao estímulo e construir o resultado.
+        <cite>{p.nome}</cite>
+      </figcaption>
+    </figure>
+
+    <div class="texto">
+      <p class="chapeu">Quem cuida de você</p>
+      <h2 class="titulo" id="t-a-dra">{p.nome}</h2>
+      <p class="registro">{p.profissao}, {p.registro}</p>
+      <p class="abre">
+        Biomédica com certificação internacional e referência em harmonização íntima e corporal. A Dra. Nanda idealizou o Protocolo Corpo Detox,
+        desenvolvido a partir de dezenas de estudos científicos, e trouxe a técnica NinfoSlim para {clinica.cidade}.
+      </p>
+      <ul class="pilares">
+        {
+          pilares.map((v) => (
+            <li>
+              <span class="icone">
+                <Icone nome={v.icone} tamanho={22} traco={1.4} />
+              </span>
+              <div>
+                <h3>{v.titulo}</h3>
+                <p>{v.texto}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grade {
+    display: grid;
+    gap: 64px;
+    align-items: center;
+  }
+  @media (min-width: 960px) {
+    .grade {
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      gap: 88px;
+    }
+  }
+
+  /* A frase da Dra. Nanda como peça principal da seção, entre fios de ouro. */
+  .frase {
+    margin: 0;
+    padding: 44px 0 40px;
+    border-block: 1px solid var(--linha);
+    position: relative;
+  }
+  .monograma img {
+    width: 112px;
+    height: auto;
+    opacity: 0.9;
+  }
+  blockquote {
+    margin: 30px 0 0;
+  }
+  blockquote p {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(38px, 5vw, 62px);
+    line-height: 1.06;
+    letter-spacing: -0.01em;
+    max-width: 10em;
+  }
+  figcaption {
+    margin-top: 22px;
+    max-width: 26em;
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--tinta-2);
+  }
+  cite {
+    display: block;
+    margin-top: 14px;
+    font-style: normal;
+    font-family: var(--fonte-titulo);
+    font-size: 18px;
+    color: var(--acento-texto);
+  }
+
+  .registro {
+    margin-top: 10px;
+    font-family: var(--fonte-titulo);
+    font-size: 20px;
+    color: var(--acento-texto);
+  }
+  .pilares {
+    list-style: none;
+    padding: 0;
+    margin-top: 36px;
+    display: grid;
+    gap: 22px;
+  }
+  .pilares li {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+  .icone {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid color-mix(in oklab, var(--acento) 55%, transparent);
+    color: var(--acento-texto);
+    rotate: 45deg;
+  }
+  .icone :global(svg) {
+    rotate: -45deg;
+  }
+  .pilares h3 {
+    font-family: var(--fonte-titulo);
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+  .pilares p {
+    margin-top: 4px;
+    font-size: 16px;
+    color: var(--tinta-2);
+  }
+</style>

@@ -1,0 +1,91 @@
+---
+import Rodape from "../components/Rodape.astro";
+import Topo from "../components/Topo.astro";
+import { clinica, linkWhatsapp } from "../data/clinica.ts";
+import Base from "../layouts/Base.astro";
+---
+
+<Base
+  titulo="Privacidade | Dra. Nanda Prevedello"
+  descricao="Como o site da Dra. Nanda Prevedello trata os seus dados: sem formulários, sem cookies e sem rastreamento."
+>
+  <Topo interna />
+  <main id="conteudo">
+    <section class="faixa-titulo">
+      <div class="envolve">
+        <p class="chapeu">Privacidade</p>
+        <h1 class="titulo">Seus dados, <em>com cuidado.</em></h1>
+      </div>
+    </section>
+    <section class="secao texto">
+      <div class="envolve">
+        <h2>O que este site coleta</h2>
+        <p>
+          O site da {clinica.nomeCompleto} não tem formulário, não usa cookies e não tem ferramentas de rastreamento ou de anúncios. Ele só mostra
+          informações sobre a clínica e os tratamentos.
+        </p>
+        <p>
+          Como todo site, ele fica num serviço de hospedagem (Cloudflare), que registra dados técnicos de cada acesso, como o endereço IP e o
+          navegador, para manter o site seguro e no ar. Esses registros não identificam o motivo da sua visita e não são usados pela clínica.
+        </p>
+        <h2>Quando você fala com a gente</h2>
+        <p>
+          O contato é pelo WhatsApp. A partir dali, a conversa segue as regras do próprio WhatsApp e da clínica: as informações que você
+          compartilha, inclusive as de saúde, são usadas só para o seu atendimento e não são repassadas a ninguém, como prevê a Lei Geral de
+          Proteção de Dados (Lei 13.709/2018).
+        </p>
+        <h2>Links para outros serviços</h2>
+        <p>
+          Os botões do WhatsApp, de rota (Google Maps e Waze) e do Instagram abrem serviços de outras empresas, com
+          políticas de privacidade próprias.
+        </p>
+        <h2>Seus direitos</h2>
+        <p>
+          Você pode pedir a qualquer momento para saber quais dados seus a clínica tem, corrigi-los ou apagá-los. É só mandar uma mensagem
+          pelo <a href={linkWhatsapp()} target="_blank" rel="noopener">WhatsApp da clínica</a>.
+        </p>
+        <p class="assina">{clinica.nomeCompleto}{clinica.cnpj && ` · CNPJ ${clinica.cnpj}`}</p>
+      </div>
+    </section>
+  </main>
+  <Rodape />
+</Base>
+
+<style>
+  .faixa-titulo {
+    background: var(--escuro);
+    color: var(--claro);
+    padding: clamp(140px, 16vw, 180px) 0 clamp(56px, 7vw, 88px);
+  }
+  .faixa-titulo .chapeu {
+    color: var(--acento);
+  }
+  .faixa-titulo .titulo em {
+    color: var(--acento);
+  }
+  .texto .envolve {
+    max-width: 760px;
+    display: grid;
+    gap: 16px;
+  }
+  .texto h2 {
+    margin-top: 24px;
+    font-family: var(--fonte-titulo);
+    font-size: 30px;
+    font-weight: 500;
+  }
+  .texto h2:first-child {
+    margin-top: 0;
+  }
+  .texto p {
+    color: var(--tinta-2);
+  }
+  .texto a {
+    color: var(--acento-texto);
+    font-weight: 500;
+  }
+  .assina {
+    margin-top: 24px;
+    font-size: 14px;
+  }
+</style>
