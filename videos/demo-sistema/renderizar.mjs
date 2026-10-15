@@ -94,6 +94,7 @@ await navegador.close();
 writeFileSync(join(temp, "partes.txt"), arquivos.map((a) => `file '${a}'`).join("\n"));
 console.log(`Quadros prontos em ${((Date.now() - inicio) / 1000).toFixed(0)} s`);
 
+mkdirSync(dirname(saida), { recursive: true });
 const audio = arg("audio");
 const entrada = ["-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", join(temp, "partes.txt")];
 const comando = audio

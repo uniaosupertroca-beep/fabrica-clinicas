@@ -127,10 +127,19 @@ function montarCenas(linha) {
   leg.el.style.background = "none";
   leg.el.style.zIndex = "100";
   const todas = linha.cenas.filter((c) => c.id !== "fechamento").flatMap((c) => c.frases);
+  // Legenda longa vira duas linhas de tamanho parecido, quebrando de preferência depois de uma vírgula.
+  const quebra = (texto) => {
+    if (texto.length <= 90) return texto;
+    const meio = texto.length / 2;
+    const espacos = [...texto.matchAll(/ /g)].map((m) => m.index);
+    const nota = (i) => Math.abs(i - meio) - (texto[i - 1] === "," || texto[i - 1] === ":" ? texto.length * 0.12 : 0);
+    const corte = espacos.reduce((a, b) => (nota(b) < nota(a) ? b : a));
+    return `${texto.slice(0, corte)}<br>${texto.slice(corte + 1)}`;
+  };
   // Cada legenda só entra depois que a anterior terminou de sair.
   let livre = 0;
   todas.forEach((fr, i) => {
-    const el = no(leg.palco, `<div class="legenda">${fr.texto}</div>`);
+    const el = no(leg.palco, `<div class="legenda">${quebra(fr.texto)}</div>`);
     const prox = todas[i + 1];
     const entrada = Math.max(fr.ini - 0.12, livre + 0.04);
     const saida = Math.max(entrada + 0.5, prox ? Math.min(fr.fim + 0.3, prox.ini - 0.3) : fr.fim + 0.5);
@@ -875,7 +884,7 @@ function marca(palco, { f, fim, pal, ini }) {
   // Duas clínicas lado a lado: a Essenciale (clara, ameixa) e a Dra. Nanda (escura, ouro).
   const clinicas = [
     { id: "ess", tema: "", x: 530, logo: LOGO, alt: 24, nome: "Essenciale", fonte: "Cormorant Garamond", peso: 500, quando: "Hoje, 14h30, com a Dra. Cláudia", trat: "Toxina botulínica", pac: "Pele de Rainha", s: [4, 5] },
-    { id: "nan", tema: "tema-nanda", x: 1030, logo: "recursos/logo-nanda.svg", alt: 52, nome: "Dra. Nanda Prevedello", fonte: "Marcellus", peso: 400, quando: "Hoje, 10h00, com a Dra. Nanda", trat: "Corpo Detox", pac: "Corpo Detox", s: [3, 8] },
+    { id: "nan", tema: "tema-nanda", x: 1030, logo: "recursos/logo-nanda.svg", alt: 60, nome: "Dra. Nanda Prevedello", fonte: "Marcellus", peso: 400, quando: "Hoje, 10h00, com a Dra. Nanda", trat: "Corpo Detox", pac: "Corpo Detox", s: [3, 8] },
   ];
   const cels = {};
   for (const c of clinicas) {
