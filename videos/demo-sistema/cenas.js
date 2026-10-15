@@ -784,7 +784,7 @@ function bastidores(palco, { f, fim, pal, ini }) {
     `<div class="caixa" style="display:flex;flex-direction:column;gap:10px;border-color:var(--alerta)">
       <div class="a-linha" style="color:var(--alerta)">${ic("etiqueta", 24)}<h5 style="color:var(--tinta);font-size:18px">Lote AH-2291 em alerta</h5><span class="pilula alerta" style="margin-left:auto">Rastreio</span></div>
       <div class="nota" style="font-size:15px">Quem recebeu este lote</div>
-      ${[["Júlia R.", "Preenchimento labial, 22/10"], ["Fernanda L.", "Preenchimento labial, 14/10"], ["Camila D.", "Bigode chinês, 9/10"]]
+      ${[["Júlia R.", "Preenchimento labial, 22/10"], ["Luiza M.", "Preenchimento labial, 14/10"], ["Camila D.", "Bigode chinês, 9/10"]]
         .map(([n, p]) => `<div data-l class="a-linha" style="font-size:16.5px;justify-content:space-between;padding:4px 0"><span>${n} <span class="nota">${p}</span></span>${ic("tel", 18)}</div>`)
         .join("")}
     </div>`,
@@ -874,38 +874,73 @@ function painel(palco, { f, fim, pal, ini }) {
   entra(mes, f(1, 0) - 0.3, { d: 0.5, y: 0 });
 }
 
-// 10. A marca de cada clínica -----------------------------------------------
+// 10. Com a cara da Essenciale ------------------------------------------------
 function marca(palco, { f, fim, pal, ini }) {
   const titulo = no(
     palco,
-    `<div class="abs" style="left:0;right:0;top:70px;text-align:center"><h2 style="font-family:var(--display);font-weight:400;font-size:64px;color:var(--po)">Um sistema. A marca de cada clínica.</h2></div>`,
+    `<div class="abs" style="left:0;right:0;top:70px;text-align:center"><h2 style="font-family:var(--display);font-weight:400;font-size:64px;color:var(--po)">Com a cara da Essenciale.</h2></div>`,
   );
-  entra(titulo, f(0, 0.2), { d: 0.9, y: 20 });
-  // Duas clínicas lado a lado: a Essenciale (clara, ameixa) e a Dra. Nanda (escura, ouro).
-  const clinicas = [
-    { id: "ess", tema: "", x: 530, logo: LOGO, alt: 24, nome: "Essenciale", fonte: "Cormorant Garamond", peso: 500, quando: "Hoje, 14h30, com a Dra. Cláudia", trat: "Toxina botulínica", pac: "Pele de Rainha", s: [4, 5] },
-    { id: "nan", tema: "tema-nanda", x: 1030, logo: "recursos/logo-nanda.svg", alt: 60, nome: "Dra. Nanda Prevedello", fonte: "Marcellus", peso: 400, quando: "Hoje, 10h00, com a Dra. Nanda", trat: "Corpo Detox", pac: "Corpo Detox", s: [3, 8] },
+  entra(titulo, f(0, 0.15), { d: 0.9, y: 20 });
+
+  // À esquerda, a tela inicial do celular da paciente, com o ícone da clínica entre os outros apps.
+  const casa = celular(palco, { x: 530, y: 190, escala: 0.86 });
+  $(casa, ".cel-tela").style.background = "linear-gradient(165deg, #d9b3aa 0%, #a9757f 45%, #4a2a31 100%)";
+  const apps = [
+    ["agenda", "Calendário", "#5d6f86"], ["camera", "Câmera", "#4b4f57"], ["conversa", "Mensagens", "#3f7d5c"], ["relogio", "Relógio", "#2f2f35"],
+    ["grafico", "Banco", "#7a5a2e"], ["folha", "Saúde", "#a24d5b"], ["doc", "Notas", "#a8862c"], ["estrela", "Favoritos", "#6a5a8a"],
+    ["essenciale", "Essenciale", ""], ["sino", "Lembretes", "#8a4b52"], ["pessoa", "Contatos", "#5e6b62"], ["seta", "Mapas", "#3e6d8a"],
   ];
-  const cels = {};
-  for (const c of clinicas) {
-    const cel = celular(palco, { x: c.x, y: 178, escala: 0.86, tema: c.tema });
-    inicio(cel, { logo: c.logo, alturaLogo: c.alt, quando: c.quando, tratamento: c.trat, pacote: c.pac, sessoes: c.s });
-    const nome = no(
-      palco,
-      `<div class="abs" style="left:${c.x}px;width:360px;top:874px;text-align:center;font-family:'${c.fonte}';font-weight:${c.peso};font-size:30px;color:var(--rosa)">${c.nome}</div>`,
-    );
-    cels[c.id] = { cel, nome };
-  }
-  entra(cels.ess.cel, f(0, 0.05), { d: 0.9, y: 60 });
-  entra(cels.ess.nome, pal(1, "Essenciale"), { d: 0.5, y: 10 });
-  entra(cels.nan.cel, pal(1, "Nanda", -0.6), { d: 0.8, x: -160, y: 0 });
-  entra(cels.nan.nome, pal(1, "Nanda"), { d: 0.5, y: 10 });
-  // "o nome, as cores e o jeito de cada uma": cada celular se destaca um pouco.
-  ["ess", "nan"].forEach((id, i) => {
-    const t = pal(1, ["nome", "jeito"][i], 0.2);
-    vai(cels[id].cel, "y", -16, t, 0.35, "suave");
-    vai(cels[id].cel, "y", 0, t + 0.45, 0.5, "vaivem");
-  });
+  const grade = no(
+    $(casa, ".cel-tela"),
+    `<div class="abs" style="left:22px;right:22px;top:76px;display:grid;grid-template-columns:repeat(4,1fr);row-gap:22px;justify-items:center">
+      ${apps
+        .map(([i, nome, cor]) =>
+          i === "essenciale"
+            ? `<div data-app="ess" style="display:grid;justify-items:center;gap:6px"><span style="width:62px;height:62px;border-radius:16px;background:var(--noite);display:grid;place-items:center;box-shadow:0 6px 16px -6px rgba(0,0,0,.5)"><span style="width:40px;height:40px;border:1.5px solid var(--rosa);display:grid;place-items:center;font-family:var(--display);font-size:30px;line-height:1;color:var(--rosa)">E</span></span><span data-rotulo style="font-size:12px;color:#fff;font-weight:500">Essenciale</span></div>`
+            : `<div style="display:grid;justify-items:center;gap:6px"><span style="width:62px;height:62px;border-radius:16px;background:${cor};display:grid;place-items:center;color:#fff;opacity:.92">${ic(i, 28, 1.6)}</span><span style="font-size:12px;color:#fff;opacity:.9">${nome}</span></div>`,
+        )
+        .join("")}
+    </div>`,
+  );
+  $(casa, ".status").style.color = "#fff";
+  no(
+    $(casa, ".cel-tela"),
+    `<div class="abs" style="left:14px;right:14px;bottom:14px;height:88px;border-radius:30px;background:rgba(255,255,255,.18);display:flex;justify-content:space-around;align-items:center">${["tel", "conversa", "camera", "agenda"].map((i) => `<span style="width:58px;height:58px;border-radius:15px;background:rgba(255,255,255,.85);display:grid;place-items:center;color:#4a2a31">${ic(i, 26, 1.6)}</span>`).join("")}</div>`,
+  );
+
+  // À direita, o aplicativo aberto.
+  const app = celular(palco, { x: 1030, y: 190, escala: 0.86 });
+  inicio(app);
+
+  const rotulos = [
+    [530, "Na tela do celular"],
+    [1030, "O aplicativo da Essenciale"],
+  ].map(([x, t]) => no(palco, `<div class="abs" style="left:${x}px;width:360px;top:884px;text-align:center;font-size:24px;font-weight:300;color:var(--rosa)">${t}</div>`));
+
+  entra(app, f(0, 0.1), { d: 0.9, y: 60 });
+  entra(rotulos[1], f(0, 0.4), { d: 0.6, y: 10 });
+  entra(casa, f(0, 0.35), { d: 0.9, x: 120, y: 0 });
+  entra(rotulos[0], f(0, 0.6), { d: 0.6, y: 10 });
+
+  // "o nome, o logo e as cores": o nome no ícone, o logo no app e a paleta da marca.
+  const icone = $(grade, "[data-app=ess]");
+  const rotuloIcone = $(icone, "[data-rotulo]");
+  vai(rotuloIcone, "s", 1.25, pal(1, "nome") - 0.1, 0.3, "suave");
+  vai(rotuloIcone, "s", 1, pal(1, "nome") + 0.35, 0.4, "vaivem");
+  const logo = $(app, ".a-topo img");
+  vai(logo, "s", 1.15, pal(1, "logo") - 0.1, 0.35, "suave");
+  vai(logo, "s", 1, pal(1, "logo") + 0.35, 0.5, "vaivem");
+  const cores = no(
+    palco,
+    `<div class="abs" style="left:0;right:0;top:168px;display:flex;justify-content:center;gap:12px">${["#2a171c", "#8d5f6a", "#c99a92", "#ecd3cc", "#f4e8e2", "#c9a46c"].map((c) => `<span style="width:24px;height:24px;border-radius:50%;background:${c};box-shadow:0 0 0 1px rgba(255,255,255,.25)"></span>`).join("")}</div>`,
+  );
+  [...cores.children].forEach((s, i) => entra(s, pal(1, "cores") - 0.2 + i * 0.07, { d: 0.5, y: 8 }));
+
+  // "fica na tela do celular": o ícone da clínica se destaca e é tocado.
+  const tIcone = pal(1, "tela do celular");
+  vai(icone, "s", 1.18, tIcone, 0.35, "volta");
+  vai(icone, "s", 1, tIcone + 0.9, 0.5, "vaivem");
+  toque($(icone, "span"), pal(1, "outros aplicativos", 0.6));
 }
 
 // 11. Fechamento ------------------------------------------------------------

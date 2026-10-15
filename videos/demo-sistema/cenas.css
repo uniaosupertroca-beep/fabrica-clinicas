@@ -2,8 +2,6 @@
    Cormorant Garamond nos títulos e Jost no texto). As outras marcas aparecem só na cena "marca". */
 @font-face { font-family: "Cormorant Garamond"; src: url("recursos/cormorant-garamond-latin-wght-normal.woff2") format("woff2"); font-weight: 300 700; }
 @font-face { font-family: "Jost"; src: url("recursos/jost-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; }
-@font-face { font-family: "Marcellus"; src: url("recursos/marcellus-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
-@font-face { font-family: "Figtree"; src: url("recursos/figtree-latin-wght-normal.woff2") format("woff2"); font-weight: 300 900; }
 
 :root {
   --noite: #2a171c;
@@ -229,12 +227,6 @@ svg { display: block; }
 .nota { font-size: 14px; color: var(--tinta-2); }
 .noite .nota { color: color-mix(in oklab, var(--po) 60%, transparent); }
 
-/* Tema da Dra. Nanda, para a cena das marcas: escuro com ouro, como o site dela. */
-.tema-nanda {
-  --app-fundo: #141011; --app-cartao: #1f191a; --app-tinta: #f6eee8; --app-tinta-2: #c4b6af; --app-linha: #3a2f30;
-  --app-acento: #c9a465; --app-acento-texto: #141011; --app-suave: #2c2324;
-  --app-titulo: "Marcellus", serif; --app-fonte: "Figtree", sans-serif; --app-peso-titulo: 400;
-}
 
 /* Estados ligados pelas animações. */
 [data-op].sel-op { background: var(--nude); }

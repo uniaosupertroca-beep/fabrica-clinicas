@@ -11,7 +11,7 @@
     { "id": "retorno", "texto": "No dia quinze, a revisão já está marcada. É o melhor momento para pedir uma avaliação no Google. E, perto do terceiro mês, quando o efeito começa a diminuir, o aplicativo convida a Marina para voltar. Ela sai de cada etapa com o próximo passo combinado." },
     { "id": "bastidores", "texto": "Nos bastidores, o sistema cuida do resto. Cada sessão desconta do pacote, e a paciente acompanha o saldo pelo celular. O estoque avisa o que está perto de vencer. E, se um lote entrar em alerta, mostra na hora quem recebeu aquele produto. As comissões de cada profissional saem calculadas no fim do mês, sem planilha." },
     { "id": "painel", "texto": "Toda manhã, a equipe abre o painel e vê quem precisa de atenção hoje: uma paciente que relatou algo no pós, revisões sem horário, termos pendentes. E, no fim do mês, poucos números que importam: ocupação da agenda, faltas e pacientes que voltaram." },
-    { "id": "marca", "texto": "E o melhor: tudo isso tem a cara de cada clínica. O mesmo sistema se transforma no aplicativo da Essenciale ou da doutora Nanda, com o nome, as cores e o jeito de cada uma." },
+    { "id": "marca", "texto": "E o melhor: tudo isso com a cara da Essenciale. Ele leva o nome, o logo e as cores da clínica, e fica na tela do celular da paciente, ao lado dos outros aplicativos." },
     { "id": "fechamento", "texto": "Menos tempo com planilhas e mensagens. Mais tempo para cuidar de quem está na cadeira. Esse é o aplicativo com a cara da sua clínica." }
   ]
 }
