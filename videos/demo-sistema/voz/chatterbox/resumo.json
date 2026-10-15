@@ -6,36 +6,36 @@
     {
       "id": "abertura",
       "arquivo": "cena-01-abertura.wav",
-      "duracao": 17.7,
+      "duracao": 15.86,
       "frases": [
         {
           "texto": "Vamos acompanhar um dia inteiro na clínica.",
           "inicio": 0.0,
-          "fim": 4.18,
+          "fim": 2.92,
           "nota": 1.0,
           "ouvido": "Vamos acompanhar um dia inteiro na clínica.",
           "tentativas": 1
         },
         {
           "texto": "De um lado, a paciente, com o aplicativo da clínica no celular.",
-          "inicio": 4.52,
-          "fim": 8.78,
+          "inicio": 3.26,
+          "fim": 7.52,
           "nota": 1.0,
           "ouvido": "de um lado, a paciente, com o aplicativo da clínica no celular.",
           "tentativas": 1
         },
         {
           "texto": "Do outro, a equipe, com um painel que organiza a rotina.",
-          "inicio": 9.12,
-          "fim": 13.34,
+          "inicio": 7.86,
+          "fim": 12.08,
           "nota": 1.0,
           "ouvido": "do outro a equipe, com um painel que organiza a rotina.",
           "tentativas": 1
         },
         {
           "texto": "E tudo com o nome, o logo e as cores da clínica.",
-          "inicio": 13.68,
-          "fim": 17.7,
+          "inicio": 12.42,
+          "fim": 15.86,
           "nota": 1.0,
           "ouvido": "E tudo com o nome, o logo e as cores da clínica.",
           "tentativas": 3
@@ -84,7 +84,7 @@
     {
       "id": "confirmacao",
       "arquivo": "cena-03-confirmacao.wav",
-      "duracao": 21.6,
+      "duracao": 21.38,
       "frases": [
         {
           "texto": "Um dia antes, o lembrete sai sozinho, pelo WhatsApp e pelo aplicativo.",
@@ -105,15 +105,15 @@
         {
           "texto": "Quem não responde aparece em destaque, para a equipe ligar.",
           "inicio": 11.85,
-          "fim": 15.51,
+          "fim": 15.29,
           "nota": 1.0,
           "ouvido": "Quem não responde aparece em destaque, para a equipe ligar.",
           "tentativas": 1
         },
         {
           "texto": "Menos faltas, sem ninguém precisar mandar mensagem uma por uma.",
-          "inicio": 15.85,
-          "fim": 21.6,
+          "inicio": 15.63,
+          "fim": 21.38,
           "nota": 1.0,
           "ouvido": "menos faltas. Sem ninguém precisar, mandar mensagem uma por uma.",
           "tentativas": 1
@@ -123,28 +123,28 @@
     {
       "id": "termo",
       "arquivo": "cena-04-termo.wav",
-      "duracao": 18.52,
+      "duracao": 17.75,
       "frases": [
         {
           "texto": "Antes de chegar, ela preenche a ficha de saúde e assina o termo de consentimento no próprio celular.",
           "inicio": 0.0,
-          "fim": 7.17,
+          "fim": 6.64,
           "nota": 0.944,
           "ouvido": "Antes de chegar, ela preencha a ficha de saúde e assina o termo de consentimento no próprio celular.",
           "tentativas": 1
         },
         {
           "texto": "A autorização de uso de imagem fica separada, e ela pode mudar de ideia quando quiser.",
-          "inicio": 7.51,
-          "fim": 14.11,
+          "inicio": 6.98,
+          "fim": 13.34,
           "nota": 1.0,
           "ouvido": "A autorização de uso de imagem fica separada e ela pode mudar de ideia quando quiser.",
           "tentativas": 1
         },
         {
           "texto": "Quando a Marina entra na clínica, a papelada já está resolvida.",
-          "inicio": 14.45,
-          "fim": 18.52,
+          "inicio": 13.68,
+          "fim": 17.75,
           "nota": 1.0,
           "ouvido": "Quando a Marina entra na clínica, a papelada já está resolvida.",
           "tentativas": 1
@@ -224,7 +224,7 @@
     {
       "id": "retorno",
       "arquivo": "cena-07-retorno.wav",
-      "duracao": 18.07,
+      "duracao": 17.58,
       "frases": [
         {
           "texto": "No dia quinze, a revisão já está marcada.",
@@ -245,15 +245,15 @@
         {
           "texto": "E, perto do terceiro mês, quando o efeito começa a diminuir, o aplicativo convida a Marina para voltar.",
           "inicio": 6.8,
-          "fim": 14.25,
+          "fim": 13.76,
           "nota": 1.0,
           "ouvido": "e, perto do terceiro mês, quando o efeito começa a diminuir, o aplicativo convida a Marina para voltar.",
           "tentativas": 1
         },
         {
           "texto": "Ela sai de cada etapa com o próximo passo combinado.",
-          "inicio": 14.59,
-          "fim": 18.07,
+          "inicio": 14.1,
+          "fim": 17.58,
           "nota": 0.9,
           "ouvido": "Ela sai de cada etapa com um próximo passo combinado.",
           "tentativas": 1
@@ -263,7 +263,7 @@
     {
       "id": "bastidores",
       "arquivo": "cena-08-bastidores.wav",
-      "duracao": 22.76,
+      "duracao": 21.68,
       "frases": [
         {
           "texto": "Nos bastidores, o sistema cuida do resto.",
@@ -300,7 +300,7 @@
         {
           "texto": "As comissões de cada profissional saem calculadas no fim do mês, sem planilha.",
           "inicio": 16.92,
-          "fim": 22.76,
+          "fim": 21.68,
           "nota": 1.0,
           "ouvido": "As comissões de cada profissional saem calculadas no fim do mês, sem planilha.",
           "tentativas": 1
@@ -333,7 +333,7 @@
     {
       "id": "marca",
       "arquivo": "cena-10-marca.wav",
-      "duracao": 13.31,
+      "duracao": 12.72,
       "frases": [
         {
           "texto": "E o melhor: tudo isso tem a cara de cada clínica.",
@@ -346,7 +346,7 @@
         {
           "texto": "O mesmo sistema se transforma no aplicativo da Essenciale, da Rinascere ou da doutora Nanda, com o nome, as cores e o jeito de cada uma.",
           "inicio": 3.62,
-          "fim": 13.31,
+          "fim": 12.72,
           "nota": 0.943,
           "ouvido": "O mesmo sistema se transforma no aplicativo da essenciale, da Rina Ceri ou da Doutora Nanda, com o nome, as cores e o jeito de cada uma.",
           "tentativas": 1
@@ -386,5 +386,6 @@
     }
   ],
   "nota_media": 0.994,
-  "minutos_gerando": 38.2
+  "minutos_gerando": 38.2,
+  "limpo": true
 }
