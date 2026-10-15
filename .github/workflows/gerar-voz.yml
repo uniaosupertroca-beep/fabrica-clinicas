@@ -1,0 +1,113 @@
+# Gera a narração dos vídeos em videos/<nome>/roteiro.json com vozes neurais (rodam aqui porque precisam
+# baixar os modelos), compara as vozes e grava os áudios de volta no repositório.
+name: Gerar voz dos vídeos
+
+on:
+  push:
+    branches: [main]
+    paths: ["videos/*/roteiro.json", "videos/gerar_voz.py", "videos/avaliar_voz.py", ".github/workflows/gerar-voz.yml"]
+  workflow_dispatch:
+    inputs:
+      video:
+        description: "Pasta em videos/"
+        default: demo-sistema
+
+concurrency:
+  group: gerar-voz
+  cancel-in-progress: true
+
+env:
+  VIDEO: ${{ inputs.video || 'demo-sistema' }}
+  COQUI_TOS_AGREED: "1"
+  PIP_TORCH: torch==2.6.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cpu
+
+jobs:
+  kokoro:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq espeak-ng
+      - run: pip install $PIP_TORCH && pip install kokoro soundfile faster-whisper librosa
+      - run: python videos/gerar_voz.py videos/$VIDEO --motor kokoro
+      - name: Trecho de referência para as vozes clonadas
+        run: |
+          python - <<'PY'
+          import os, soundfile as sf
+          base = f"videos/{os.environ['VIDEO']}/voz/kokoro"
+          audio, taxa = sf.read(f"{base}/cena-01-abertura.wav")
+          sf.write(f"{base}/referencia.wav", audio[: taxa * 12], taxa)
+          PY
+      - uses: actions/upload-artifact@v4
+        with: { name: voz-kokoro, path: "videos/${{ env.VIDEO }}/voz/kokoro" }
+
+  xtts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install $PIP_TORCH && pip install coqui-tts faster-whisper librosa soundfile
+      - run: python videos/gerar_voz.py videos/$VIDEO --motor xtts
+      - uses: actions/upload-artifact@v4
+        with: { name: voz-xtts, path: "videos/${{ env.VIDEO }}/voz/xtts" }
+
+  clonadas:
+    needs: kokoro
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        motor: [xtts-ref, chatterbox]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - uses: actions/download-artifact@v4
+        with: { name: voz-kokoro, path: ref }
+      - if: matrix.motor == 'xtts-ref'
+        run: pip install $PIP_TORCH && pip install coqui-tts faster-whisper librosa soundfile
+      - if: matrix.motor == 'chatterbox'
+        run: pip install $PIP_TORCH && pip install chatterbox-tts faster-whisper soundfile
+      - run: python videos/gerar_voz.py videos/$VIDEO --motor ${{ matrix.motor }} --referencia ref/referencia.wav
+      - uses: actions/upload-artifact@v4
+        with: { name: "voz-${{ matrix.motor }}", path: "videos/${{ env.VIDEO }}/voz/${{ matrix.motor }}" }
+
+  avaliar:
+    needs: [kokoro, xtts, clonadas]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - uses: actions/download-artifact@v4
+        with: { pattern: "voz-*", path: baixadas }
+      - name: Juntar as vozes geradas
+        run: |
+          mkdir -p videos/$VIDEO/voz
+          for d in baixadas/voz-*; do
+            [ -f "$d/resumo.json" ] || continue
+            m=${d#baixadas/voz-}
+            rm -rf "videos/$VIDEO/voz/$m" && cp -r "$d" "videos/$VIDEO/voz/$m"
+          done
+          ls -R videos/$VIDEO/voz
+      - run: pip install $PIP_TORCH && pip install soundfile numpy
+      - run: python videos/avaliar_voz.py videos/$VIDEO
+      - name: Gravar no repositório
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add videos/$VIDEO/voz
+          git diff --cached --quiet && exit 0
+          git commit -m "Narração gerada: videos/$VIDEO"
+          for i in 1 2 3 4; do git pull --rebase origin main && git push origin HEAD:main && break; sleep $((i * 5)); done
