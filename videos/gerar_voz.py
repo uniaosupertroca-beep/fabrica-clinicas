@@ -161,6 +161,8 @@ def main():
     pasta = Path(args.pasta)
     roteiro = json.loads((pasta / "roteiro.json").read_text(encoding="utf-8"))
     pronuncia = roteiro.get("pronuncia", {})
+    # Nomes próprios que o Whisper precisa ouvir inteiros (ex.: a clínica), em qualquer das grafias aceitas.
+    nomes = roteiro.get("nomes", {})
     saida = pasta / "voz" / args.motor
     saida.mkdir(parents=True, exist_ok=True)
     pedidas = {c.strip() for c in args.cenas.split(",") if c.strip()} if args.cenas else None
@@ -185,7 +187,8 @@ def main():
         pedacos, tempos, cursor = [], [], 0.0
         for i, frase in enumerate(frases(cena["texto"])):
             melhor = None
-            for tentativa in range(TENTATIVAS if motor.estocastico else 1):
+            exigidos = [formas for nome, formas in nomes.items() if nome in frase]
+            for tentativa in range((TENTATIVAS + 4 if exigidos else TENTATIVAS) if motor.estocastico else 1):
                 semente = 1000 * n + 10 * i + tentativa
                 try:
                     audio = apara(motor.gerar(falar(frase, pronuncia), semente))
@@ -194,6 +197,9 @@ def main():
                     continue
                 ouvido = conferente.ouvir(audio)
                 nota = parecido(frase, ouvido)
+                palavras = normaliza(ouvido)
+                if any(not any(forma in palavras for forma in formas) for formas in exigidos):
+                    nota = min(nota, ACEITA) - 0.2  # nome da clínica cortado ou trocado: tenta de novo
                 letras = len(re.sub(r"\W", "", frase))
                 ritmo = len(audio) / TAXA / max(letras, 1)
                 if not 0.035 < ritmo < 0.12:  # rápido ou lento demais: trecho cortado ou silêncio inventado

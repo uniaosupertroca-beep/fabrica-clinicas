@@ -1,6 +1,7 @@
 {
   "titulo": "Um dia na clínica com o aplicativo",
   "pronuncia": { "WhatsApp": "uatsápi", "Google": "Gúgol", "Instagram": "Instagrãm" },
+  "nomes": { "Essenciale": ["essenciale", "essenciali"] },
   "cenas": [
     { "id": "abertura", "texto": "Vamos acompanhar um dia inteiro na clínica. De um lado, a paciente, com o aplicativo da clínica no celular. Do outro, a equipe, com um painel que organiza a rotina. E tudo com o nome, o logo e as cores da clínica." },
     { "id": "agendamento", "texto": "Tudo começa no agendamento. A Marina viu um post no Instagram, tocou em agendar e escolheu o horário pelo celular. O sistema já sabe qual profissional atende, qual sala está livre e se o aparelho está disponível. Nada de dois atendimentos marcados no mesmo lugar." },
