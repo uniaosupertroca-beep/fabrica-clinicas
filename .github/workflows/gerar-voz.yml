@@ -5,16 +5,19 @@ name: Gerar voz dos vídeos
 on:
   push:
     branches: [main]
-    paths: ["videos/*/roteiro.json", "videos/gerar_voz.py", "videos/avaliar_voz.py", ".github/workflows/gerar-voz.yml"]
+    paths: ["videos/*/roteiro.json"]
   workflow_dispatch:
     inputs:
       video:
         description: "Pasta em videos/"
         default: demo-sistema
+      motores:
+        description: "Motores separados por vírgula (vazio = todos): kokoro,xtts,xtts-ref,chatterbox"
+        default: ""
 
 concurrency:
   group: gerar-voz
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 env:
   VIDEO: ${{ inputs.video || 'demo-sistema' }}
@@ -23,6 +26,7 @@ env:
 
 jobs:
   kokoro:
+    if: ${{ !inputs.motores || contains(format(',{0},', inputs.motores), ',kokoro,') }}
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
@@ -44,6 +48,7 @@ jobs:
         with: { name: voz-kokoro, path: "videos/${{ env.VIDEO }}/voz/kokoro" }
 
   xtts:
+    if: ${{ !inputs.motores || contains(format(',{0},', inputs.motores), ',xtts,') }}
     runs-on: ubuntu-latest
     timeout-minutes: 150
     continue-on-error: true
@@ -51,13 +56,15 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
-      - run: pip install $PIP_TORCH && pip install coqui-tts faster-whisper librosa soundfile
+      - run: pip install $PIP_TORCH && pip install coqui-tts "transformers>=4.57,<5" faster-whisper librosa soundfile
       - run: python videos/gerar_voz.py videos/$VIDEO --motor xtts
       - uses: actions/upload-artifact@v4
         with: { name: voz-xtts, path: "videos/${{ env.VIDEO }}/voz/xtts" }
 
   clonadas:
     needs: kokoro
+    # Roda mesmo sem o Kokoro nesta execução: a referência pode vir da narração já gravada no repositório.
+    if: ${{ always() && (!inputs.motores || contains(inputs.motores, 'xtts-ref') || contains(inputs.motores, 'chatterbox')) }}
     runs-on: ubuntu-latest
     timeout-minutes: 150
     continue-on-error: true
@@ -65,18 +72,35 @@ jobs:
       fail-fast: false
       matrix:
         motor: [xtts-ref, chatterbox]
+    env:
+      MOTORES: ${{ inputs.motores }}
     steps:
+      - name: Este motor foi pedido?
+        run: |
+          if [ -z "$MOTORES" ] || [[ ",$MOTORES," == *",${{ matrix.motor }},"* ]]; then echo "RODAR=sim" >> $GITHUB_ENV; else echo "RODAR=nao" >> $GITHUB_ENV; fi
       - uses: actions/checkout@v4
+        if: env.RODAR == 'sim'
       - uses: actions/setup-python@v5
+        if: env.RODAR == 'sim'
         with: { python-version: "3.11" }
       - uses: actions/download-artifact@v4
+        if: env.RODAR == 'sim'
+        continue-on-error: true
         with: { name: voz-kokoro, path: ref }
-      - if: matrix.motor == 'xtts-ref'
-        run: pip install $PIP_TORCH && pip install coqui-tts faster-whisper librosa soundfile
-      - if: matrix.motor == 'chatterbox'
+      - name: Trecho de referência
+        if: env.RODAR == 'sim'
+        run: |
+          REF=ref/referencia.wav
+          [ -f "$REF" ] || REF=videos/$VIDEO/voz/kokoro/referencia.wav
+          ls -la "$REF" && echo "REF=$REF" >> $GITHUB_ENV
+      - if: env.RODAR == 'sim' && matrix.motor == 'xtts-ref'
+        run: pip install $PIP_TORCH && pip install coqui-tts "transformers>=4.57,<5" faster-whisper librosa soundfile
+      - if: env.RODAR == 'sim' && matrix.motor == 'chatterbox'
         run: pip install $PIP_TORCH && pip install chatterbox-tts faster-whisper soundfile
-      - run: python videos/gerar_voz.py videos/$VIDEO --motor ${{ matrix.motor }} --referencia ref/referencia.wav
+      - if: env.RODAR == 'sim'
+        run: python videos/gerar_voz.py videos/$VIDEO --motor ${{ matrix.motor }} --referencia "$REF"
       - uses: actions/upload-artifact@v4
+        if: env.RODAR == 'sim'
         with: { name: "voz-${{ matrix.motor }}", path: "videos/${{ env.VIDEO }}/voz/${{ matrix.motor }}" }
 
   avaliar:

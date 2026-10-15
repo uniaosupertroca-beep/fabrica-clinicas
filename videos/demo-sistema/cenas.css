@@ -1,0 +1,254 @@
+/* Vídeo de demonstração do sistema: 1920x1080, identidade da Essenciale (ameixa, malva, rosé e nude;
+   Cormorant Garamond nos títulos e Jost no texto). As outras marcas aparecem só na cena "marca". */
+@font-face { font-family: "Cormorant Garamond"; src: url("recursos/cormorant-garamond-latin-wght-normal.woff2") format("woff2"); font-weight: 300 700; }
+@font-face { font-family: "Jost"; src: url("recursos/jost-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; }
+@font-face { font-family: "Raleway"; src: url("recursos/raleway-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; }
+@font-face { font-family: "Marcellus"; src: url("recursos/marcellus-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Figtree"; src: url("recursos/figtree-latin-wght-normal.woff2") format("woff2"); font-weight: 300 900; }
+
+:root {
+  --noite: #2a171c;
+  --noite-2: #3a2228;
+  --ameixa: #8d5f6a;
+  --ameixa-clara: #c99a92;
+  --rose-texto: #8a4b52;
+  --rosa: #ecd3cc;
+  --nude: #f4e8e2;
+  --po: #fbf6f2;
+  --branco: #fffcfa;
+  --champanhe: #c9a46c;
+  --salvia: #6b8070;
+  --salvia-clara: #e4ebe3;
+  --tinta: #2a171c;
+  --tinta-2: #6a5458;
+  --linha: #e9d9d2;
+  --alerta: #a4483a;
+  --alerta-claro: #f6e1dc;
+  --ambar: #a8742c;
+  --ambar-claro: #f7ead3;
+  --display: "Cormorant Garamond", Garamond, serif;
+  --texto: "Jost", "Avenir Next", sans-serif;
+
+  /* Tema do aplicativo da paciente (trocado na cena das marcas). */
+  --app-fundo: var(--po);
+  --app-cartao: var(--branco);
+  --app-tinta: var(--tinta);
+  --app-tinta-2: var(--tinta-2);
+  --app-linha: var(--linha);
+  --app-acento: var(--ameixa);
+  --app-acento-texto: var(--branco);
+  --app-suave: var(--nude);
+  --app-titulo: var(--display);
+  --app-fonte: var(--texto);
+  --app-peso-titulo: 500;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--noite); }
+body { font-family: var(--texto); color: var(--tinta); -webkit-font-smoothing: antialiased; font-kerning: normal; font-variant-numeric: lining-nums; }
+svg { display: block; }
+
+.cena {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  display: none;
+  background:
+    radial-gradient(48% 60% at 92% 8%, color-mix(in oklab, var(--rosa) 70%, transparent), transparent 70%),
+    radial-gradient(40% 50% at 0% 100%, color-mix(in oklab, var(--nude) 90%, transparent), transparent 70%),
+    var(--po);
+}
+.cena.noite {
+  color: var(--po);
+  background:
+    radial-gradient(42% 60% at 88% 18%, color-mix(in oklab, var(--ameixa-clara) 24%, transparent), transparent 70%),
+    radial-gradient(40% 50% at 0% 100%, color-mix(in oklab, var(--ameixa) 32%, transparent), transparent 70%),
+    var(--noite);
+}
+.palco { position: absolute; inset: 0; transform-origin: 50% 55%; }
+.abs { position: absolute; }
+
+/* Título da cena e trilha da jornada da paciente (que é uma sequência real de etapas). */
+.cabeca { position: absolute; left: 120px; top: 70px; width: 820px; }
+.cabeca h2 { font-family: var(--display); font-weight: 500; font-size: 70px; line-height: 1; letter-spacing: -0.01em; }
+.cabeca p { margin-top: 14px; font-size: 25px; font-weight: 300; color: var(--tinta-2); line-height: 1.35; max-width: 34em; }
+.trilha { position: absolute; right: 120px; top: 92px; display: flex; gap: 0; }
+.trilha li { list-style: none; position: relative; width: 132px; padding-top: 30px; text-align: center; font-size: 17px; color: var(--tinta-2); }
+.trilha li::before { content: ""; position: absolute; top: 9px; left: 0; right: 0; height: 1px; background: var(--linha); }
+.trilha li:first-child::before { left: 50%; }
+.trilha li:last-child::before { right: 50%; }
+.trilha li::after { content: ""; position: absolute; top: 3px; left: calc(50% - 7px); width: 14px; height: 14px; border-radius: 50%; background: var(--po); border: 1.5px solid var(--ameixa-clara); }
+.trilha li.feita::after { background: var(--ameixa-clara); border-color: var(--ameixa-clara); }
+.trilha li.agora { color: var(--tinta); font-weight: 500; }
+.trilha li.agora::after { background: var(--ameixa); border-color: var(--ameixa); box-shadow: 0 0 0 6px color-mix(in oklab, var(--ameixa) 18%, transparent); }
+
+/* Legenda da narração. */
+.legenda {
+  position: absolute;
+  left: 50%;
+  bottom: 40px;
+  translate: -50% 0;
+  max-width: 1500px;
+  width: max-content;
+  padding: 12px 32px 14px;
+  border-radius: 30px;
+  background: color-mix(in oklab, var(--noite) 80%, transparent);
+  color: var(--po);
+  font-size: 27px;
+  font-weight: 400;
+  line-height: 1.3;
+  text-align: center;
+  z-index: 50;
+  opacity: 0;
+}
+
+/* Celular. */
+.cel {
+  position: absolute;
+  width: 360px;
+  height: 740px;
+  border-radius: 56px;
+  padding: 11px;
+  background: linear-gradient(150deg, #3b2a2e, #150c0e 60%, #2b1d20);
+  box-shadow: 0 0 0 1.5px #5a464a inset, 0 50px 90px -40px rgba(42, 23, 28, 0.55), 0 18px 40px -20px rgba(42, 23, 28, 0.35);
+}
+.cel-tela { position: relative; width: 100%; height: 100%; border-radius: 46px; overflow: hidden; background: var(--app-fundo); }
+.cel-tela::before { content: ""; position: absolute; top: 11px; left: 50%; translate: -50% 0; width: 104px; height: 30px; border-radius: 20px; background: #0d0708; z-index: 30; }
+.status { position: absolute; top: 0; left: 0; right: 0; height: 52px; display: flex; justify-content: space-between; align-items: center; padding: 6px 30px 0 34px; font: 600 15px var(--texto); color: var(--app-tinta); z-index: 29; }
+.status i { display: inline-block; width: 22px; height: 11px; border: 1.5px solid currentColor; border-radius: 3px; position: relative; opacity: 0.85; }
+.status i::after { content: ""; position: absolute; inset: 1.5px 5px 1.5px 1.5px; background: currentColor; border-radius: 1px; }
+.tela { position: absolute; inset: 0; padding: 58px 18px 18px; background: var(--app-fundo); color: var(--app-tinta); font-family: var(--app-fonte); display: flex; flex-direction: column; gap: 12px; }
+.tela.coberta { z-index: 2; }
+.toque { position: absolute; width: 46px; height: 46px; margin: -23px 0 0 -23px; border-radius: 50%; background: color-mix(in oklab, var(--noite) 26%, transparent); border: 2px solid color-mix(in oklab, var(--branco) 85%, transparent); z-index: 40; opacity: 0; pointer-events: none; }
+.onda { position: absolute; width: 46px; height: 46px; margin: -23px 0 0 -23px; border-radius: 50%; border: 2px solid var(--app-acento); z-index: 39; opacity: 0; }
+
+/* Componentes do aplicativo (usam as variáveis do tema). */
+.a-topo { display: flex; align-items: center; justify-content: space-between; min-height: 34px; }
+.a-topo img { height: 24px; width: auto; }
+.a-avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--app-suave); color: var(--app-tinta); font-size: 13px; font-weight: 600; }
+.a-t { font-family: var(--app-titulo); font-weight: var(--app-peso-titulo); font-size: 31px; line-height: 1.05; }
+.a-sub { font-size: 14.5px; color: var(--app-tinta-2); line-height: 1.35; }
+.a-card { background: var(--app-cartao); border: 1px solid var(--app-linha); border-radius: 18px; padding: 14px 15px; }
+.a-card h4 { font-family: var(--app-fonte); font-size: 15.5px; font-weight: 600; line-height: 1.25; }
+.a-card p { font-size: 13.5px; color: var(--app-tinta-2); line-height: 1.4; margin-top: 3px; }
+.a-bt { display: flex; align-items: center; justify-content: center; gap: 8px; height: 48px; border-radius: 999px; background: var(--app-acento); color: var(--app-acento-texto); font-size: 16px; font-weight: 600; }
+.a-bt.leve { background: transparent; color: var(--app-tinta); border: 1px solid var(--app-linha); }
+.a-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.a-chip { padding: 8px 12px; border-radius: 12px; border: 1px solid var(--app-linha); background: var(--app-cartao); font-size: 14px; text-align: center; }
+.a-chip b { display: block; font-size: 18px; font-weight: 600; }
+.a-chip.sel { background: var(--app-tinta); border-color: var(--app-tinta); color: var(--app-fundo); }
+.a-grade { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.a-rotulo { font-size: 13px; color: var(--app-tinta-2); font-weight: 500; margin-top: 2px; }
+.a-linha { display: flex; align-items: center; gap: 10px; }
+.a-ok { width: 22px; height: 22px; border-radius: 50%; background: var(--salvia); color: #fff; display: grid; place-items: center; flex: none; }
+.a-ok svg { width: 13px; height: 13px; }
+.a-chave { width: 44px; height: 26px; border-radius: 99px; background: var(--app-linha); position: relative; flex: none; }
+.a-chave::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); transition: none; }
+.a-chave.on { background: var(--salvia); }
+.a-chave.on::after { left: 21px; }
+.a-pergunta { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--app-linha); font-size: 14.5px; line-height: 1.3; }
+.a-simnao { display: flex; gap: 4px; flex: none; }
+.a-simnao span { padding: 5px 10px; border-radius: 9px; border: 1px solid var(--app-linha); font-size: 13px; }
+.a-simnao span.sel { background: var(--app-tinta); color: var(--app-fundo); border-color: var(--app-tinta); }
+
+/* Conversa no WhatsApp (genérica, sem marca de terceiros). */
+.zap { background: #efe7de; padding-top: 52px; gap: 0; padding-left: 0; padding-right: 0; }
+.zap-topo { display: flex; align-items: center; gap: 10px; padding: 8px 14px 10px; background: #f7f2ec; border-bottom: 1px solid #e3d8cc; }
+.zap-topo .a-avatar { background: var(--noite); color: var(--rosa); font-family: var(--display); font-size: 18px; }
+.zap-topo b { font-size: 15px; display: block; }
+.zap-topo small { font-size: 12px; color: #6f6a64; }
+.zap-msgs { padding: 14px 12px; display: flex; flex-direction: column; gap: 8px; }
+.bolha { max-width: 86%; padding: 9px 12px 7px; border-radius: 14px; background: #fff; font-size: 14.5px; line-height: 1.38; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08); }
+.bolha small { display: block; text-align: right; font-size: 11px; color: #8b8680; margin-top: 2px; }
+.bolha.minha { align-self: flex-end; background: #dcf3d6; }
+.zap-bts { display: grid; gap: 6px; margin-top: 2px; max-width: 86%; }
+.zap-bts span { display: block; background: #fff; border-radius: 12px; padding: 10px; text-align: center; color: #1d7f5a; font-weight: 600; font-size: 14.5px; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08); }
+.aviso { position: absolute; top: 50px; left: 10px; right: 10px; padding: 11px 13px; border-radius: 20px; background: color-mix(in oklab, #fff 88%, transparent); backdrop-filter: blur(8px); box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.35); z-index: 35; display: flex; gap: 10px; align-items: center; font-size: 13.5px; line-height: 1.3; color: var(--tinta); }
+.aviso .ic { width: 36px; height: 36px; border-radius: 10px; background: var(--noite); flex: none; display: grid; place-items: center; }
+.aviso .ic img { width: 28px; }
+.aviso b { display: block; font-size: 13.5px; }
+
+/* Janela do painel da equipe. */
+.jan { position: absolute; border-radius: 20px; background: var(--branco); color: var(--tinta); overflow: hidden; box-shadow: 0 0 0 1px color-mix(in oklab, var(--linha) 80%, transparent), 0 60px 100px -50px rgba(42, 23, 28, 0.5), 0 20px 40px -24px rgba(42, 23, 28, 0.25); }
+.jan-barra { height: 46px; display: flex; align-items: center; gap: 8px; padding: 0 18px; background: #f5ece8; border-bottom: 1px solid var(--linha); }
+.jan-barra i { width: 12px; height: 12px; border-radius: 50%; background: #dcc6bf; }
+.jan-barra span { margin-left: 18px; padding: 5px 16px; border-radius: 99px; background: var(--branco); font-size: 14px; color: var(--tinta-2); }
+.jan-corpo { position: absolute; top: 46px; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: 230px 1fr; }
+.lateral { background: var(--nude); padding: 26px 18px; display: flex; flex-direction: column; gap: 4px; }
+.lateral img { width: 160px; margin: 0 0 22px 8px; }
+.lateral span { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 12px; font-size: 16px; color: var(--tinta-2); }
+.lateral span::before { content: ""; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--ameixa-clara); }
+.lateral span.ativo { background: var(--branco); color: var(--tinta); font-weight: 500; }
+.lateral span.ativo::before { background: var(--ameixa); border-color: var(--ameixa); }
+.area { position: relative; padding: 28px 32px; overflow: hidden; }
+.area h3 { font-family: var(--display); font-weight: 500; font-size: 40px; line-height: 1; }
+.area .sub { font-size: 16px; color: var(--tinta-2); margin-top: 6px; }
+.caixa { border: 1px solid var(--linha); border-radius: 16px; background: var(--branco); padding: 16px 18px; }
+.caixa h5 { font-size: 15px; font-weight: 600; color: var(--tinta); }
+.pilula { display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 99px; font-size: 13.5px; font-weight: 500; background: var(--nude); color: var(--tinta-2); white-space: nowrap; }
+.pilula.ok { background: var(--salvia-clara); color: #3f5a46; }
+.pilula.espera { background: var(--ambar-claro); color: #7a5418; }
+.pilula.alerta { background: var(--alerta-claro); color: var(--alerta); }
+.ic-ok { width: 20px; height: 20px; border-radius: 50%; background: var(--salvia); color: #fff; display: inline-grid; place-items: center; flex: none; }
+.ic-ok svg { width: 12px; height: 12px; }
+
+/* Agenda do dia (cena do agendamento). */
+.agenda { position: absolute; left: 32px; right: 32px; top: 112px; bottom: 28px; display: grid; grid-template-columns: 62px repeat(3, 1fr); column-gap: 10px; }
+.agenda .horas { position: relative; }
+.agenda .horas span { position: absolute; left: 0; font-size: 13px; color: var(--tinta-2); translate: 0 -50%; }
+.agenda .col { position: relative; border-left: 1px solid var(--linha); }
+.agenda .col > b { position: absolute; top: -34px; left: 10px; font-size: 15px; font-weight: 600; white-space: nowrap; }
+.agenda .col > b small { font-weight: 400; color: var(--tinta-2); margin-left: 6px; }
+.agenda .grade-h { position: absolute; left: 62px; right: 0; height: 1px; background: color-mix(in oklab, var(--linha) 70%, transparent); }
+.bloco { position: absolute; left: 8px; right: 6px; border-radius: 10px; padding: 7px 10px; font-size: 13.5px; line-height: 1.25; background: var(--nude); border-left: 3px solid var(--ameixa-clara); overflow: hidden; }
+.bloco b { display: block; font-size: 14px; font-weight: 600; }
+.bloco.novo { background: var(--noite); color: var(--po); border-left-color: var(--champanhe); box-shadow: 0 12px 24px -12px rgba(42, 23, 28, 0.6); }
+.bloco.tec { background: var(--salvia-clara); border-left-color: var(--salvia); }
+.bloco.fantasma { background: var(--alerta-claro); border: 1.5px dashed var(--alerta); color: var(--alerta); }
+
+/* Lista de consultas de amanhã. */
+.lista { display: flex; flex-direction: column; }
+.lista > div { display: grid; grid-template-columns: 74px 1fr 190px 170px; align-items: center; gap: 12px; padding: 13px 14px; border-bottom: 1px solid var(--linha); font-size: 16px; border-radius: 12px; }
+.lista > div > b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.lista small { display: block; color: var(--tinta-2); font-size: 14px; }
+.lista .ligar { position: absolute; right: 118px; top: 50%; translate: 0 -50%; display: inline-flex; gap: 8px; align-items: center; padding: 7px 14px; border-radius: 99px; background: var(--ambar); color: #fff; font-size: 14px; font-weight: 500; opacity: 0; }
+.lista .destaque { background: var(--ambar-claro); }
+
+/* Painel, cartões e números. */
+.cartoes { display: grid; gap: 16px; }
+.cartao-alerta { display: grid; grid-template-columns: 52px 1fr auto; gap: 16px; align-items: center; padding: 18px 20px; border-radius: 16px; border: 1px solid var(--linha); background: var(--branco); }
+.cartao-alerta .ic { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; }
+.cartao-alerta.vermelho .ic { background: var(--alerta-claro); color: var(--alerta); }
+.cartao-alerta.ambar .ic { background: var(--ambar-claro); color: var(--ambar); }
+.cartao-alerta b { font-size: 19px; font-weight: 500; display: block; }
+.cartao-alerta small { font-size: 15px; color: var(--tinta-2); }
+.cartao-alerta .acao { padding: 9px 18px; border-radius: 99px; border: 1px solid var(--linha); font-size: 15px; font-weight: 500; }
+.numero { font-family: var(--display); font-weight: 500; font-size: 84px; line-height: 1; font-variant-numeric: lining-nums tabular-nums; }
+.barra-p { height: 8px; border-radius: 99px; background: var(--nude); overflow: hidden; }
+.barra-p i { display: block; height: 100%; width: 0; background: var(--ameixa); border-radius: 99px; }
+
+.nota { font-size: 14px; color: var(--tinta-2); }
+.noite .nota { color: color-mix(in oklab, var(--po) 60%, transparent); }
+
+/* Temas das outras clínicas, para a cena das marcas. */
+.tema-rinascere {
+  --app-fundo: #1c1a18; --app-cartao: #26231f; --app-tinta: #efe8dd; --app-tinta-2: #c9c0b3; --app-linha: #3a352f;
+  --app-acento: #b8956a; --app-acento-texto: #1c1a18; --app-suave: #34302b;
+  --app-titulo: "Raleway", sans-serif; --app-fonte: "Raleway", sans-serif; --app-peso-titulo: 300;
+}
+.tema-nanda {
+  --app-fundo: #fbf7f4; --app-cartao: #fffdfb; --app-tinta: #141011; --app-tinta-2: #66585a; --app-linha: #eadcd3;
+  --app-acento: #b38a4e; --app-acento-texto: #fffdfb; --app-suave: #f4e9e3;
+  --app-titulo: "Marcellus", serif; --app-fonte: "Figtree", sans-serif; --app-peso-titulo: 400;
+}
+
+/* Estados ligados pelas animações. */
+[data-op].sel-op { background: var(--nude); }
+.a-bt.sel-dif { background: var(--app-tinta); color: var(--app-fundo); border-color: var(--app-tinta); }
+
+.lista > div > span:last-child { position: relative; }
+.marco { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: var(--branco); border: 1px solid var(--linha); color: var(--ameixa); box-shadow: 0 16px 30px -18px rgba(42, 23, 28, 0.4); }
+[data-p].feito { background: var(--ameixa) !important; }
+[data-e].cheia { color: var(--champanhe) !important; }
+[data-e].cheia path { fill: currentColor; }
+.destaque-v { background: var(--ambar-claro); border-radius: 10px; padding-left: 10px !important; padding-right: 10px !important; }

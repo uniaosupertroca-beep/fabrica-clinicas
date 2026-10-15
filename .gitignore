@@ -5,3 +5,10 @@ dist/
 .DS_Store
 *.log
 apresentacoes/deck.html
+
+# Vídeos: arquivos gerados na renderização
+videos/*/.render/
+videos/*/.previa/
+videos/*/linha.json
+videos/*/*.mp4
+videos/*/*.wav
