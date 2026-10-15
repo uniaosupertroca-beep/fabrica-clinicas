@@ -333,20 +333,20 @@
     {
       "id": "marca",
       "arquivo": "cena-10-marca.wav",
-      "duracao": 11.36,
+      "duracao": 12.0,
       "frases": [
         {
-          "texto": "E o melhor: tudo isso com a cara da Essenciale.",
+          "texto": "E o melhor: a Essenciale ganha um aplicativo com a cara dela.",
           "inicio": 0.0,
-          "fim": 3.36,
-          "nota": 0.9,
-          "ouvido": "e o melhor, tudo isso com a cara da essencial.",
+          "fim": 4.0,
+          "nota": 0.917,
+          "ouvido": "E o melhor, a Essential ganha um aplicativo com a cara dela.",
           "tentativas": 1
         },
         {
           "texto": "Ele leva o nome, o logo e as cores da clínica, e fica na tela do celular da paciente, ao lado dos outros aplicativos.",
-          "inicio": 3.7,
-          "fim": 11.36,
+          "inicio": 4.34,
+          "fim": 12.0,
           "nota": 1.0,
           "ouvido": "Ele leva o nome, o logo e as cores da clínica e fica na tela do celular da paciente ao lado dos outros aplicativos.",
           "tentativas": 1
@@ -385,6 +385,6 @@
       ]
     }
   ],
-  "nota_media": 0.993,
-  "minutos_gerando": 1.8
+  "nota_media": 0.994,
+  "minutos_gerando": 1.6
 }
