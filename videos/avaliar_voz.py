@@ -16,7 +16,8 @@ import soundfile as sf
 import torch
 
 pasta = Path(sys.argv[1]) / "voz"
-preditor = torch.hub.load("tarepan/SpeechMOS:v1.2.0", "utmos22_strong", trust_repo=True)
+# skip_validation evita a consulta à API do GitHub, que tem limite de acessos sem login.
+preditor = torch.hub.load("tarepan/SpeechMOS:v1.2.0", "utmos22_strong", trust_repo=True, skip_validation=True)
 
 ranking = []
 for resumo_path in sorted(pasta.glob("*/resumo.json")):
