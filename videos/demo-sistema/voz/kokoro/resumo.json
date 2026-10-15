@@ -1,0 +1,390 @@
+{
+  "motor": "kokoro",
+  "voz": "pf_dora",
+  "taxa": 24000,
+  "cenas": [
+    {
+      "id": "abertura",
+      "arquivo": "cena-01-abertura.wav",
+      "duracao": 12.59,
+      "frases": [
+        {
+          "texto": "Vamos acompanhar um dia inteiro na clínica.",
+          "inicio": 0.0,
+          "fim": 2.43,
+          "nota": 1.0,
+          "ouvido": "Vamos acompanhar um dia inteiro na clínica.",
+          "tentativas": 1
+        },
+        {
+          "texto": "De um lado, a paciente, com o aplicativo da clínica no celular.",
+          "inicio": 2.77,
+          "fim": 6.28,
+          "nota": 1.0,
+          "ouvido": "De um lado a paciente com o aplicativo da clínica no celular.",
+          "tentativas": 1
+        },
+        {
+          "texto": "Do outro, a equipe, com um painel que organiza a rotina.",
+          "inicio": 6.62,
+          "fim": 9.54,
+          "nota": 0.952,
+          "ouvido": "do outro equipe com um painel que organiza a rotina.",
+          "tentativas": 1
+        },
+        {
+          "texto": "E tudo com o nome, o logo e as cores da clínica.",
+          "inicio": 9.88,
+          "fim": 12.59,
+          "nota": 1.0,
+          "ouvido": "e tudo com o nome, o logo e as cores da clínica.",
+          "tentativas": 1
+        }
+      ]
+    },
+    {
+      "id": "agendamento",
+      "arquivo": "cena-02-agendamento.wav",
+      "duracao": 16.21,
+      "frases": [
+        {
+          "texto": "Tudo começa no agendamento.",
+          "inicio": 0.0,
+          "fim": 1.83,
+          "nota": 1.0,
+          "ouvido": "Tudo começa no agendamento.",
+          "tentativas": 1
+        },
+        {
+          "texto": "A Marina viu um post no Instagram, tocou em agendar e escolheu o horário pelo celular.",
+          "inicio": 2.17,
+          "fim": 6.87,
+          "nota": 1.0,
+          "ouvido": "A Marina viu um post no Instagram, tocou em agendar e escolheu o horário pelo celular.",
+          "tentativas": 1
+        },
+        {
+          "texto": "O sistema já sabe qual profissional atende, qual sala está livre e se o aparelho está disponível.",
+          "inicio": 7.21,
+          "fim": 12.78,
+          "nota": 1.0,
+          "ouvido": "O sistema já sabe qual profissional atende, qual sala está livre e se o aparelho está disponível.",
+          "tentativas": 1
+        },
+        {
+          "texto": "Nada de dois atendimentos marcados no mesmo lugar.",
+          "inicio": 13.12,
+          "fim": 16.21,
+          "nota": 1.0,
+          "ouvido": "Nada de dois atendimentos marcados no mesmo lugar.",
+          "tentativas": 1
+        }
+      ]
+    },
+    {
+      "id": "confirmacao",
+      "arquivo": "cena-03-confirmacao.wav",
+      "duracao": 16.87,
+      "frases": [
+        {
+          "texto": "Um dia antes, o lembrete sai sozinho, pelo WhatsApp e pelo aplicativo.",
+          "inicio": 0.0,
+          "fim": 4.08,
+          "nota": 0.917,
+          "ouvido": "Um dia antes, o Lembreti sai sozinho pelo WhatsApp e pelo aplicativo.",
+          "tentativas": 1
+        },
+        {
+          "texto": "A Marina confirma com um toque, e a agenda da recepção já mostra a consulta confirmada.",
+          "inicio": 4.42,
+          "fim": 9.65,
+          "nota": 1.0,
+          "ouvido": "A Marina confirma com um toque e a agenda da recepção já mostra a consulta confirmada.",
+          "tentativas": 1
+        },
+        {
+          "texto": "Quem não responde aparece em destaque, para a equipe ligar.",
+          "inicio": 9.99,
+          "fim": 12.95,
+          "nota": 1.0,
+          "ouvido": "Quem não responde aparece em destaque para a equipe ligar.",
+          "tentativas": 1
+        },
+        {
+          "texto": "Menos faltas, sem ninguém precisar mandar mensagem uma por uma.",
+          "inicio": 13.29,
+          "fim": 16.87,
+          "nota": 1.0,
+          "ouvido": "Menos faltas sem ninguém precisar mandar mensagem uma por uma.",
+          "tentativas": 1
+        }
+      ]
+    },
+    {
+      "id": "termo",
+      "arquivo": "cena-04-termo.wav",
+      "duracao": 14.67,
+      "frases": [
+        {
+          "texto": "Antes de chegar, ela preenche a ficha de saúde e assina o termo de consentimento no próprio celular.",
+          "inicio": 0.0,
+          "fim": 5.5,
+          "nota": 1.0,
+          "ouvido": "Antes de chegar, ela preenche a ficha de saúde e assina o termo de consentimento no próprio celular.",
+          "tentativas": 1
+        },
+        {
+          "texto": "A autorização de uso de imagem fica separada, e ela pode mudar de ideia quando quiser.",
+          "inicio": 5.84,
+          "fim": 10.84,
+          "nota": 1.0,
+          "ouvido": "A autorização de uso de imagem fica separada e ela pode mudar de ideia quando quiser.",
+          "tentativas": 1
+        },
+        {
+          "texto": "Quando a Marina entra na clínica, a papelada já está resolvida.",
+          "inicio": 11.18,
+          "fim": 14.67,
+          "nota": 1.0,
+          "ouvido": "Quando a Marina entra na clínica, a papelada já está resolvida.",
+          "tentativas": 1
+        }
+      ]
+    },
+    {
+      "id": "prontuario",
+      "arquivo": "cena-05-prontuario.wav",
+      "duracao": 17.4,
+      "frases": [
+        {
+          "texto": "No atendimento, a doutora registra a sessão em um minuto.",
+          "inicio": 0.0,
+          "fim": 3.18,
+          "nota": 1.0,
+          "ouvido": "No atendimento, a doutora registra a sessão em um minuto.",
+          "tentativas": 1
+        },
+        {
+          "texto": "Marca os pontos no mapa do rosto, as unidades de cada região e o lote do produto, que vem direto do estoque.",
+          "inicio": 3.52,
+          "fim": 9.67,
+          "nota": 1.0,
+          "ouvido": "Marca os pontos no mapa do rosto, as unidades de cada região e o lote do produto, que vem direto do estoque.",
+          "tentativas": 1
+        },
+        {
+          "texto": "As fotos seguem um guia, com o mesmo ângulo e a mesma luz, para comparar a evolução depois.",
+          "inicio": 10.01,
+          "fim": 15.13,
+          "nota": 1.0,
+          "ouvido": "As fotos seguem um guia com o mesmo ângulo e a mesma luz para comparar a evolução depois.",
+          "tentativas": 1
+        },
+        {
+          "texto": "E o estoque dá baixa sozinho.",
+          "inicio": 15.47,
+          "fim": 17.4,
+          "nota": 1.0,
+          "ouvido": "e o estoque da Baixa Sozinho.",
+          "tentativas": 1
+        }
+      ]
+    },
+    {
+      "id": "pos",
+      "arquivo": "cena-06-pos.wav",
+      "duracao": 14.96,
+      "frases": [
+        {
+          "texto": "Depois da sessão, os cuidados aparecem no aplicativo, dia a dia.",
+          "inicio": 0.0,
+          "fim": 3.84,
+          "nota": 1.0,
+          "ouvido": "Depois da sessão, os cuidados aparecem no aplicativo dia a dia.",
+          "tentativas": 1
+        },
+        {
+          "texto": "Na manhã seguinte, chega a pergunta: como você está?",
+          "inicio": 4.18,
+          "fim": 7.09,
+          "nota": 1.0,
+          "ouvido": "Na manhã seguinte chega a pergunta como você está.",
+          "tentativas": 1
+        },
+        {
+          "texto": "Se a Marina responder que algo está diferente, a clínica recebe um alerta na hora, e pode chamar a paciente antes que vire um problema.",
+          "inicio": 7.43,
+          "fim": 14.96,
+          "nota": 1.0,
+          "ouvido": "Se a Marina responder que algo está diferente, a clínica recebe um alerta na hora e pode chamar a paciente antes que vire um problema.",
+          "tentativas": 1
+        }
+      ]
+    },
+    {
+      "id": "retorno",
+      "arquivo": "cena-07-retorno.wav",
+      "duracao": 15.14,
+      "frases": [
+        {
+          "texto": "No dia quinze, a revisão já está marcada.",
+          "inicio": 0.0,
+          "fim": 2.41,
+          "nota": 1.0,
+          "ouvido": "No dia 15, a revisão já está marcada.",
+          "tentativas": 1
+        },
+        {
+          "texto": "É o melhor momento para pedir uma avaliação no Google.",
+          "inicio": 2.75,
+          "fim": 5.61,
+          "nota": 1.0,
+          "ouvido": "É o melhor momento para pedir uma avaliação no Google.",
+          "tentativas": 1
+        },
+        {
+          "texto": "E, perto do terceiro mês, quando o efeito começa a diminuir, o aplicativo convida a Marina para voltar.",
+          "inicio": 5.95,
+          "fim": 11.74,
+          "nota": 1.0,
+          "ouvido": "E perto do terceiro mês, quando o efeito começa a diminuir, o aplicativo convida a Marina para voltar.",
+          "tentativas": 1
+        },
+        {
+          "texto": "Ela sai de cada etapa com o próximo passo combinado.",
+          "inicio": 12.08,
+          "fim": 15.14,
+          "nota": 1.0,
+          "ouvido": "Ela sai de cada etapa com o próximo passo combinado.",
+          "tentativas": 1
+        }
+      ]
+    },
+    {
+      "id": "bastidores",
+      "arquivo": "cena-08-bastidores.wav",
+      "duracao": 19.17,
+      "frases": [
+        {
+          "texto": "Nos bastidores, o sistema cuida do resto.",
+          "inicio": 0.0,
+          "fim": 2.52,
+          "nota": 1.0,
+          "ouvido": "Nos bastidores, o sistema cuida do resto.",
+          "tentativas": 1
+        },
+        {
+          "texto": "Cada sessão desconta do pacote, e a paciente acompanha o saldo pelo celular.",
+          "inicio": 2.86,
+          "fim": 7.35,
+          "nota": 0.923,
+          "ouvido": "Cada seção desconta do pacote e a paciente acompanha o saldo pelo celular.",
+          "tentativas": 1
+        },
+        {
+          "texto": "O estoque avisa o que está perto de vencer.",
+          "inicio": 7.69,
+          "fim": 10.14,
+          "nota": 1.0,
+          "ouvido": "O estoque avisa o que está perto de vencer.",
+          "tentativas": 1
+        },
+        {
+          "texto": "E, se um lote entrar em alerta, mostra na hora quem recebeu aquele produto.",
+          "inicio": 10.48,
+          "fim": 14.51,
+          "nota": 1.0,
+          "ouvido": "E se um lote entrar em alerta, mostra na hora quem recebeu aquele produto.",
+          "tentativas": 1
+        },
+        {
+          "texto": "As comissões de cada profissional saem calculadas no fim do mês, sem planilha.",
+          "inicio": 14.85,
+          "fim": 19.17,
+          "nota": 1.0,
+          "ouvido": "As comissões de cada profissional saem calculadas no fim do mês, sem planilha.",
+          "tentativas": 1
+        }
+      ]
+    },
+    {
+      "id": "painel",
+      "arquivo": "cena-09-painel.wav",
+      "duracao": 14.37,
+      "frases": [
+        {
+          "texto": "Toda manhã, a equipe abre o painel e vê quem precisa de atenção hoje: uma paciente que relatou algo no pós, revisões sem horário, termos pendentes.",
+          "inicio": 0.0,
+          "fim": 8.33,
+          "nota": 1.0,
+          "ouvido": "Toda manhã, a equipe abre o painel e vê quem precisa de atenção hoje. Uma paciente que relatou algo no pós, revisões sem horário, termos pendentes.",
+          "tentativas": 1
+        },
+        {
+          "texto": "E, no fim do mês, poucos números que importam: ocupação da agenda, faltas e pacientes que voltaram.",
+          "inicio": 8.67,
+          "fim": 14.37,
+          "nota": 1.0,
+          "ouvido": "E no fim do mês, poucos números que importam. Ocupação da agenda, faltas e pacientes que voltaram.",
+          "tentativas": 1
+        }
+      ]
+    },
+    {
+      "id": "marca",
+      "arquivo": "cena-10-marca.wav",
+      "duracao": 10.78,
+      "frases": [
+        {
+          "texto": "E o melhor: tudo isso tem a cara de cada clínica.",
+          "inicio": 0.0,
+          "fim": 2.68,
+          "nota": 1.0,
+          "ouvido": "E o melhor, tudo isso tem a cara de cada clínica.",
+          "tentativas": 1
+        },
+        {
+          "texto": "O mesmo sistema se transforma no aplicativo da Essenciale, da Rinascere ou da doutora Nanda, com o nome, as cores e o jeito de cada uma.",
+          "inicio": 3.02,
+          "fim": 10.78,
+          "nota": 0.943,
+          "ouvido": "O mesmo sistema se transforma no aplicativo da essenciale, da Rina Ceri ou da Doutora Nanda, com o nome, as cores e o jeito de cada uma.",
+          "tentativas": 1
+        }
+      ]
+    },
+    {
+      "id": "fechamento",
+      "arquivo": "cena-11-fechamento.wav",
+      "duracao": 8.38,
+      "frases": [
+        {
+          "texto": "Menos tempo com planilhas e mensagens.",
+          "inicio": 0.0,
+          "fim": 2.42,
+          "nota": 1.0,
+          "ouvido": "Menos tempo com planilhas e mensagens.",
+          "tentativas": 1
+        },
+        {
+          "texto": "Mais tempo para cuidar de quem está na cadeira.",
+          "inicio": 2.76,
+          "fim": 5.34,
+          "nota": 1.0,
+          "ouvido": "Mais tempo para cuidar de quem está na cadeira.",
+          "tentativas": 1
+        },
+        {
+          "texto": "Esse é o aplicativo com a cara da sua clínica.",
+          "inicio": 5.68,
+          "fim": 8.38,
+          "nota": 1.0,
+          "ouvido": "Esse é o aplicativo com a cara da sua clínica.",
+          "tentativas": 1
+        }
+      ]
+    }
+  ],
+  "nota_media": 0.993,
+  "minutos_gerando": 2.3
+}

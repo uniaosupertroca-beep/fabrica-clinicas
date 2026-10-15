@@ -1,0 +1,21 @@
+{
+  "escolhido": "chatterbox",
+  "ranking": [
+    {
+      "motor": "chatterbox",
+      "voz": "clonada de referencia.wav",
+      "naturalidade": 3.868,
+      "fidelidade": 0.994,
+      "duracao": 194.0,
+      "frases_fracas": []
+    },
+    {
+      "motor": "kokoro",
+      "voz": "pf_dora",
+      "naturalidade": 3.702,
+      "fidelidade": 0.993,
+      "duracao": 160.5,
+      "frases_fracas": []
+    }
+  ]
+}
