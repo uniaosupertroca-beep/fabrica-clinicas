@@ -333,22 +333,22 @@
     {
       "id": "marca",
       "arquivo": "cena-10-marca.wav",
-      "duracao": 12.0,
+      "duracao": 11.36,
       "frases": [
         {
-          "texto": "E o melhor: tudo isso tem a cara de cada clínica.",
+          "texto": "E o melhor: tudo isso com a cara da Essenciale.",
           "inicio": 0.0,
-          "fim": 3.28,
-          "nota": 1.0,
-          "ouvido": "e o melhor, tudo isso tem a cara de cada clínica.",
+          "fim": 3.36,
+          "nota": 0.9,
+          "ouvido": "e o melhor, tudo isso com a cara da essencial.",
           "tentativas": 1
         },
         {
-          "texto": "O mesmo sistema se transforma no aplicativo da Essenciale ou da doutora Nanda, com o nome, as cores e o jeito de cada uma.",
-          "inicio": 3.62,
-          "fim": 12.0,
-          "nota": 0.958,
-          "ouvido": "O mesmo sistema se transforma no aplicativo da essenciali ou da doutora Nanda, com o nome, as cores e o jeito de cada uma.",
+          "texto": "Ele leva o nome, o logo e as cores da clínica, e fica na tela do celular da paciente, ao lado dos outros aplicativos.",
+          "inicio": 3.7,
+          "fim": 11.36,
+          "nota": 1.0,
+          "ouvido": "Ele leva o nome, o logo e as cores da clínica e fica na tela do celular da paciente ao lado dos outros aplicativos.",
           "tentativas": 1
         }
       ]
@@ -385,7 +385,6 @@
       ]
     }
   ],
-  "nota_media": 0.995,
-  "minutos_gerando": 2.4,
-  "limpo": true
+  "nota_media": 0.993,
+  "minutos_gerando": 1.8
 }
