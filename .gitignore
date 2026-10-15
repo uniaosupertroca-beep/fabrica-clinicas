@@ -12,3 +12,4 @@ videos/*/.previa/
 videos/*/linha.json
 videos/*/*.mp4
 videos/*/*.wav
+__pycache__/
