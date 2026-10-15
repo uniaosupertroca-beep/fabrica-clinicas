@@ -14,6 +14,9 @@ on:
       motores:
         description: "Motores separados por vírgula (vazio = todos): kokoro,xtts,xtts-ref,chatterbox"
         default: ""
+      cenas:
+        description: "Só regerar estas cenas (ids separados por vírgula; vazio = todas)"
+        default: ""
 
 concurrency:
   group: gerar-voz
@@ -22,6 +25,7 @@ concurrency:
 env:
   VIDEO: ${{ inputs.video || 'demo-sistema' }}
   COQUI_TOS_AGREED: "1"
+  CENAS: ${{ inputs.cenas }}
   PIP_TORCH: torch==2.6.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cpu
 
 jobs:
@@ -35,7 +39,7 @@ jobs:
         with: { python-version: "3.11" }
       - run: sudo apt-get update -qq && sudo apt-get install -y -qq espeak-ng
       - run: pip install $PIP_TORCH && pip install kokoro soundfile faster-whisper librosa
-      - run: python videos/gerar_voz.py videos/$VIDEO --motor kokoro
+      - run: python videos/gerar_voz.py videos/$VIDEO --motor kokoro ${CENAS:+--cenas "$CENAS"}
       - name: Trecho de referência para as vozes clonadas
         run: |
           python - <<'PY'
@@ -57,7 +61,7 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
       - run: pip install $PIP_TORCH && pip install coqui-tts "transformers>=4.57,<5" faster-whisper librosa soundfile
-      - run: python videos/gerar_voz.py videos/$VIDEO --motor xtts
+      - run: python videos/gerar_voz.py videos/$VIDEO --motor xtts ${CENAS:+--cenas "$CENAS"}
       - uses: actions/upload-artifact@v4
         with: { name: voz-xtts, path: "videos/${{ env.VIDEO }}/voz/xtts" }
 
@@ -98,7 +102,7 @@ jobs:
       - if: env.RODAR == 'sim' && matrix.motor == 'chatterbox'
         run: pip install $PIP_TORCH && pip install chatterbox-tts faster-whisper soundfile
       - if: env.RODAR == 'sim'
-        run: python videos/gerar_voz.py videos/$VIDEO --motor ${{ matrix.motor }} --referencia "$REF"
+        run: python videos/gerar_voz.py videos/$VIDEO --motor ${{ matrix.motor }} --referencia "$REF" ${CENAS:+--cenas "$CENAS"}
       - uses: actions/upload-artifact@v4
         if: env.RODAR == 'sim'
         with: { name: "voz-${{ matrix.motor }}", path: "videos/${{ env.VIDEO }}/voz/${{ matrix.motor }}" }
@@ -112,6 +116,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with: { ref: main }
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
       - uses: actions/download-artifact@v4

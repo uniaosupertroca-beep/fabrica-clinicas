@@ -155,6 +155,7 @@ def main():
     ap.add_argument("pasta")
     ap.add_argument("--motor", required=True, choices=["xtts", "xtts-ref", "kokoro", "chatterbox"])
     ap.add_argument("--referencia")
+    ap.add_argument("--cenas", help="ids separados por vírgula: regera só essas cenas e mantém as outras como estão")
     args = ap.parse_args()
 
     pasta = Path(args.pasta)
@@ -162,6 +163,10 @@ def main():
     pronuncia = roteiro.get("pronuncia", {})
     saida = pasta / "voz" / args.motor
     saida.mkdir(parents=True, exist_ok=True)
+    pedidas = {c.strip() for c in args.cenas.split(",") if c.strip()} if args.cenas else None
+    anterior = None
+    if pedidas:
+        anterior = {c["id"]: c for c in json.loads((saida / "resumo.json").read_text(encoding="utf-8"))["cenas"]}
 
     if args.motor == "kokoro":
         motor = Kokoro()
@@ -174,6 +179,9 @@ def main():
     resumo = {"motor": args.motor, "voz": motor.voz, "taxa": TAXA, "cenas": []}
     inicio_geral = time.time()
     for n, cena in enumerate(roteiro["cenas"], 1):
+        if pedidas and cena["id"] not in pedidas:
+            resumo["cenas"].append(anterior[cena["id"]])
+            continue
         pedacos, tempos, cursor = [], [], 0.0
         for i, frase in enumerate(frases(cena["texto"])):
             melhor = None

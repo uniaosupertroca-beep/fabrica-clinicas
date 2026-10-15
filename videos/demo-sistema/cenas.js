@@ -872,10 +872,10 @@ function marca(palco, { f, fim, pal, ini }) {
     `<div class="abs" style="left:0;right:0;top:70px;text-align:center"><h2 style="font-family:var(--display);font-weight:400;font-size:64px;color:var(--po)">Um sistema. A marca de cada clínica.</h2></div>`,
   );
   entra(titulo, f(0, 0.2), { d: 0.9, y: 20 });
+  // Duas clínicas lado a lado: a Essenciale (clara, ameixa) e a Dra. Nanda (escura, ouro).
   const clinicas = [
-    { id: "rin", tema: "tema-rinascere", x: 330, logo: "recursos/logo-rinascere.png", alt: 40, nome: "Rinascere", fonte: "Raleway", peso: 300, quando: "Hoje, 15h00", trat: "Bioestimulador", pac: "Protocolo facial", s: [2, 4] },
-    { id: "ess", tema: "", x: 780, logo: LOGO, alt: 24, nome: "Essenciale", fonte: "Cormorant Garamond", peso: 500, quando: "Hoje, 14h30, com a Dra. Cláudia", trat: "Toxina botulínica", pac: "Pele de Rainha", s: [4, 5] },
-    { id: "nan", tema: "tema-nanda", x: 1230, logo: "recursos/logo-nanda-escuro.svg", alt: 52, nome: "Dra. Nanda Prevedello", fonte: "Marcellus", peso: 400, quando: "Hoje, 10h00, com a Dra. Nanda", trat: "Corpo Detox", pac: "Corpo Detox", s: [3, 8] },
+    { id: "ess", tema: "", x: 530, logo: LOGO, alt: 24, nome: "Essenciale", fonte: "Cormorant Garamond", peso: 500, quando: "Hoje, 14h30, com a Dra. Cláudia", trat: "Toxina botulínica", pac: "Pele de Rainha", s: [4, 5] },
+    { id: "nan", tema: "tema-nanda", x: 1030, logo: "recursos/logo-nanda.svg", alt: 52, nome: "Dra. Nanda Prevedello", fonte: "Marcellus", peso: 400, quando: "Hoje, 10h00, com a Dra. Nanda", trat: "Corpo Detox", pac: "Corpo Detox", s: [3, 8] },
   ];
   const cels = {};
   for (const c of clinicas) {
@@ -889,13 +889,11 @@ function marca(palco, { f, fim, pal, ini }) {
   }
   entra(cels.ess.cel, f(0, 0.05), { d: 0.9, y: 60 });
   entra(cels.ess.nome, pal(1, "Essenciale"), { d: 0.5, y: 10 });
-  entra(cels.rin.cel, pal(1, "Rinascere", -0.3), { d: 0.8, x: 160, y: 0 });
-  entra(cels.rin.nome, pal(1, "Rinascere"), { d: 0.5, y: 10 });
   entra(cels.nan.cel, pal(1, "Nanda", -0.6), { d: 0.8, x: -160, y: 0 });
   entra(cels.nan.nome, pal(1, "Nanda"), { d: 0.5, y: 10 });
   // "o nome, as cores e o jeito de cada uma": cada celular se destaca um pouco.
-  ["rin", "ess", "nan"].forEach((id, i) => {
-    const t = pal(1, ["nome", "cores", "jeito"][i], 0.2);
+  ["ess", "nan"].forEach((id, i) => {
+    const t = pal(1, ["nome", "jeito"][i], 0.2);
     vai(cels[id].cel, "y", -16, t, 0.35, "suave");
     vai(cels[id].cel, "y", 0, t + 0.45, 0.5, "vaivem");
   });

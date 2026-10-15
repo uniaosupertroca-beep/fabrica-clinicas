@@ -2,7 +2,7 @@
 depois de um silêncio longo, e encurta pausas internas exageradas. Regrava os WAVs e o resumo.json
 com os novos tempos de cada frase.
 
-Uso: python3 videos/limpar_voz.py videos/demo-sistema/voz/chatterbox
+Uso: python3 videos/limpar_voz.py videos/demo-sistema/voz/chatterbox [--cenas marca,fechamento]
 """
 
 import json
@@ -80,8 +80,11 @@ def limpa(audio, taxa):
 
 def main():
     pasta = Path(sys.argv[1])
+    pedidas = set(sys.argv[sys.argv.index("--cenas") + 1].split(",")) if "--cenas" in sys.argv else None
     resumo = json.loads((pasta / "resumo.json").read_text(encoding="utf-8"))
     for cena in resumo["cenas"]:
+        if pedidas and cena["id"] not in pedidas:
+            continue
         audio, taxa = sf.read(pasta / cena["arquivo"], dtype="float32")
         pedacos, cursor = [], 0.0
         for n, f in enumerate(cena["frases"]):

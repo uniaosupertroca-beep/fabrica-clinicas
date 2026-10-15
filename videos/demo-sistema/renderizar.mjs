@@ -39,7 +39,7 @@ async function abrir() {
   await pagina.goto(pathToFileURL(join(pasta, "cenas.html")).href, { waitUntil: "load" });
   await pagina.evaluate(async () => {
     await document.fonts.ready;
-    await Promise.all(["Cormorant Garamond", "Jost", "Raleway", "Marcellus", "Figtree"].map((f) => document.fonts.load(`400 20px "${f}"`)));
+    await Promise.all(["Cormorant Garamond", "Jost", "Marcellus", "Figtree"].map((f) => document.fonts.load(`400 20px "${f}"`)));
   });
   await pagina.evaluate((l) => window.montarCenas(l), linha);
   await pagina.evaluate(async () => {
