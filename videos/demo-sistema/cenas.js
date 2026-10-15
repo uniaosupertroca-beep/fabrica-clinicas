@@ -114,6 +114,7 @@ function montarCenas(linha) {
     // Momento aproximado em que uma palavra é dita, pela posição dela na frase.
     const pal = (i, palavra, k = 0) => {
       const pos = F[i].texto.toLowerCase().indexOf(palavra.toLowerCase());
+      if (pos < 0) console.warn(`Palavra não encontrada em ${info.id}, frase ${i}: ${palavra}`);
       const frac = pos < 0 ? 0.5 : (pos + k * palavra.length) / F[i].texto.length;
       return f(i, Math.min(0.97, frac * 0.96 + 0.02));
     };

@@ -252,3 +252,4 @@ svg { display: block; }
 [data-e].cheia { color: var(--champanhe) !important; }
 [data-e].cheia path { fill: currentColor; }
 .destaque-v { background: var(--ambar-claro); border-radius: 10px; padding-left: 10px !important; padding-right: 10px !important; }
+.noite .jan .nota { color: var(--tinta-2); }

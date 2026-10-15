@@ -35,6 +35,7 @@ const navegador = await chromium.launch({ args: ["--disable-gpu", "--font-render
 async function abrir() {
   const pagina = await navegador.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1 });
   pagina.on("pageerror", (e) => console.error("Erro na página:", e.message));
+  pagina.on("console", (m) => m.type() === "warning" && console.warn(m.text()));
   await pagina.goto(pathToFileURL(join(pasta, "cenas.html")).href, { waitUntil: "load" });
   await pagina.evaluate(async () => {
     await document.fonts.ready;
