@@ -31,17 +31,17 @@ export const datas: DataEspecial[] = [
     foto: "bento-namorados",
   },
   {
-    id: "pais",
-    nome: "Dia dos Pais",
-    quando: "segundo domingo de agosto",
-    ultima: "Em 2026, Bentô Cake e Kit Bentô Cake com docinhos, com encomendas até 6 de agosto.",
-    foto: "bento-pais",
-  },
-  {
     id: "amigo",
     nome: "Dia do Amigo",
     quando: "20 de julho",
     ultima: "Em 2025, bentô cake para declarar amizade em forma de bolo.",
     foto: "bento-amigo",
+  },
+  {
+    id: "pais",
+    nome: "Dia dos Pais",
+    quando: "segundo domingo de agosto",
+    ultima: "Em 2026, Bentô Cake e Kit Bentô Cake com docinhos, com encomendas até 6 de agosto.",
+    foto: "bento-pais",
   },
 ];

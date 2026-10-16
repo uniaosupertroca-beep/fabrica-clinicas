@@ -87,6 +87,23 @@ const css = filtros
     flex-wrap: wrap;
     gap: 10px;
   }
+  @media (max-width: 699px) {
+    .filtros ul {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      scrollbar-width: none;
+      margin-inline: calc(var(--margem) * -1);
+      padding: 2px var(--margem);
+    }
+    .filtros ul::-webkit-scrollbar {
+      display: none;
+    }
+    .filtros li {
+      flex: none;
+      scroll-snap-align: start;
+    }
+  }
   .filtros a {
     display: inline-flex;
     align-items: center;
@@ -143,6 +160,9 @@ const css = filtros
     line-height: 1.2;
   }
   .pedir {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     justify-self: start;
     font-weight: 650;
     font-size: 0.95rem;

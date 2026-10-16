@@ -22,6 +22,7 @@ interface Config {
   tamanhos: Tam[];
   sabores: Sab[];
   fotos: Record<string, string>;
+  minis: Record<string, string>;
 }
 
 const raiz = document.getElementById("construtor");
@@ -39,13 +40,18 @@ function iniciar(raiz: HTMLElement) {
   const dicaProduto = $("dica-produto");
   const sugestao = $("sugestao");
   const recheio = $("recheio");
-  const fotoRef = $("foto-ref");
+  const escolha = $("escolha");
+  const escolhaImg = $<HTMLImageElement>("escolha-img");
+  const escolhaTexto = $("escolha-texto");
   const avisoData = $("aviso-data");
   const campoEndereco = $("campo-endereco");
   const textoResumo = $("texto-resumo");
   const valorEl = document.getElementById("valor");
   const erro = $("erro");
   const enviar = $<HTMLAnchorElement>("enviar");
+  const barra = $("barra-envio");
+  const barraResumo = $("barra-resumo");
+  const enviarBarra = $<HTMLAnchorElement>("enviar-barra");
   const copiar = $<HTMLButtonElement>("copiar");
   const status = $("status");
   const dataInput = campos["data"] as HTMLInputElement;
@@ -63,6 +69,7 @@ function iniciar(raiz: HTMLElement) {
     varios: "Mais de uma coisa",
   };
 
+  let interagiu = false;
   let escolheuTamanho = false;
   let fotoSelecionada = "";
 
@@ -234,7 +241,7 @@ function iniciar(raiz: HTMLElement) {
     if (temBolo && !tam) faltas.push("o tamanho");
     if (temBolo && !sab) faltas.push("o sabor");
     if (!lerData() || avisoData) faltas.push("uma data válida");
-    erro.hidden = faltas.length === 0 || linhas.length === 0;
+    erro.hidden = !interagiu || faltas.length === 0 || linhas.length === 0;
     erro.textContent = faltas.length ? `Para a Vanessa responder mais rápido, escolha ${faltas.join(", ").replace(/, ([^,]*)$/, " e $1")}. Você também pode enviar assim e completar no WhatsApp.` : "";
 
     const corpo = linhas.map(([k, v]) => `${k}: ${v}`).join("\n");
@@ -244,14 +251,25 @@ function iniciar(raiz: HTMLElement) {
       (valorBase ? `\n\n${valorBase.replace("Valor base do bolo", "Valor base pelo cardápio")}` : "") +
       "\n\nPode me confirmar o valor final e a disponibilidade?";
     enviar.href = `https://wa.me/${cfg.whatsapp}?text=${encodeURIComponent(mensagem)}`;
+    enviarBarra.href = enviar.href;
+    const partes = [tam ? tam.nome : "", sab ? sab.nome : ""].filter(Boolean);
+    barraResumo.textContent = (partes.length ? partes.join(" · ") : "Seu pedido") + (valorBase && tam && sab ? ` · ${real(tam.valor[sab.linha])}` : "");
   }
 
   form.addEventListener("input", (e) => {
+    interagiu = true;
     const alvo = e.target as HTMLInputElement;
     if (alvo.name === "tamanho") escolheuTamanho = true;
     atualizar();
   });
-  form.addEventListener("change", atualizar);
+  form.addEventListener("change", () => {
+    interagiu = true;
+    atualizar();
+  });
+  for (const botao of [enviar, enviarBarra]) botao.addEventListener("click", () => {
+    interagiu = true;
+    atualizar();
+  });
   form.addEventListener("submit", (e) => e.preventDefault());
 
   copiar.addEventListener("click", async () => {
@@ -269,11 +287,27 @@ function iniciar(raiz: HTMLElement) {
   const ref = q.get("ref") ?? "";
   if (cfg.fotos[ref]) {
     fotoSelecionada = ref;
-    fotoRef.hidden = false;
-    fotoRef.textContent = `Você está pedindo um bolo como o “${cfg.fotos[ref]}” da galeria. A Vanessa adapta ao seu tema e às suas cores.`;
+    escolha.hidden = false;
+    escolhaImg.src = cfg.minis[ref] ?? "";
+    const forte = document.createElement("strong");
+    forte.textContent = cfg.fotos[ref];
+    escolhaTexto.replaceChildren(forte, "Você escolheu este bolo na galeria. A Vanessa adapta ao seu tema e às suas cores.");
   }
   if (rotulos[q.get("momento") ?? ""]) marcar("momento", q.get("momento")!);
   if (["bolo", "bento", "docinhos", "varios"].includes(q.get("produto") ?? "")) marcar("produto", q.get("produto")!);
+
+  // A barra de baixo (celular) só aparece enquanto o resumo do fim da página não está à vista.
+  if ("IntersectionObserver" in window) {
+    const alvo = document.querySelector(".resumo");
+    if (alvo) {
+      new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) barra.setAttribute("data-oculto", "");
+        else barra.removeAttribute("data-oculto");
+      }).observe(alvo);
+    }
+  } else {
+    barra.removeAttribute("data-oculto");
+  }
 
   atualizar();
 }

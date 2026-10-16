@@ -7,27 +7,25 @@ import Lightbox from "../components/Lightbox.astro";
 import { negocio, linkWhatsapp, mensagemPadrao } from "../data/site.ts";
 import { ocasioes } from "../data/ocasioes.ts";
 import { datas } from "../data/datas.ts";
-import { tamanhos, sabores } from "../data/cardapio.ts";
+import { tamanhos, sabores, real } from "../data/cardapio.ts";
 import { foto } from "../data/galeria.ts";
 
 // A vitrine da abertura: bolos vintage e florais, um de cada vez.
-const vitrine = ["vintage-cerejas", "coracao-vintage", "mesversario-lacos", "rosas-amarelas"];
+const vitrine = ["coracao-vintage", "rosas-amarelas", "bolo-tematico", "margaridas"];
 // Fotos em que o bolo aparece pequeno no quadro ganham zoom, para preencher o arco.
 const zoom: Record<string, number> = { "coracao-vintage": 1.6 };
+const maisBarato = tamanhos[0].valor.tradicional;
 // Colagem de bolos, com proporções diferentes de propósito (vira uma parede de fotos, não uma grade).
 const colagem: { id: string; proporcao: string }[] = [
   { id: "floral-gerberas", proporcao: "3 / 4" },
-  { id: "bolo-tematico", proporcao: "1 / 1" },
-  { id: "rosas-amarelas", proporcao: "4 / 5" },
+  { id: "bento-namorados", proporcao: "1 / 1" },
   { id: "mini-bolos-casamento", proporcao: "1 / 1" },
-  { id: "folhas-laranja", proporcao: "3 / 4" },
-  { id: "bento-namorados", proporcao: "4 / 5" },
-  { id: "casamento-duas-camadas", proporcao: "4 / 5" },
+  { id: "bento-pais", proporcao: "4 / 5" },
+  { id: "folhas-laranja", proporcao: "4 / 5" },
   { id: "guirlanda-brownie", proporcao: "1 / 1" },
-  { id: "margaridas", proporcao: "4 / 5" },
 ];
 const passos = [
-  { titulo: "Escolha o tamanho e o sabor", texto: `Do ${tamanhos[0].nome} ao ${tamanhos[tamanhos.length - 1].nome}, com ${sabores.length} sabores no cardápio.` },
+  { titulo: "Escolha o tamanho e o sabor", texto: negocio.mostrarPrecos ? `Do ${tamanhos[0].nome} (${real(tamanhos[0].valor.tradicional)}) ao ${tamanhos[tamanhos.length - 1].nome} (${real(tamanhos[tamanhos.length - 1].valor.tradicional)}), com ${sabores.length} sabores no cardápio.` : `Do ${tamanhos[0].nome} ao ${tamanhos[tamanhos.length - 1].nome}, com ${sabores.length} sabores no cardápio.` },
   { titulo: "Conte a decoração", texto: "Tema, paleta de cores e o que torna o momento especial. Referências são bem-vindas." },
   { titulo: "Combine a data", texto: `Encomendas com pelo menos ${negocio.prazoMinimoDias} dias de antecedência, com retirada agendada ou entrega.` },
   { titulo: "Pague 50% e retire", texto: "50% na encomenda e 50% na retirada, por Pix, dinheiro ou link de pagamento." },
@@ -55,7 +53,9 @@ const passos = [
           <a class="botao" href="/encomendar">Montar meu pedido</a>
           <a class="botao botao--linha" href="/bolos">Ver os bolos</a>
         </div>
-        <p class="fato apoio">Encomendas com {negocio.prazoMinimoDias} dias de antecedência. Retirada agendada ou entrega.</p>
+        <p class="fato apoio">
+          {negocio.mostrarPrecos ? `Bolos a partir de ${real(maisBarato)}. ` : ""}Encomendas com {negocio.prazoMinimoDias} dias de antecedência.
+        </p>
       </div>
 
       <div class="vitrine">
@@ -109,7 +109,6 @@ const passos = [
   <section class="secao vintage fundo-marinho padrao bico" aria-labelledby="t-vintage">
     <div class="envolve grade-vintage">
       <div class="texto">
-        <p class="mao">bico, laços e frases à mão</p>
         <h2 id="t-vintage">O bolo vintage é a cara da VS Cakes.</h2>
         <p class="abre">
           Acabamento todo à mão, cores que combinam com a sua festa e uma frase só sua. Você traz a ideia, a Vanessa transforma em bolo: delicado por fora e irresistível por dentro.
@@ -121,7 +120,6 @@ const passos = [
       <div class="composicao">
         <Foto id="vintage-cerejas" proporcao="3 / 4" class="arco grande" sizes="(min-width: 980px) 30vw, 70vw" widths={[420, 640, 900]} />
         <Foto id="coracao-preto" proporcao="1 / 1" class="redonda sobe" sizes="(min-width: 980px) 16vw, 36vw" widths={[240, 400, 600]} />
-        <Foto id="natal-vintage" proporcao="4 / 5" class="pequena desce" sizes="(min-width: 980px) 16vw, 34vw" widths={[240, 400, 600]} />
       </div>
     </div>
   </section>
@@ -132,7 +130,7 @@ const passos = [
         <h2 id="t-previa">Alguns bolos que a Vanessa fez.</h2>
         <a class="botao botao--linha" href="/bolos">Ver todos os bolos</a>
       </div>
-      <p class="dica">Toque em uma foto para ver maior e pedir um bolo assim.</p>
+      <p class="dica">Toque ou clique em uma foto para ver maior e pedir um assim.</p>
       <ul class="colagem">
         {
           colagem.map((c) => (
@@ -142,6 +140,12 @@ const passos = [
           ))
         }
       </ul>
+    </div>
+  </section>
+
+  <section class="prova" aria-label="O trabalho da Vanessa em números">
+    <div class="envolve">
+      <p class="prova-texto">70 mini bolos para um casamento. Um bolo de 1 metro com mais de 2 mil docinhos. {negocio.anosDeMarca} anos de glacê feito à mão.</p>
     </div>
   </section>
 
@@ -208,8 +212,10 @@ const passos = [
         {
           datas.map((d) => (
             <li>
-              <span class="data-nome">{d.nome}</span>
-              <span class="data-quando">{d.quando}</span>
+              <a class="data-link" href={`/datas-especiais#${d.id}`}>
+                <span class="data-nome">{d.nome}</span>
+                <span class="data-quando">{d.quando}</span>
+              </a>
             </li>
           ))
         }
@@ -217,20 +223,20 @@ const passos = [
     </div>
   </section>
 
-  <section class="secao final fundo-marinho padrao bico" aria-labelledby="t-final">
+  <section class="secao final fundo-creme bico" aria-labelledby="t-final">
     <div class="envolve grade-final">
       <div class="texto">
-        <p class="mao">com carinho, VS Cakes</p>
         <h2 id="t-final">Vamos adoçar o seu momento?</h2>
         <p class="abre">Monte o pedido aqui e a mensagem chega pronta no WhatsApp da Vanessa. Ou chame direto: ela responde com o valor e a data disponível.</p>
         <div class="acoes">
-          <a class="botao botao--rosa" href="/encomendar">Montar meu pedido</a>
+          <a class="botao" href="/encomendar">Montar meu pedido</a>
           <a class="botao botao--linha" href={linkWhatsapp(mensagemPadrao)} target="_blank" rel="noopener noreferrer">Chamar no WhatsApp</a>
         </div>
       </div>
-      <div class="trio" aria-hidden="true">
-        <Foto id="bento-amigo" proporcao="3 / 4" class="arco a" sizes="(min-width: 980px) 18vw, 40vw" widths={[260, 420, 640]} alt="" />
-        <Foto id="bento-pais-caixa" proporcao="3 / 4" class="arco b" sizes="(min-width: 980px) 18vw, 40vw" widths={[260, 420, 640]} alt="" />
+      <div class="fecho">
+        <div class="arco-moldura">
+          <Foto id="long-cake" proporcao="4 / 5" class="arco" sizes="(min-width: 980px) 30vw, 70vw" widths={[360, 540, 720, 900]} />
+        </div>
       </div>
     </div>
   </section>
@@ -258,7 +264,7 @@ const passos = [
   }
   .hero h1 {
     order: 1;
-    font-size: clamp(3.3rem, 15.5vw, 6.6rem);
+    font-size: clamp(3.3rem, 15.5vw, 6rem);
     line-height: 0.93;
   }
   .assina {
@@ -291,7 +297,7 @@ const passos = [
       margin-top: 26px;
     }
     .hero h1 {
-      font-size: clamp(3.3rem, 1rem + 8.6vw, 8rem);
+      font-size: clamp(3.3rem, 1rem + 6.4vw, 6rem);
     }
     .vitrine {
       margin-block: 0;
@@ -537,14 +543,8 @@ const passos = [
       grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
     }
   }
-  .vintage .mao {
-    margin-bottom: 14px;
-  }
   .vintage .texto > * + * {
     margin-top: 24px;
-  }
-  .vintage .texto .mao + h2 {
-    margin-top: 0;
   }
   .composicao {
     position: relative;
@@ -564,16 +564,6 @@ const passos = [
     border-radius: 50%;
     border: 7px solid var(--marinho);
     box-shadow: 0 24px 40px -20px rgba(0, 0, 0, 0.6);
-  }
-  .composicao :global(.pequena) {
-    position: absolute;
-    right: -4%;
-    top: 4%;
-    width: 31%;
-    border-radius: 22px;
-    border: 6px solid var(--marinho);
-    box-shadow: 0 24px 40px -20px rgba(0, 0, 0, 0.6);
-    rotate: 4deg;
   }
 
   /* Colagem de bolos */
@@ -605,9 +595,6 @@ const passos = [
     }
   }
   @media (max-width: 699px) {
-    .colagem li:nth-child(9) {
-      display: none;
-    }
     .colagem :global(.legenda) {
       display: none;
     }
@@ -615,6 +602,22 @@ const passos = [
   .colagem :global(.foto) {
     border-radius: 24px;
     box-shadow: 0 22px 36px -28px rgba(24, 38, 95, 0.6);
+  }
+
+  /* Prova: uma frase só, com o que só a Vanessa pode dizer */
+  .prova {
+    padding-block: 0 var(--respiro);
+  }
+  .prova-texto {
+    max-width: 24em;
+    font-family: var(--titulo);
+    font-variation-settings: "SOFT" 100, "WONK" 0;
+    font-weight: 440;
+    font-size: clamp(1.9rem, 1.1rem + 2.8vw, 3.2rem);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--marinho);
+    text-wrap: balance;
   }
 
   /* Passos */
@@ -716,6 +719,9 @@ const passos = [
     padding-top: 8px;
   }
   .link-insta {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     font-weight: 650;
     color: var(--marinho);
     text-underline-offset: 5px;
@@ -744,13 +750,24 @@ const passos = [
     padding-top: 8px;
   }
   .lista-datas li {
+    border-bottom: 1.5px dotted color-mix(in oklab, var(--marinho) 28%, transparent);
+  }
+  .data-link {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
     justify-content: space-between;
     gap: 2px 20px;
     padding: 20px 4px;
-    border-bottom: 1.5px dotted color-mix(in oklab, var(--marinho) 28%, transparent);
+    text-decoration: none;
+    transition: padding 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .data-link:hover,
+  .data-link:focus-visible {
+    padding-inline: 14px 4px;
+  }
+  .data-link:hover .data-nome {
+    color: var(--vinho);
   }
   .lista-datas li:first-child {
     border-top: 1.5px dotted color-mix(in oklab, var(--marinho) 28%, transparent);
@@ -782,9 +799,6 @@ const passos = [
   .final .texto > * + * {
     margin-top: 22px;
   }
-  .final .texto .mao {
-    margin-bottom: 4px;
-  }
   .final h2 {
     font-size: clamp(2.6rem, 1.2rem + 5.2vw, 5.6rem);
   }
@@ -794,33 +808,22 @@ const passos = [
   .final .acoes {
     padding-top: 10px;
   }
-  .trio {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    width: min(100%, 460px);
+  .fecho {
+    width: min(100%, 400px);
+    padding: 0 16px 16px 0;
     justify-self: center;
   }
-  .trio :global(.arco) {
-    box-shadow: 0 30px 50px -30px rgba(0, 0, 0, 0.6);
-  }
-  .trio :global(.b) {
-    margin-top: 48px;
-  }
-  .trio :global(.a) {
-    margin-bottom: 48px;
+  .fecho :global(.arco) {
+    box-shadow: var(--sombra-foto);
   }
 
   /* Movimento que acompanha a rolagem: só onde o navegador sabe fazer, e nunca com movimento reduzido. */
   @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
       .composicao :global(.sobe) {
-        animation: sobe-rolando linear both;
-        animation-timeline: view();
-      }
-      .composicao :global(.desce) {
-        animation: desce-rolando linear both;
+        animation-name: sobe-rolando;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
         animation-timeline: view();
       }
       @keyframes sobe-rolando {
@@ -829,14 +832,6 @@ const passos = [
         }
         to {
           translate: 0 -34px;
-        }
-      }
-      @keyframes desce-rolando {
-        from {
-          translate: 0 -26px;
-        }
-        to {
-          translate: 0 26px;
         }
       }
     }

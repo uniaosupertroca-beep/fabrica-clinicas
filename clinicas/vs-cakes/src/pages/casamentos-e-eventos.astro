@@ -40,8 +40,8 @@ const casos = [
             <li class:list={["caso", i % 2 === 1 && "inverso"]}>
               <Foto id={c.id} proporcao="4 / 5" class="caso-foto" sizes="(min-width: 980px) 32vw, 92vw" widths={[480, 760, 1040]} carregar={i === 0 ? "eager" : "lazy"} />
               <div class="caso-texto">
-                <span class="chip">{c.quando}</span>
                 <h2>{c.titulo}</h2>
+                <p class="quando">{c.quando}</p>
                 <p class="abre">{c.texto}</p>
               </div>
             </li>
@@ -91,6 +91,14 @@ const casos = [
     display: grid;
     gap: 18px;
     justify-items: start;
+  }
+  .caso-texto {
+    gap: 12px;
+  }
+  .quando {
+    font-weight: 650;
+    font-size: 1rem;
+    color: var(--vinho);
   }
   .orc .abre {
     margin-top: 20px;

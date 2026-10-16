@@ -16,7 +16,7 @@ import { negocio, linkWhatsapp } from "../data/site.ts";
       <ul class="lista">
         {
           datas.map((d) => (
-            <li class="cartao">
+            <li class="cartao" id={d.id}>
               <Foto id={d.foto} proporcao="4 / 5" class="cartao-foto" sizes="(min-width: 980px) 24vw, (min-width: 640px) 40vw, 92vw" widths={[360, 560, 800]} />
               <div class="cartao-texto">
                 <h2>{d.nome}</h2>
@@ -96,7 +96,10 @@ import { negocio, linkWhatsapp } from "../data/site.ts";
     font-size: 1rem;
   }
   .aviso {
-    margin-top: 6px;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-top: 2px;
     justify-self: start;
     font-weight: 650;
     color: var(--marinho);
