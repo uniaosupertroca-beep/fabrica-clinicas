@@ -1,10 +1,11 @@
 # Fábrica de sites de clínicas
 
-Cada pasta em `clinicas/` é o site de uma clínica. Cada site é estático, rápido, sem JavaScript no navegador e publicado no Cloudflare Pages. A pasta `apresentacoes/` gera o PDF da proposta do app com a marca de cada clínica.
+Cada pasta em `clinicas/` é o site de um cliente (clínica ou negócio). Cada site é estático, rápido, com o mínimo de JavaScript no navegador, e publicado no Cloudflare Pages. A pasta `apresentacoes/` gera o PDF da proposta do app com a marca de cada clínica.
 
 | Clínica | Pasta | Endereço |
 | --- | --- | --- |
 | Dra. Nanda Prevedello | `clinicas/nanda-prevedello` | https://nanda-prevedello.pages.dev |
+| VS Cakes (confeitaria) | `clinicas/vs-cakes` | https://vs-cakes.pages.dev |
 
 ## Como funciona
 
