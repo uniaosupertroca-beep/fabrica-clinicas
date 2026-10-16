@@ -1,6 +1,7 @@
 ---
 import fonteTitulo from "@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2?url";
 import fonteTexto from "@fontsource-variable/hanken-grotesk/files/hanken-grotesk-latin-wght-normal.woff2?url";
+import fonteMao from "@fontsource/sacramento/files/sacramento-latin-400-normal.woff2?url";
 import "../styles/global.css";
 import Cabecalho from "../components/Cabecalho.astro";
 import Rodape from "../components/Rodape.astro";
@@ -25,6 +26,7 @@ const fora = semIndice || !negocio.indexavel;
 const fontes = `
 @font-face{font-family:"Fraunces";font-style:normal;font-weight:100 900;font-display:swap;src:url(${fonteTitulo}) format("woff2");}
 @font-face{font-family:"Hanken Grotesk";font-style:normal;font-weight:100 900;font-display:swap;src:url(${fonteTexto}) format("woff2");}
+@font-face{font-family:"Sacramento";font-style:normal;font-weight:400;font-display:swap;src:url(${fonteMao}) format("woff2");}
 `;
 
 const dados = {
@@ -57,6 +59,7 @@ const dados = {
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preload" href={fonteTitulo} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={fonteTexto} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={fonteMao} as="font" type="font/woff2" crossorigin />
     <style set:html={fontes}></style>
 
     <meta property="og:type" content="website" />

@@ -58,16 +58,33 @@ const ativo = (href: string) => atual === href;
 
 <style>
   .topo {
-    position: relative;
+    position: sticky;
+    top: 0;
     z-index: 30;
-    background: var(--marmore);
-    border-bottom: 1px solid color-mix(in oklab, var(--marinho) 12%, transparent);
+    background: color-mix(in oklab, var(--marmore) 88%, transparent);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    backdrop-filter: saturate(1.4) blur(14px);
+    border-bottom: 1px solid transparent;
+    view-transition-name: topo;
+  }
+  @supports (animation-timeline: scroll()) {
+    .topo {
+      animation: linha-topo linear both;
+      animation-timeline: scroll();
+      animation-range: 0 120px;
+    }
+    @keyframes linha-topo {
+      to {
+        border-bottom-color: color-mix(in oklab, var(--marinho) 14%, transparent);
+        box-shadow: 0 18px 30px -26px rgba(24, 38, 95, 0.45);
+      }
+    }
   }
   .barra {
     display: flex;
     align-items: center;
     gap: 28px;
-    min-height: 76px;
+    min-height: 72px;
   }
   .logo {
     color: var(--marinho);

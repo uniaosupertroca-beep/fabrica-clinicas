@@ -1,32 +1,99 @@
 ---
-// Abertura das páginas internas: título grande e um parágrafo de apoio.
+// Abertura das páginas internas: título grande, uma linha à mão e, quando há foto, a mesma vitrine em arco da página inicial.
+import Foto from "./Foto.astro";
+
 interface Props {
   titulo: string;
   id?: string;
+  /** Id de uma foto de galeria.ts (ou "vanessa:..."). Sem ela, o texto ocupa a largura toda. */
+  foto?: string;
+  /** Frase curta em letra de mão, abaixo do título. */
+  mao?: string;
 }
-const { titulo, id = "t-intro" } = Astro.props;
+const { titulo, id = "t-intro", foto, mao } = Astro.props;
 ---
 
-<section class="intro" aria-labelledby={id}>
-  <div class="envolve">
-    <h1 id={id}>{titulo}</h1>
-    <div class="abre"><slot /></div>
+<section class:list={["intro", foto && "com-foto", titulo.length > 28 && "longo"]} aria-labelledby={id}>
+  <div class="envolve grade">
+    <div class="texto">
+      <h1 id={id}>{titulo}</h1>
+      {mao && <p class="mao">{mao}</p>}
+      <div class="abre"><slot /></div>
+    </div>
+    {
+      foto && (
+        <div class="vitrine">
+          <div class="arco-moldura">
+            <Foto id={foto} proporcao="4 / 5" class="arco" sizes="(min-width: 980px) 30vw, 70vw" widths={[360, 540, 720, 900]} carregar="eager" />
+          </div>
+        </div>
+      )
+    }
   </div>
 </section>
 
 <style>
   .intro {
-    padding-block: clamp(44px, 7vw, 96px) clamp(36px, 5vw, 64px);
+    position: relative;
+    isolation: isolate;
+    margin-top: calc(var(--topo) * -1);
+    padding-block: calc(var(--topo) + clamp(32px, 6vw, 80px)) clamp(40px, 6vw, 80px);
+  }
+  /* Mármore atrás do título, esmaecendo para o fundo liso da página. */
+  .intro::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: url("/marmore.webp") center top / cover no-repeat;
+    -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent);
+    mask-image: linear-gradient(180deg, #000 55%, transparent);
+  }
+  .grade {
+    display: grid;
+    gap: clamp(32px, 5vw, 64px);
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .com-foto .grade {
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    }
   }
   h1 {
     font-size: clamp(2.7rem, 1.2rem + 5.8vw, 5.6rem);
+    letter-spacing: -0.03em;
     max-width: 14ch;
   }
+  .com-foto h1 {
+    max-width: 13ch;
+  }
+  .longo h1 {
+    font-size: clamp(2.5rem, 1.1rem + 4.2vw, 4.3rem);
+    max-width: 16ch;
+  }
+  .mao {
+    margin-top: 10px;
+    font-size: clamp(2.1rem, 1.6rem + 1.8vw, 3.2rem);
+  }
   .abre {
-    margin-top: clamp(18px, 2.4vw, 28px);
-    max-width: 58ch;
+    margin-top: clamp(14px, 2vw, 22px);
+    max-width: 52ch;
   }
   .abre :global(p + p) {
     margin-top: 14px;
+  }
+  .vitrine {
+    width: min(100%, 360px);
+    padding: 0 16px 16px 0;
+    justify-self: center;
+  }
+  .vitrine :global(.arco) {
+    box-shadow: var(--sombra-foto);
+  }
+  @media (max-width: 899px) {
+    .vitrine {
+      width: min(100%, 300px);
+      justify-self: start;
+    }
   }
 </style>

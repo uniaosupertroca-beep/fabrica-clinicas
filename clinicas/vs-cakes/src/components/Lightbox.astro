@@ -1,0 +1,156 @@
+---
+// A janela de foto ampliada. Uma só por página; o script abre com os links .ampliar.
+---
+
+<dialog class="lightbox" id="lightbox" aria-label="Foto ampliada">
+  <button class="fechar" type="button" data-fechar aria-label="Fechar">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" /></svg>
+  </button>
+  <button class="seta ant" type="button" data-anterior aria-label="Foto anterior">
+    <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </button>
+  <button class="seta prox" type="button" data-proxima aria-label="Próxima foto">
+    <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </button>
+  <figure class="quadro">
+    <img class="grande" alt="" width="1400" height="1400" decoding="async" />
+    <figcaption>
+      <span class="nome" data-nome></span>
+      <a class="botao botao--rosa pedir" href="/encomendar" data-pedir>Quero um bolo assim</a>
+    </figcaption>
+  </figure>
+</dialog>
+
+<script>
+  import "../scripts/galeria.ts";
+</script>
+
+<style>
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--creme-claro);
+    overflow: hidden;
+  }
+  .lightbox:not([open]) {
+    display: none;
+  }
+  .lightbox::backdrop {
+    background: color-mix(in oklab, var(--marinho-fundo) 94%, black);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .lightbox[open] .quadro {
+    animation: entra 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  @keyframes entra {
+    from {
+      opacity: 0;
+      scale: 0.96;
+    }
+  }
+  .quadro {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    justify-items: center;
+    gap: 16px;
+    height: 100%;
+    margin: 0;
+    padding: clamp(64px, 8vh, 84px) clamp(16px, 7vw, 120px) clamp(20px, 3vh, 32px);
+  }
+  .grande {
+    max-width: 100%;
+    max-height: 100%;
+    min-height: 0;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 22px;
+    background: var(--marinho-fundo);
+    box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.6);
+  }
+  figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px 22px;
+  }
+  .nome {
+    font-family: var(--titulo);
+    font-variation-settings: "SOFT" 100;
+    font-size: 1.35rem;
+    font-weight: 560;
+    color: var(--creme);
+  }
+  .pedir {
+    min-height: 48px;
+    padding: 0 24px;
+    font-size: 1rem;
+  }
+  .fechar,
+  .seta {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border: 1.5px solid color-mix(in oklab, var(--creme) 40%, transparent);
+    border-radius: 50%;
+    background: color-mix(in oklab, var(--marinho-fundo) 70%, transparent);
+    color: var(--creme);
+    cursor: pointer;
+    transition:
+      background-color 0.2s,
+      border-color 0.2s;
+  }
+  .fechar:hover,
+  .seta:hover {
+    background: var(--marinho);
+    border-color: var(--creme);
+  }
+  .fechar {
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+  }
+  .seta {
+    top: 50%;
+    translate: 0 -50%;
+    z-index: 2;
+  }
+  .ant {
+    left: 14px;
+  }
+  .prox {
+    right: 14px;
+  }
+  @media (max-width: 700px) {
+    .seta {
+      top: auto;
+      bottom: 16px;
+      translate: none;
+      width: 46px;
+      height: 46px;
+    }
+    .quadro {
+      padding-inline: 14px;
+      padding-bottom: 76px;
+    }
+    figcaption {
+      position: relative;
+      z-index: 1;
+    }
+  }
+  .lightbox :focus-visible {
+    outline-color: var(--creme);
+  }
+</style>

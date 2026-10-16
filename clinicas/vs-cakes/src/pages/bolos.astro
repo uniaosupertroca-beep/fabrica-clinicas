@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
-import Foto from "../components/Foto.astro";
+import Ampliar from "../components/Ampliar.astro";
+import Lightbox from "../components/Lightbox.astro";
 import Intro from "../components/Intro.astro";
 import { fotos, nomeDoTipo, type Tipo } from "../data/galeria.ts";
 
@@ -18,7 +19,7 @@ const css = filtros
 ---
 
 <Base titulo="Bolos | VS Cakes, em Itajaí" descricao="Bolos vintage, florais, temáticos, de casamento e de Natal feitos à mão pela Vanessa, em Itajaí. Escolha uma foto e peça um bolo assim.">
-  <Intro titulo="Bolos feitos à mão.">
+  <Intro titulo="Bolos feitos à mão." foto="coracao-preto" mao="um a um, do seu jeito">
     <p>Cada bolo é único e pensado nos mínimos detalhes. Escolha uma foto de que você gostou e peça um assim: a Vanessa adapta ao tema, às cores e à data da sua festa.</p>
   </Intro>
 
@@ -44,7 +45,7 @@ const css = filtros
         {
           fotos.map((f) => (
             <li class="item" data-tipos={f.tipos.join(" ")}>
-              <Foto id={f.id} proporcao="4 / 5" sizes="(min-width: 980px) 28vw, (min-width: 560px) 44vw, 92vw" widths={[360, 560, 820]} />
+              <Ampliar id={f.id} proporcao="4 / 5" sizes="(min-width: 980px) 28vw, (min-width: 560px) 44vw, 92vw" widths={[360, 560, 820]} legenda={false} />
               <div class="rodape-item">
                 <h2>{f.titulo}</h2>
                 <a class="pedir" href={`/encomendar?ref=${f.id}`}>
@@ -69,6 +70,7 @@ const css = filtros
       </div>
     </div>
   </section>
+  <Lightbox />
 </Base>
 
 <style>

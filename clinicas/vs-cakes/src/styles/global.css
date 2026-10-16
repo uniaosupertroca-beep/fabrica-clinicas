@@ -18,6 +18,7 @@
   --zap-escuro: #106b3e;
 
   --titulo: "Fraunces", "Recoleta", Georgia, serif;
+  --mao: "Sacramento", "Segoe Script", cursive;
   --texto: "Hanken Grotesk", "Avenir Next", system-ui, sans-serif;
 
   --largura: 1240px;
@@ -25,7 +26,9 @@
   --respiro: clamp(72px, 9vw, 128px);
   --raio: 22px;
   --raio-foto: 28px;
-  --bico: 14px;
+  --topo: 73px;
+  --concha: clamp(20px, 2.1vw, 28px);
+  --sombra-foto: 0 40px 70px -42px rgba(24, 38, 95, 0.55), 0 14px 30px -20px rgba(24, 38, 95, 0.35);
 }
 
 *,
@@ -47,6 +50,24 @@ html {
   *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+::selection {
+  background: var(--rosa);
+  color: var(--marinho-fundo);
+}
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.32s;
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }
 body {
@@ -86,22 +107,22 @@ h4 {
   text-wrap: balance;
 }
 h1 {
-  font-size: clamp(2.9rem, 1.25rem + 6.6vw, 6.6rem);
-  font-weight: 780;
-  line-height: 0.96;
-  letter-spacing: -0.022em;
+  font-size: clamp(3rem, 1.2rem + 7.4vw, 7.4rem);
+  font-weight: 500;
+  line-height: 0.94;
+  letter-spacing: -0.03em;
 }
 h2 {
-  font-size: clamp(2.05rem, 1.15rem + 3.2vw, 3.9rem);
-  font-weight: 740;
-  line-height: 1.02;
-  letter-spacing: -0.018em;
+  font-size: clamp(2.2rem, 1.1rem + 3.9vw, 4.4rem);
+  font-weight: 520;
+  line-height: 1;
+  letter-spacing: -0.028em;
 }
 h3 {
-  font-size: clamp(1.35rem, 1.1rem + 0.95vw, 1.85rem);
-  font-weight: 650;
-  line-height: 1.14;
-  letter-spacing: -0.008em;
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.014em;
 }
 ul,
 ol {
@@ -198,7 +219,6 @@ textarea {
   mask-image: linear-gradient(180deg, #000, transparent 85%);
 }
 .bico {
-  --cor-acima: var(--marmore);
   position: relative;
 }
 .bico::before {
@@ -206,9 +226,11 @@ textarea {
   position: absolute;
   left: 0;
   right: 0;
-  top: calc(var(--bico) * -1 + 1px);
-  height: var(--bico);
-  background: radial-gradient(circle at 50% 100%, var(--cor-bloco, var(--marinho)) calc(var(--bico) - 0.5px), transparent var(--bico)) 0 0 / calc(var(--bico) * 2) var(--bico) repeat-x;
+  top: calc(var(--concha) * -1 + 1px);
+  height: var(--concha);
+  background: var(--cor-bloco, var(--marinho));
+  -webkit-mask: url("/concha.svg") 50% 100% / calc(var(--concha) * 1.8333) var(--concha) repeat-x;
+  mask: url("/concha.svg") 50% 100% / calc(var(--concha) * 1.8333) var(--concha) repeat-x;
   pointer-events: none;
 }
 .bico.fundo-marinho {
@@ -223,6 +245,9 @@ textarea {
 .bico.fundo-marmore-2 {
   --cor-bloco: var(--marmore-2);
 }
+.bico.fundo-marmore {
+  --cor-bloco: var(--marmore);
+}
 
 /* Botões */
 .botao {
@@ -230,28 +255,36 @@ textarea {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  min-height: 54px;
-  padding: 0 28px;
-  border: 2px solid var(--marinho);
+  min-height: 56px;
+  padding: 0 30px;
+  border: 1.5px solid var(--marinho);
   border-radius: 999px;
   background: var(--marinho);
   color: var(--creme-claro);
   font-weight: 650;
   font-size: 1.0625rem;
+  letter-spacing: 0.005em;
   text-decoration: none;
   cursor: pointer;
+  box-shadow: 0 14px 26px -16px rgba(24, 38, 95, 0.7);
   transition:
-    background-color 0.2s,
-    color 0.2s,
-    transform 0.2s;
+    background-color 0.25s,
+    color 0.25s,
+    transform 0.25s,
+    box-shadow 0.25s;
 }
 .botao:hover {
   background: var(--marinho-fundo);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 30px -16px rgba(24, 38, 95, 0.75);
 }
 .botao--linha {
   background: transparent;
   color: var(--marinho);
+  box-shadow: none;
+}
+.botao--linha:hover {
+  box-shadow: none;
 }
 .botao--linha:hover {
   background: var(--marinho);
@@ -261,6 +294,7 @@ textarea {
   background: var(--rosa);
   border-color: var(--rosa);
   color: var(--marinho);
+  box-shadow: 0 14px 26px -16px rgba(237, 150, 192, 0.9);
 }
 .botao--rosa:hover {
   background: var(--rosa-suave);
@@ -296,6 +330,37 @@ textarea {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* O arco: a "vitrine" da confeitaria. Janela arredondada em cima, base reta. */
+.arco {
+  border-radius: 999px 999px var(--raio-foto) var(--raio-foto);
+}
+.arco-moldura {
+  position: relative;
+  isolation: isolate;
+}
+.arco-moldura::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  translate: 14px 14px;
+  border: 1.5px solid var(--moldura, var(--rosa));
+  border-radius: 999px 999px var(--raio-foto) var(--raio-foto);
+}
+
+/* Letra de mão: ecoa as frases escritas à mão nos bolos. Só em corpo grande, por ser fina. */
+.mao {
+  font-family: var(--mao);
+  font-weight: 400;
+  font-size: clamp(2rem, 1.5rem + 1.6vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: 0;
+  color: var(--marinho);
+}
+.fundo-marinho .mao {
+  color: var(--rosa);
 }
 
 /* Texto de apoio */

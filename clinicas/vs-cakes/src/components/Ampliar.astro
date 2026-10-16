@@ -1,0 +1,55 @@
+---
+// Foto que abre ampliada (lightbox). Sem JavaScript, o link leva direto ao pedido com a foto escolhida.
+import { getImage } from "astro:assets";
+import Foto from "./Foto.astro";
+import { foto, imagem } from "../data/galeria.ts";
+
+interface Props {
+  id: string;
+  proporcao?: string;
+  sizes?: string;
+  widths?: number[];
+  class?: string;
+  legenda?: boolean;
+}
+
+const { id, proporcao = "4 / 5", sizes, widths, class: classe, legenda = true } = Astro.props;
+const dados = foto(id);
+const grande = await getImage({ src: imagem(dados.arquivo), width: 1400, format: "webp", quality: 82 });
+---
+
+<a class:list={["ampliar", classe]} href={`/encomendar?ref=${id}`} data-grande={grande.src} data-titulo={dados.titulo} data-alt={dados.alt} data-id={id} aria-label={`${dados.titulo}: ver ampliada`}>
+  <Foto id={id} proporcao={proporcao} sizes={sizes} widths={widths} />
+  {legenda && <span class="legenda">{dados.titulo}</span>}
+</a>
+
+<style>
+  .ampliar {
+    position: relative;
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    cursor: zoom-in;
+  }
+  .ampliar :global(img) {
+    transition: scale 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .ampliar:hover :global(img) {
+    scale: 1.05;
+  }
+  .legenda {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+    max-width: calc(100% - 28px);
+    padding: 7px 15px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--marmore) 90%, transparent);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    color: var(--marinho);
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
+</style>

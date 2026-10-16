@@ -10,7 +10,7 @@ const { semFlutuante = false } = Astro.props;
 const ano = new Date().getFullYear();
 ---
 
-<footer class="rodape fundo-marinho padrao">
+<footer class="rodape fundo-marinho bico">
   <div class="envolve grade">
     <div class="marca-bloco">
       <a class="logo" href="/"><Marca tamanho="g" /></a>
@@ -49,6 +49,8 @@ const ano = new Date().getFullYear();
     </div>
   </div>
 
+  <div class="gigante" aria-hidden="true"><Marca tamanho="g" /></div>
+
   <div class="envolve fim">
     <p>© {ano} VS Cakes · {negocio.responsavel}{negocio.cnpj ? ` · CNPJ ${negocio.cnpj}` : ""}. Fotos do acervo da VS Cakes.</p>
     <p><a href="/privacidade">Privacidade</a> <a href="/links">Todos os links</a></p>
@@ -67,8 +69,27 @@ const ano = new Date().getFullYear();
 
 <style>
   .rodape {
-    padding-top: clamp(56px, 7vw, 96px);
+    --cor-bloco: var(--marinho-fundo);
+    --concha: clamp(22px, 2.4vw, 32px);
+    padding-top: clamp(64px, 8vw, 112px);
     margin-top: 0;
+    background: var(--marinho-fundo);
+    overflow-x: clip;
+  }
+  .gigante {
+    margin-top: clamp(40px, 6vw, 80px);
+    height: clamp(72px, 16.4vw, 276px);
+    overflow: hidden;
+    text-align: center;
+    color: var(--creme);
+    opacity: 0.075;
+    pointer-events: none;
+    user-select: none;
+  }
+  .gigante :global(.marca) {
+    font-size: clamp(4.6rem, 20vw, 21rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
   }
   .grade {
     display: grid;
@@ -138,7 +159,6 @@ const ano = new Date().getFullYear();
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 10px 24px;
-    margin-top: clamp(40px, 5vw, 64px);
     padding-block: 22px 96px;
     border-top: 1px solid color-mix(in oklab, var(--creme) 20%, transparent);
     font-size: 0.9375rem;
@@ -163,6 +183,7 @@ const ano = new Date().getFullYear();
     bottom: 16px;
     translate: -50% 0;
     padding: 15px 26px;
+    white-space: nowrap;
     border-radius: 999px;
     background: var(--rosa);
     color: var(--marinho);
