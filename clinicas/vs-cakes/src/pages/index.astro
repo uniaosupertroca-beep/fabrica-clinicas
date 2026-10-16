@@ -1,0 +1,522 @@
+---
+import Base from "../layouts/Base.astro";
+import Foto from "../components/Foto.astro";
+import Selo from "../components/Selo.astro";
+import { negocio, linkWhatsapp, mensagemPadrao } from "../data/site.ts";
+import { ocasioes } from "../data/ocasioes.ts";
+import { datas } from "../data/datas.ts";
+import { tamanhos, sabores } from "../data/cardapio.ts";
+import { foto } from "../data/galeria.ts";
+
+const previa = ["floral-gerberas", "bolo-tematico", "rosas-amarelas", "mini-bolos-casamento", "folhas-laranja", "guirlanda-brownie"];
+const passos = [
+  { titulo: "Escolha o tamanho e o sabor", texto: `Do ${tamanhos[0].nome} ao ${tamanhos[tamanhos.length - 1].nome}, com ${sabores.length} sabores no cardápio.` },
+  { titulo: "Conte a decoração", texto: "Tema, paleta de cores e o que torna o momento especial. Referências são bem-vindas." },
+  { titulo: "Combine a data", texto: `Encomendas com pelo menos ${negocio.prazoMinimoDias} dias de antecedência, com retirada agendada ou entrega.` },
+  { titulo: "Pague 50% e retire", texto: "50% na encomenda e 50% na retirada, por Pix, dinheiro ou link de pagamento." },
+];
+---
+
+<Base
+  titulo="VS Cakes | Bolos personalizados, bentô cakes e docinhos em Itajaí"
+  descricao="Bolos com sabor de afeto, feitos à mão pela Vanessa em Itajaí (SC): bolos vintage e personalizados, bentô cakes, mini bolos, docinhos e mesas para casamentos e eventos."
+  comDadosEstruturados
+>
+  <section class="hero">
+    <div class="envolve grade">
+      <div class="texto">
+        <h1>Bolos com sabor de afeto.</h1>
+        <p class="abre">
+          Bolos personalizados, bentô cakes e docinhos feitos à mão pela Vanessa, em {negocio.cidade}. Você conta o momento; a gente cuida de cada detalhe.
+        </p>
+        <div class="acoes">
+          <a class="botao" href="/encomendar">Montar meu pedido</a>
+          <a class="botao botao--linha" href="/bolos">Ver os bolos</a>
+        </div>
+        <ul class="fatos">
+          <li>Encomendas com {negocio.prazoMinimoDias} dias de antecedência</li>
+          <li>Retirada agendada ou entrega</li>
+          <li>Pix, dinheiro ou link de pagamento</li>
+        </ul>
+      </div>
+
+      <div class="visual">
+        <Foto id="coracao-vintage" proporcao="4 / 5" class="principal" sizes="(min-width: 980px) 46vw, 92vw" widths={[520, 800, 1100, 1400]} carregar="eager" />
+        <Foto id="bento-namorados" proporcao="1 / 1" class="segunda" sizes="(min-width: 980px) 20vw, 40vw" widths={[300, 480, 700]} carregar="eager" />
+        <div class="selo-caixa"><Selo class="selo" /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao momentos fundo-marmore-2 bico" aria-labelledby="t-momentos">
+    <div class="envolve">
+      <h2 id="t-momentos">Para qual momento?</h2>
+      <ul class="paineis">
+        {
+          ocasioes.map((o) => (
+            <li>
+              <a class={`painel tema-${o.tema}`} href={o.href}>
+                <Foto id={o.foto} proporcao="4 / 5" sizes="(min-width: 1100px) 22vw, (min-width: 640px) 44vw, 90vw" widths={[360, 560, 800]} alt="" />
+                <span class="painel-texto">
+                  <span class="painel-titulo">{o.titulo}</span>
+                  <span class="painel-p">{o.texto}</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="secao vintage fundo-marinho padrao bico" aria-labelledby="t-vintage">
+    <div class="envolve grade-vintage">
+      <div class="texto">
+        <h2 id="t-vintage">Bico de confeitar, laços e frases escritas à mão.</h2>
+        <p class="abre">
+          Os bolos vintage são a cara da VS Cakes: acabamento todo à mão, cores que combinam com a sua festa e uma frase só sua. Você traz a ideia, a Vanessa transforma em bolo: delicado por fora e irresistível por dentro.
+        </p>
+        <div class="acoes">
+          <a class="botao botao--rosa" href="/bolos#vintage">Ver os bolos vintage</a>
+        </div>
+      </div>
+      <div class="mosaico">
+        <Foto id="vintage-cerejas" proporcao="3 / 5" sizes="(min-width: 980px) 28vw, 52vw" widths={[420, 640, 900]} />
+        <Foto id="coracao-preto" proporcao="1 / 1" sizes="(min-width: 980px) 22vw, 42vw" widths={[320, 520, 760]} />
+        <Foto id="natal-vintage" proporcao="1 / 1" sizes="(min-width: 980px) 22vw, 42vw" widths={[320, 520, 760]} />
+      </div>
+    </div>
+  </section>
+
+  <section class="secao" aria-labelledby="t-previa">
+    <div class="envolve">
+      <div class="cabeca">
+        <h2 id="t-previa">Alguns bolos que a Vanessa fez.</h2>
+        <a class="botao botao--linha" href="/bolos">Ver todos os bolos</a>
+      </div>
+      <ul class="previa">
+        {
+          previa.map((id) => (
+            <li>
+              <a href={`/encomendar?ref=${id}`} class="item">
+                <Foto id={id} proporcao="4 / 5" sizes="(min-width: 980px) 28vw, 46vw" widths={[320, 520, 760]} />
+                <span class="legenda">{foto(id).titulo}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="secao como fundo-rosa bico" aria-labelledby="t-como">
+    <div class="envolve">
+      <h2 id="t-como">Encomendar é simples.</h2>
+      <ol class="passos">
+        {
+          passos.map((p, i) => (
+            <li>
+              <span class="num" aria-hidden="true">{i + 1}</span>
+              <h3>{p.titulo}</h3>
+              <p>{p.texto}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="acoes">
+        <a class="botao" href="/encomendar">Montar meu pedido</a>
+        <a class="botao botao--linha" href="/como-encomendar">Ler todas as regras</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao vanessa fundo-creme bico" aria-labelledby="t-vanessa">
+    <div class="envolve grade-vanessa">
+      <Foto id="vanessa:retrato" proporcao="4 / 5" class="retrato" sizes="(min-width: 980px) 38vw, 92vw" widths={[480, 760, 1040]} />
+      <div class="texto">
+        <h2 id="t-vanessa">Olá, eu sou a Vanessa!</h2>
+        <p class="abre">
+          Sou formada em gastronomia e encontrei na confeitaria a forma mais genuína de expressar meu amor pela profissão.
+        </p>
+        <p>
+          Foi esse amor que deu origem à VS Cakes, um espaço onde cada detalhe é pensado para entregar afeto em forma de sabor. Aqui, cada pedido carrega intenção, carinho e, acima de tudo, qualidade. Meu propósito é te proporcionar um momento especial, único, bonito e memorável: do jeito que ele merece ser lembrado.
+        </p>
+        <p class="anos">{negocio.anosDeMarca} anos adoçando momentos únicos.</p>
+        <a class="botao botao--linha" href="/sobre">Conhecer a história</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao datas" aria-labelledby="t-datas">
+    <div class="envolve">
+      <div class="cabeca">
+        <h2 id="t-datas">Uma data especial a cada estação.</h2>
+        <a class="botao botao--linha" href="/datas-especiais">Ver como foram</a>
+      </div>
+      <p class="abre">A Vanessa lança um cardápio para cada data. Ele sai no Instagram e no WhatsApp, com o prazo de encomenda.</p>
+      <ul class="lista-datas">
+        {
+          datas.map((d) => (
+            <li>
+              <span class="data-nome">{d.nome}</span>
+              <span class="data-quando">{d.quando}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="secao final fundo-marinho padrao bico" aria-labelledby="t-final">
+    <div class="envolve">
+      <h2 id="t-final">Vamos adoçar o seu momento?</h2>
+      <p class="abre">Monte o pedido aqui e a mensagem chega pronta no WhatsApp da Vanessa. Ou chame direto: ela responde com o valor e a data disponível.</p>
+      <div class="acoes">
+        <a class="botao botao--rosa" href="/encomendar">Montar meu pedido</a>
+        <a class="botao botao--linha" href={linkWhatsapp(mensagemPadrao)} target="_blank" rel="noopener noreferrer">Chamar no WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Abertura */
+  .hero {
+    padding-block: clamp(36px, 6vw, 84px) clamp(72px, 9vw, 128px);
+    overflow: hidden;
+  }
+  .grade {
+    display: grid;
+    gap: clamp(40px, 6vw, 72px);
+    align-items: center;
+  }
+  @media (min-width: 980px) {
+    .grade {
+      grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr);
+    }
+  }
+  .texto > * + * {
+    margin-top: 26px;
+  }
+  .acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .fatos {
+    display: grid;
+    gap: 8px;
+    padding-top: 12px;
+    font-size: 1rem;
+    color: var(--tinta-2);
+  }
+  .fatos li {
+    position: relative;
+    padding-left: 26px;
+  }
+  .fatos li::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 0.55em;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--rosa);
+  }
+  .visual {
+    position: relative;
+    padding-bottom: 8%;
+  }
+  .visual :global(.principal) {
+    width: 90%;
+    margin-left: auto;
+    border-radius: 34px 34px 34px 34px;
+    box-shadow: 0 40px 70px -40px rgba(34, 53, 121, 0.5);
+  }
+  .visual :global(.segunda) {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40%;
+    border: 8px solid var(--marmore);
+    border-radius: 28px;
+    rotate: -4deg;
+    box-shadow: 0 24px 40px -24px rgba(34, 53, 121, 0.55);
+  }
+  .selo-caixa {
+    position: absolute;
+    right: -2%;
+    top: -4%;
+    width: clamp(92px, 13vw, 132px);
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--rosa);
+    color: var(--marinho);
+    rotate: 8deg;
+  }
+  .selo {
+    width: 84%;
+  }
+
+  /* Momentos */
+  .momentos {
+    --bico: 16px;
+  }
+  .paineis {
+    display: grid;
+    gap: 20px;
+    margin-top: clamp(32px, 4vw, 52px);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px) {
+    .paineis {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1100px) {
+    .paineis {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .painel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: var(--raio-foto);
+    overflow: hidden;
+    text-decoration: none;
+    transition: translate 0.25s;
+  }
+  .painel:hover {
+    translate: 0 -4px;
+  }
+  .painel :global(.foto) {
+    border-radius: 0;
+    flex: none;
+  }
+  .painel :global(img) {
+    transition: scale 0.5s;
+  }
+  .painel:hover :global(img) {
+    scale: 1.04;
+  }
+  .painel-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 22px 24px 26px;
+    flex: 1;
+  }
+  .painel-titulo {
+    font-family: var(--titulo);
+    font-variation-settings: "SOFT" 100;
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1.12;
+  }
+  .painel-p {
+    font-size: 0.975rem;
+    line-height: 1.5;
+  }
+  .tema-marinho {
+    background: var(--marinho);
+    color: var(--creme-claro);
+  }
+  .tema-marinho .painel-titulo {
+    color: var(--creme);
+  }
+  .tema-rosa {
+    background: var(--rosa-suave);
+    color: var(--marinho);
+  }
+  .tema-creme {
+    background: var(--creme);
+    color: var(--marinho);
+  }
+  .tema-vinho {
+    background: var(--vinho);
+    color: var(--creme-claro);
+  }
+  .tema-vinho .painel-titulo {
+    color: var(--creme);
+  }
+
+  /* Vintage */
+  .grade-vintage {
+    display: grid;
+    gap: clamp(36px, 5vw, 72px);
+    align-items: center;
+  }
+  @media (min-width: 980px) {
+    .grade-vintage {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    }
+  }
+  .mosaico {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 16px;
+    align-items: stretch;
+  }
+  .mosaico :global(.foto:first-child) {
+    grid-row: 1 / span 2;
+    aspect-ratio: auto !important;
+    min-height: 100%;
+  }
+  .mosaico :global(.foto) {
+    border-radius: 24px;
+  }
+
+  /* Prévia dos bolos */
+  .cabeca {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 20px 32px;
+  }
+  .previa {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: clamp(28px, 4vw, 44px);
+  }
+  @media (min-width: 880px) {
+    .previa {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+  }
+  .item {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    color: #fff;
+  }
+  .item :global(img) {
+    transition: scale 0.5s;
+  }
+  .item:hover :global(img) {
+    scale: 1.04;
+  }
+  .legenda {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--marinho) 88%, transparent);
+    color: var(--creme);
+    font-weight: 600;
+    font-size: 0.9375rem;
+  }
+
+  /* Passos */
+  .passos {
+    display: grid;
+    gap: 26px;
+    margin-block: clamp(32px, 4vw, 52px);
+    grid-template-columns: 1fr;
+    counter-reset: passo;
+  }
+  @media (min-width: 700px) {
+    .passos {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1100px) {
+    .passos {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .passos li {
+    display: grid;
+    gap: 10px;
+    align-content: start;
+  }
+  .num {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 4px;
+    border-radius: 50%;
+    background: var(--marinho);
+    color: var(--creme);
+    font-family: var(--titulo);
+    font-variation-settings: "SOFT" 100;
+    font-weight: 780;
+    font-size: 1.5rem;
+  }
+  .passos p {
+    color: var(--tinta-2);
+    font-size: 1rem;
+  }
+
+  /* Vanessa */
+  .grade-vanessa {
+    display: grid;
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
+  }
+  @media (min-width: 980px) {
+    .grade-vanessa {
+      grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr);
+    }
+  }
+  .grade-vanessa :global(.retrato) {
+    max-width: 520px;
+    border-radius: 200px 200px var(--raio-foto) var(--raio-foto);
+  }
+  .vanessa .texto > * + * {
+    margin-top: 20px;
+  }
+  .anos {
+    font-family: var(--titulo);
+    font-variation-settings: "SOFT" 100;
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: var(--vinho);
+  }
+
+  /* Datas */
+  .datas .abre {
+    margin-top: 18px;
+  }
+  .lista-datas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+  .lista-datas li {
+    display: grid;
+    padding: 14px 22px;
+    border-radius: 20px;
+    background: var(--creme-claro);
+    border: 1.5px solid var(--creme);
+  }
+  .data-nome {
+    font-family: var(--titulo);
+    font-variation-settings: "SOFT" 100;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--marinho);
+  }
+  .data-quando {
+    font-size: 0.9rem;
+    color: var(--tinta-2);
+  }
+
+  /* Final */
+  .final .abre {
+    margin-top: 22px;
+    max-width: 44ch;
+  }
+  .final .acoes {
+    margin-top: 32px;
+  }
+</style>

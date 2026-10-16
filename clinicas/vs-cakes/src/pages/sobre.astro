@@ -1,0 +1,187 @@
+---
+import Base from "../layouts/Base.astro";
+import Foto from "../components/Foto.astro";
+import Intro from "../components/Intro.astro";
+import { negocio } from "../data/site.ts";
+
+const marcos = [
+  { ano: "Há 6 anos", texto: "A VS Cakes começa a adoçar momentos únicos, em Itajaí." },
+  { ano: "Agosto de 2025", texto: "Nova identidade visual: mais elegante, mais leve, mais a essência da marca. O recheio de afeto continua o mesmo." },
+  { ano: "Setembro de 2025", texto: "A VS Cakes chega a 5 mil pessoas no Instagram." },
+  { ano: "Junho de 2026", texto: "70 mini bolos para um casamento." },
+  { ano: "Outubro de 2026", texto: "O primeiro Long Cake, com 1 metro de bolo e mais de 2 mil docinhos." },
+];
+---
+
+<Base titulo="Sobre a Vanessa | VS Cakes, em Itajaí" descricao="Conheça a Vanessa, confeiteira formada em gastronomia e dona da VS Cakes, em Itajaí (SC): a história, o jeito de trabalhar e a nova fase da marca.">
+  <Intro titulo="Bolos com história.">
+    <p>A VS Cakes é a confeitaria da Vanessa Soares. Cada bolo é feito à mão, com a intenção de virar parte da memória de quem celebra.</p>
+  </Intro>
+
+  <section class="secao--curta" aria-labelledby="t-oi">
+    <div class="envolve grade">
+      <Foto id="vanessa:retrato" proporcao="4 / 5" class="retrato" sizes="(min-width: 980px) 38vw, 92vw" widths={[480, 760, 1040]} carregar="eager" />
+      <div class="texto">
+        <h2 id="t-oi">Olá, eu sou a Vanessa!</h2>
+        <p class="abre">Sou formada em gastronomia e encontrei na confeitaria a forma mais genuína de expressar meu amor pela profissão.</p>
+        <p>Foi esse amor que deu origem à VS Cakes, um espaço onde cada detalhe é pensado para entregar afeto em forma de sabor. Aqui, cada pedido carrega intenção, carinho e, acima de tudo, qualidade.</p>
+        <p>Meu propósito é te proporcionar um momento especial, único, bonito e memorável: do jeito que ele merece ser lembrado.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao citacao fundo-marinho padrao bico" aria-label="Frase da marca">
+    <div class="envolve">
+      <blockquote>
+        <p>Não vendemos apenas bolos. Vendemos memórias açucaradas.</p>
+      </blockquote>
+      <p class="fonte">Vanessa, da VS Cakes</p>
+    </div>
+  </section>
+
+  <section class="secao" aria-labelledby="t-trajetoria">
+    <div class="envolve trajetoria">
+      <div>
+        <h2 id="t-trajetoria">A trajetória.</h2>
+        <p class="abre">Anos de evolução, de descobertas, de novos formatos, cores e combinações, com o mesmo propósito desde o início: fazer bolos que emocionam e contam histórias.</p>
+      </div>
+      <ol class="linha">
+        {
+          marcos.map((m) => (
+            <li>
+              <span class="ano">{m.ano}</span>
+              <p>{m.texto}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="secao--curta" aria-label="Bastidores">
+    <div class="envolve bastidores">
+      <Foto id="vanessa:flores" proporcao="3 / 4" sizes="(min-width: 980px) 28vw, 46vw" widths={[360, 560, 760]} />
+      <Foto id="vanessa:morangos" proporcao="3 / 4" sizes="(min-width: 980px) 28vw, 46vw" widths={[360, 560, 760]} />
+      <Foto id="vanessa:bico" proporcao="3 / 4" class="terceira" sizes="(min-width: 980px) 28vw, 46vw" widths={[360, 560, 760]} />
+    </div>
+  </section>
+
+  <section class="secao fundo-creme bico" aria-labelledby="t-fim">
+    <div class="envolve fim">
+      <h2 id="t-fim">Vamos fazer o seu bolo?</h2>
+      <p class="abre">Conte para a Vanessa o momento que você quer celebrar.</p>
+      <div class="acoes">
+        <a class="botao" href="/encomendar">Montar meu pedido</a>
+        <a class="botao botao--linha" href={negocio.instagramUrl} target="_blank" rel="noopener noreferrer">Ver o Instagram</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .grade {
+    display: grid;
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
+  }
+  @media (min-width: 980px) {
+    .grade {
+      grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr);
+    }
+  }
+  .grade :global(.retrato) {
+    max-width: 520px;
+    border-radius: 200px 200px var(--raio-foto) var(--raio-foto);
+  }
+  .texto > * + * {
+    margin-top: 20px;
+  }
+  .citacao blockquote {
+    margin: 0;
+  }
+  .citacao blockquote p {
+    max-width: 18ch;
+    font-family: var(--titulo);
+    font-variation-settings: "SOFT" 100;
+    font-weight: 760;
+    font-size: clamp(2.2rem, 1rem + 5.2vw, 5rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--creme);
+  }
+  .fonte {
+    margin-top: 22px;
+    color: var(--rosa);
+    font-weight: 600;
+  }
+  .trajetoria {
+    display: grid;
+    gap: 40px;
+  }
+  @media (min-width: 980px) {
+    .trajetoria {
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 72px;
+    }
+  }
+  .trajetoria .abre {
+    margin-top: 18px;
+  }
+  .linha {
+    display: grid;
+    border-left: 3px solid var(--rosa);
+    margin-left: 6px;
+  }
+  .linha li {
+    position: relative;
+    display: grid;
+    gap: 4px;
+    padding: 0 0 28px 30px;
+  }
+  .linha li::before {
+    content: "";
+    position: absolute;
+    left: -11px;
+    top: 5px;
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+    background: var(--marmore);
+    border: 4px solid var(--marinho);
+  }
+  .ano {
+    font-family: var(--titulo);
+    font-variation-settings: "SOFT" 100;
+    font-weight: 740;
+    font-size: 1.3rem;
+    color: var(--marinho);
+  }
+  .linha p {
+    color: var(--tinta-2);
+  }
+  .bastidores {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: 1fr 1fr;
+  }
+  .bastidores :global(.terceira) {
+    display: none;
+  }
+  @media (min-width: 760px) {
+    .bastidores {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .bastidores :global(.terceira) {
+      display: block;
+    }
+  }
+  .fim .abre {
+    margin: 18px 0 28px;
+  }
+  .acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+</style>

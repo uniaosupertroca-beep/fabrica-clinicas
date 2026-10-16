@@ -1,0 +1,78 @@
+---
+import Base from "../layouts/Base.astro";
+import Foto from "../components/Foto.astro";
+import Marca from "../components/Marca.astro";
+import { negocio, linkWhatsapp, mensagemPadrao } from "../data/site.ts";
+
+const links = [
+  { href: "/encomendar", texto: "Montar meu pedido", destaque: true, externo: false },
+  { href: linkWhatsapp(mensagemPadrao), texto: "Chamar a Vanessa no WhatsApp", externo: true },
+  { href: "/como-encomendar", texto: "Cardápio: tamanhos, sabores e regras", externo: false },
+  { href: "/bento", texto: "Bentô cakes", externo: false },
+  { href: "/bolos", texto: "Galeria de bolos", externo: false },
+  { href: "/datas-especiais", texto: "Datas especiais", externo: false },
+  { href: negocio.instagramUrl, texto: `Instagram @${negocio.instagram}`, externo: true },
+];
+---
+
+<Base titulo="Links | VS Cakes" descricao="Todos os caminhos da VS Cakes em um só lugar: monte seu pedido, veja o cardápio, os bolos e fale com a Vanessa pelo WhatsApp." semFlutuante>
+  <section class="pagina fundo-marinho padrao">
+    <div class="miolo">
+      <h1 class="so-leitor">Links da VS Cakes</h1>
+      <Foto id="vanessa:perfil" proporcao="1 / 1" class="rosto" sizes="120px" widths={[120, 240, 360]} carregar="eager" />
+      <a class="marca" href="/"><Marca tamanho="g" /></a>
+      <p class="frase">Doces que encantam, experiências que marcam.</p>
+      <ul class="lista">
+        {
+          links.map((l) => (
+            <li>
+              <a class:list={["botao", l.destaque ? "botao--rosa" : "botao--linha"]} href={l.href} target={l.externo ? "_blank" : undefined} rel={l.externo ? "noopener noreferrer" : undefined}>
+                {l.texto}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .pagina {
+    min-height: calc(100vh - 76px);
+    display: grid;
+    place-items: center;
+    padding: 56px 20px 120px;
+  }
+  .miolo {
+    width: min(100%, 460px);
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: 14px;
+  }
+  .miolo :global(.rosto) {
+    width: 112px;
+    border-radius: 50%;
+    border: 4px solid var(--rosa);
+  }
+  .marca {
+    color: var(--creme);
+    text-decoration: none;
+  }
+  .frase {
+    font-family: var(--titulo);
+    font-variation-settings: "SOFT" 100;
+    font-size: 1.3rem;
+    color: var(--creme);
+    margin-bottom: 14px;
+  }
+  .lista {
+    display: grid;
+    gap: 12px;
+    width: 100%;
+  }
+  .lista .botao {
+    width: 100%;
+  }
+</style>

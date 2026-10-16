@@ -1,0 +1,105 @@
+---
+import Base from "../layouts/Base.astro";
+import Foto from "../components/Foto.astro";
+import Intro from "../components/Intro.astro";
+import { linkWhatsapp } from "../data/site.ts";
+
+const msg = linkWhatsapp("Oi, Vanessa! Quero um orçamento para um casamento ou evento. A data é ___ e serão cerca de ___ convidados.");
+const casos = [
+  {
+    id: "mini-bolos-casamento",
+    titulo: "70 mini bolos para um casamento",
+    texto: "Feitos um a um, com todo o cuidado que o dia merece: recheio, massa, laço e flor pensados para transformar o casamento em uma lembrança ainda mais doce.",
+    quando: "Junho de 2026",
+  },
+  {
+    id: "long-cake",
+    titulo: "O primeiro Long Cake: 1 metro de bolo",
+    texto: "Um bolo de 1 metro com dois sabores, chocolate com toque de whisky e nozes e 4 leites com morangos frescos, mais de 2 mil docinhos e decoração com flores frescas, num evento de tema country.",
+    quando: "Outubro de 2026",
+  },
+  {
+    id: "casamento-duas-camadas",
+    titulo: "Bolo de duas camadas com rosas",
+    texto: "Cobertura texturizada e rosas brancas, para uma mesa de doces à beira do lago.",
+    quando: "Outubro de 2026",
+  },
+];
+---
+
+<Base titulo="Casamentos e eventos | VS Cakes, em Itajaí" descricao="Bolos de casamento, mini bolos, long cake e mesas de docinhos para eventos, feitos à mão pela VS Cakes, em Itajaí (SC).">
+  <Intro titulo="Casamentos e eventos.">
+    <p>Quando o bolo é parte da decoração, cada detalhe conta. A Vanessa faz mini bolos, bolos de várias camadas, long cake e docinhos para mesas de festa.</p>
+  </Intro>
+
+  <section class="secao--curta" aria-label="Trabalhos em eventos">
+    <div class="envolve">
+      <ul class="casos">
+        {
+          casos.map((c, i) => (
+            <li class:list={["caso", i % 2 === 1 && "inverso"]}>
+              <Foto id={c.id} proporcao="4 / 5" class="caso-foto" sizes="(min-width: 980px) 32vw, 92vw" widths={[480, 760, 1040]} carregar={i === 0 ? "eager" : "lazy"} />
+              <div class="caso-texto">
+                <span class="chip">{c.quando}</span>
+                <h2>{c.titulo}</h2>
+                <p class="abre">{c.texto}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="secao fundo-marinho padrao bico" aria-labelledby="t-orc">
+    <div class="envolve orc">
+      <h2 id="t-orc">Vai ter festa grande?</h2>
+      <p class="abre">Conte a data, o número de convidados e o estilo que você imaginou. Eventos grandes pedem mais antecedência do que os quatro dias de um bolo comum, então fale com a Vanessa assim que souber a data.</p>
+      <div class="acoes">
+        <a class="botao botao--zap" href={msg} target="_blank" rel="noopener noreferrer">Pedir orçamento no WhatsApp</a>
+        <a class="botao botao--linha" href="/encomendar?momento=casamento">Montar meu pedido</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .casos {
+    display: grid;
+    gap: clamp(56px, 8vw, 104px);
+  }
+  .caso {
+    display: grid;
+    gap: clamp(24px, 4vw, 56px);
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .caso {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+    }
+    .caso.inverso {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+    }
+    .caso.inverso :global(.caso-foto) {
+      order: 2;
+    }
+  }
+  .caso :global(.caso-foto) {
+    max-width: 560px;
+  }
+  .caso-texto {
+    display: grid;
+    gap: 18px;
+    justify-items: start;
+  }
+  .orc .abre {
+    margin-top: 20px;
+    max-width: 50ch;
+  }
+  .acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 30px;
+  }
+</style>

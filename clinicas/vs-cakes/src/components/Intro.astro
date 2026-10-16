@@ -1,0 +1,32 @@
+---
+// Abertura das páginas internas: título grande e um parágrafo de apoio.
+interface Props {
+  titulo: string;
+  id?: string;
+}
+const { titulo, id = "t-intro" } = Astro.props;
+---
+
+<section class="intro" aria-labelledby={id}>
+  <div class="envolve">
+    <h1 id={id}>{titulo}</h1>
+    <div class="abre"><slot /></div>
+  </div>
+</section>
+
+<style>
+  .intro {
+    padding-block: clamp(44px, 7vw, 96px) clamp(36px, 5vw, 64px);
+  }
+  h1 {
+    font-size: clamp(2.7rem, 1.2rem + 5.8vw, 5.6rem);
+    max-width: 14ch;
+  }
+  .abre {
+    margin-top: clamp(18px, 2.4vw, 28px);
+    max-width: 58ch;
+  }
+  .abre :global(p + p) {
+    margin-top: 14px;
+  }
+</style>

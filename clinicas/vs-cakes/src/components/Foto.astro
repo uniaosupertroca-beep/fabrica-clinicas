@@ -1,0 +1,35 @@
+---
+import { Image } from "astro:assets";
+import { foto, imagem, vanessa } from "../data/galeria.ts";
+
+interface Props {
+  /** Id de uma foto de fotos[] ou uma chave de vanessa (ex.: "vanessa:retrato"). */
+  id: string;
+  proporcao?: string;
+  sizes?: string;
+  widths?: number[];
+  carregar?: "lazy" | "eager";
+  class?: string;
+  /** Sobrescreve o texto alternativo. alt="" marca a foto como decorativa. */
+  alt?: string;
+}
+
+const { id, proporcao = "4 / 5", sizes = "(min-width: 980px) 33vw, 90vw", widths = [420, 700, 1000], carregar = "lazy", class: classe, alt } = Astro.props;
+const dados = id.startsWith("vanessa:") ? vanessa[id.slice(8) as keyof typeof vanessa] : foto(id);
+const texto = alt ?? dados.alt;
+---
+
+<figure class:list={["foto", classe]} style={`aspect-ratio:${proporcao}`}>
+  <Image
+    src={imagem(dados.arquivo)}
+    alt={texto}
+    widths={widths}
+    sizes={sizes}
+    format="webp"
+    quality={80}
+    loading={carregar}
+    decoding="async"
+    fetchpriority={carregar === "eager" ? "high" : undefined}
+    style={`object-position:${dados.posicao ?? "50% 50%"}`}
+  />
+</figure>

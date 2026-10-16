@@ -1,0 +1,467 @@
+---
+import Base from "../layouts/Base.astro";
+import Intro from "../components/Intro.astro";
+import { negocio, linkWhatsapp, mensagemPadrao } from "../data/site.ts";
+import { tamanhos, sabores, nomeDaLinha, real } from "../data/cardapio.ts";
+import { fotos } from "../data/galeria.ts";
+
+const momentos = [
+  { id: "aniversario", nome: "Aniversário" },
+  { id: "mesversario", nome: "Mesversário" },
+  { id: "casamento", nome: "Casamento ou evento" },
+  { id: "presente", nome: "Presente" },
+  { id: "outro", nome: "Outro momento" },
+];
+const produtos = [
+  { id: "bolo", nome: "Bolo" },
+  { id: "bento", nome: "Bentô cake" },
+  { id: "docinhos", nome: "Docinhos" },
+  { id: "varios", nome: "Mais de uma coisa" },
+];
+// O que o script precisa saber, sem embutir nada na página.
+const dados = JSON.stringify({
+  whatsapp: negocio.whatsapp,
+  prazo: negocio.prazoMinimoDias,
+  precos: negocio.mostrarPrecos,
+  retirada: negocio.retirada.map(({ dias, de, ate }) => ({ dias, de, ate })),
+  tamanhos: tamanhos.map((t) => ({ id: t.id, nome: t.nome, diametro: t.diametro, fatias: t.fatias, max: t.fatiasMax, valor: t.valor })),
+  sabores: sabores.map((s) => ({ id: s.id, nome: s.nome, linha: s.linha, recheio: s.recheio })),
+  fotos: Object.fromEntries(fotos.map((f) => [f.id, f.titulo])),
+});
+---
+
+<Base titulo="Monte seu pedido | VS Cakes, em Itajaí" descricao="Escolha o momento, o tamanho, o sabor, a decoração e a data. A mensagem do pedido chega pronta no WhatsApp da Vanessa, da VS Cakes." semFlutuante>
+  <Intro titulo="Monte seu pedido.">
+    <p>Responda em poucos passos e envie para a Vanessa pelo WhatsApp. Ela confirma o valor final e a data disponível. Nada é cobrado nem guardado por aqui.</p>
+  </Intro>
+
+  <noscript>
+    <section class="secao--curta">
+      <div class="envolve semjs">
+        <h2>Ative o JavaScript para montar o pedido aqui.</h2>
+        <p>Sem ele, chame a Vanessa no WhatsApp e conte o momento, o tamanho, o sabor e a data que você quer.</p>
+        <a class="botao botao--zap" href={linkWhatsapp(mensagemPadrao)} target="_blank" rel="noopener noreferrer">Chamar no WhatsApp</a>
+      </div>
+    </section>
+  </noscript>
+
+  <section class="construtor secao--curta" id="construtor" hidden data-config={dados}>
+    <div class="envolve grade">
+      <form id="pedido" class="form" novalidate autocomplete="off">
+        <fieldset>
+          <legend>1. Qual é o momento?</legend>
+          <div class="chips">
+            {
+              momentos.map((m) => (
+                <label>
+                  <input type="radio" name="momento" value={m.id} />
+                  <span>{m.nome}</span>
+                </label>
+              ))
+            }
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>2. O que você quer?</legend>
+          <div class="chips">
+            {
+              produtos.map((p, i) => (
+                <label>
+                  <input type="radio" name="produto" value={p.id} checked={i === 0} />
+                  <span>{p.nome}</span>
+                </label>
+              ))
+            }
+          </div>
+          <p class="dica" id="dica-produto" hidden>Bentô cakes e docinhos não têm tamanho nem sabor fixos: a Vanessa combina com você no WhatsApp.</p>
+        </fieldset>
+
+        <div id="bloco-bolo">
+          <fieldset>
+            <legend>3. Para quantas pessoas?</legend>
+            <label class="campo">
+              <span class="so-leitor">Quantidade de pessoas</span>
+              <input type="number" name="pessoas" min="1" max="50" inputmode="numeric" placeholder="Ex.: 25" />
+            </label>
+            <p class="dica" id="sugestao" aria-live="polite"></p>
+          </fieldset>
+
+          <fieldset>
+            <legend>4. Qual tamanho?</legend>
+            <div class="tamanhos">
+              {
+                tamanhos.map((t) => (
+                  <label>
+                    <input type="radio" name="tamanho" value={t.id} />
+                    <span class="cartao-tam">
+                      <strong>{t.nome}</strong>
+                      <span>{t.diametro} cm</span>
+                      <span>{t.fatias} fatias</span>
+                      {negocio.mostrarPrecos && <span class="a-partir">a partir de {real(t.valor.tradicional)}</span>}
+                    </span>
+                  </label>
+                ))
+              }
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>5. Qual sabor?</legend>
+            <label class="campo">
+              <span class="so-leitor">Sabor</span>
+              <select name="sabor">
+                <option value="">Escolha um sabor</option>
+                {
+                  (["tradicional", "especial"] as const).map((l) => (
+                    <optgroup label={`${nomeDaLinha[l]}s`}>
+                      {sabores
+                        .filter((s) => s.linha === l)
+                        .map((s) => (
+                          <option value={s.id}>{s.nome}</option>
+                        ))}
+                    </optgroup>
+                  ))
+                }
+              </select>
+            </label>
+            <p class="dica" id="recheio" aria-live="polite"></p>
+          </fieldset>
+        </div>
+
+        <fieldset>
+          <legend>6. Como será a decoração?</legend>
+          <label class="campo">
+            <span>Tema, cores e o que torna o momento especial</span>
+            <textarea name="decoracao" rows="4" maxlength="600" placeholder="Ex.: bolo vintage em tons de rosa e vermelho, com a frase “Feliz aniversário, Ana”"></textarea>
+          </label>
+          <label class="campo">
+            <span>Link de uma referência (opcional)</span>
+            <input type="url" name="referencia" inputmode="url" placeholder="Instagram, Pinterest…" />
+          </label>
+          <p class="dica" id="foto-ref" hidden></p>
+        </fieldset>
+
+        <fieldset>
+          <legend>7. Quando e como você recebe?</legend>
+          <div class="chips">
+            <label>
+              <input type="radio" name="entrega" value="retirada" checked />
+              <span>Retirada</span>
+            </label>
+            <label>
+              <input type="radio" name="entrega" value="entrega" />
+              <span>Entrega</span>
+            </label>
+          </div>
+          <div class="duas">
+            <label class="campo">
+              <span>Data</span>
+              <input type="date" name="data" />
+            </label>
+            <label class="campo">
+              <span>Horário</span>
+              <select name="hora" disabled>
+                <option value="">Escolha a data primeiro</option>
+              </select>
+            </label>
+          </div>
+          <p class="dica" id="aviso-data" aria-live="polite"></p>
+          <label class="campo" id="campo-endereco" hidden>
+            <span>Bairro ou endereço da entrega (opcional)</span>
+            <input type="text" name="endereco" maxlength="140" placeholder="A taxa depende do endereço" />
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>8. Seu nome</legend>
+          <label class="campo">
+            <span class="so-leitor">Seu nome</span>
+            <input type="text" name="nome" maxlength="80" autocomplete="given-name" placeholder="Como a Vanessa pode te chamar?" />
+          </label>
+        </fieldset>
+      </form>
+
+      <aside class="resumo" aria-labelledby="t-resumo">
+        <h2 id="t-resumo">Seu pedido</h2>
+        <div id="texto-resumo" class="texto-resumo" aria-live="polite"></div>
+        {negocio.mostrarPrecos && <p class="valor" id="valor" hidden></p>}
+        <p class="erro" id="erro" role="alert" hidden></p>
+        <a id="enviar" class="botao botao--zap" href={linkWhatsapp(mensagemPadrao)} target="_blank" rel="noopener noreferrer">Enviar para a Vanessa no WhatsApp</a>
+        <button id="copiar" class="botao botao--linha" type="button">Copiar a mensagem</button>
+        <p class="status" id="status" role="status"></p>
+        <p class="nota">A mensagem abre no seu WhatsApp, pronta para enviar. A Vanessa confirma o valor final, que inclui a decoração, e a data.</p>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import "../scripts/pedido.ts";
+</script>
+
+<style>
+  .semjs {
+    display: grid;
+    gap: 18px;
+    justify-items: start;
+  }
+  .grade {
+    display: grid;
+    gap: clamp(28px, 4vw, 56px);
+    align-items: start;
+  }
+  @media (min-width: 1000px) {
+    .grade {
+      grid-template-columns: minmax(0, 1.5fr) minmax(300px, 0.9fr);
+    }
+  }
+  .form {
+    display: grid;
+    gap: 34px;
+  }
+  fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    display: grid;
+    gap: 14px;
+  }
+  legend {
+    padding: 0;
+    margin-bottom: 14px;
+    font-family: var(--titulo);
+    font-variation-settings: "SOFT" 100;
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: var(--marinho);
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .chips label,
+  .tamanhos label {
+    position: relative;
+  }
+  input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    cursor: pointer;
+  }
+  .chips span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 22px;
+    border: 2px solid color-mix(in oklab, var(--marinho) 28%, transparent);
+    border-radius: 999px;
+    background: var(--marmore);
+    font-weight: 620;
+    color: var(--marinho);
+    transition:
+      background-color 0.15s,
+      color 0.15s,
+      border-color 0.15s;
+  }
+  .chips input:hover + span {
+    border-color: var(--marinho);
+  }
+  .chips input:checked + span {
+    background: var(--marinho);
+    border-color: var(--marinho);
+    color: var(--creme-claro);
+  }
+  input[type="radio"]:focus-visible + span {
+    outline: 3px solid var(--marinho);
+    outline-offset: 3px;
+  }
+  .tamanhos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  @media (min-width: 560px) {
+    .tamanhos {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .cartao-tam {
+    display: grid;
+    gap: 2px;
+    height: 100%;
+    padding: 14px 16px;
+    border: 2px solid color-mix(in oklab, var(--marinho) 22%, transparent);
+    border-radius: 20px;
+    background: var(--marmore);
+    font-size: 0.95rem;
+    color: var(--tinta-2);
+    transition:
+      background-color 0.15s,
+      border-color 0.15s;
+  }
+  .cartao-tam strong {
+    font-family: var(--titulo);
+    font-variation-settings: "SOFT" 100;
+    font-weight: 780;
+    font-size: 1.6rem;
+    line-height: 1.1;
+    color: var(--marinho);
+  }
+  .a-partir {
+    margin-top: 4px;
+    font-weight: 650;
+    color: var(--vinho);
+  }
+  .tamanhos input:hover + .cartao-tam {
+    border-color: var(--marinho);
+  }
+  .tamanhos input:checked + .cartao-tam {
+    background: var(--rosa-papel);
+    border-color: var(--marinho);
+    box-shadow: inset 0 0 0 1px var(--marinho);
+  }
+  .tamanhos input:focus-visible + .cartao-tam {
+    outline: 3px solid var(--marinho);
+    outline-offset: 3px;
+  }
+  .campo {
+    display: grid;
+    gap: 8px;
+    font-weight: 600;
+    color: var(--marinho);
+  }
+  .campo input,
+  .campo select,
+  .campo textarea {
+    width: 100%;
+    min-height: 52px;
+    padding: 12px 16px;
+    border: 2px solid color-mix(in oklab, var(--marinho) 28%, transparent);
+    border-radius: 16px;
+    background: #fff;
+    font-weight: 400;
+    color: var(--tinta);
+  }
+  .campo textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+  .campo input:focus,
+  .campo select:focus,
+  .campo textarea:focus {
+    outline: 3px solid color-mix(in oklab, var(--rosa) 70%, transparent);
+    outline-offset: 1px;
+    border-color: var(--marinho);
+  }
+  .duas {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 560px) {
+    .duas {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .dica {
+    font-size: 0.95rem;
+    color: var(--tinta-2);
+  }
+  .dica:empty {
+    display: none;
+  }
+  #aviso-data.erro-data {
+    color: var(--vinho);
+    font-weight: 600;
+  }
+  [hidden] {
+    display: none !important;
+  }
+
+  /* Resumo */
+  .resumo {
+    display: grid;
+    gap: 16px;
+    padding: clamp(22px, 3vw, 32px);
+    border-radius: var(--raio-foto);
+    background: var(--creme);
+  }
+  @media (min-width: 1000px) {
+    .resumo {
+      position: sticky;
+      top: 20px;
+    }
+  }
+  .resumo h2 {
+    font-size: 1.8rem;
+  }
+  /* O resumo é montado pelo script, então estes estilos precisam ser globais. */
+  .texto-resumo {
+    font-size: 1rem;
+  }
+  .texto-resumo :global(p) {
+    max-width: none;
+  }
+  .texto-resumo :global(dl) {
+    margin: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .texto-resumo :global(dl > div) {
+    display: grid;
+    gap: 1px;
+  }
+  .texto-resumo :global(dt) {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--marinho);
+  }
+  .texto-resumo :global(dd) {
+    margin: 0;
+    color: var(--tinta);
+    overflow-wrap: anywhere;
+  }
+  .texto-resumo :global(.vazio) {
+    color: var(--tinta-2);
+  }
+  #bloco-bolo {
+    display: grid;
+    gap: 34px;
+  }
+  .valor {
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: var(--marmore);
+    font-weight: 650;
+    color: var(--marinho);
+  }
+  .erro {
+    padding: 12px 16px;
+    border-radius: 14px;
+    background: #fff;
+    border: 2px solid var(--vinho);
+    color: var(--vinho);
+    font-weight: 600;
+    font-size: 0.975rem;
+  }
+  .resumo .botao {
+    width: 100%;
+  }
+  .status {
+    min-height: 1.4em;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--zap-escuro);
+  }
+  .nota {
+    font-size: 0.9rem;
+    color: var(--tinta-2);
+  }
+</style>

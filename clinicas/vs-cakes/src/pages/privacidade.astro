@@ -1,0 +1,59 @@
+---
+import Base from "../layouts/Base.astro";
+import Intro from "../components/Intro.astro";
+import { negocio, linkWhatsapp, mensagemPadrao } from "../data/site.ts";
+---
+
+<Base titulo="Privacidade | VS Cakes" descricao="Como o site da VS Cakes trata os seus dados: não usa cookies, não guarda o que você preenche e só abre o WhatsApp quando você pede.">
+  <Intro titulo="Privacidade.">
+    <p>Este site foi feito para coletar o mínimo possível. Aqui está, em linguagem simples, o que acontece com as suas informações.</p>
+  </Intro>
+
+  <section class="secao--curta">
+    <div class="envolve texto">
+      <h2>O que o site guarda</h2>
+      <p>Nada. O “Monte seu pedido” monta a mensagem no seu próprio navegador. O que você escreve (nome, decoração, endereço de entrega) não é enviado para nenhum servidor do site e não fica salvo depois que você fecha a página.</p>
+
+      <h2>Cookies e rastreadores</h2>
+      <p>O site não usa cookies, não tem anúncios e não carrega rastreadores de terceiros.</p>
+
+      <h2>Quando seus dados saem daqui</h2>
+      <p>Somente quando você toca em “Enviar para a Vanessa no WhatsApp”. Aí a mensagem abre no WhatsApp, que é um serviço da Meta e tem a própria política de privacidade. A partir desse momento, a conversa é entre você e a Vanessa e serve para atender o seu pedido.</p>
+
+      <h2>Hospedagem</h2>
+      <p>O site é hospedado na Cloudflare, que pode registrar dados técnicos de acesso (como o endereço IP) por segurança e para manter o site no ar.</p>
+
+      <h2>Fotos</h2>
+      <p>As fotos são do acervo da VS Cakes, publicadas no Instagram @{negocio.instagram}. Se você aparece em alguma foto e quer que ela saia do site, é só avisar.</p>
+
+      <h2>Seus direitos</h2>
+      <p>Pela Lei Geral de Proteção de Dados (LGPD), você pode pedir informações sobre os seus dados, a correção ou a exclusão deles. Como o site não guarda dados, o que a Vanessa tem são as conversas do WhatsApp do seu pedido: peça por lá.</p>
+
+      <h2>Contato</h2>
+      <p>
+        Responsável: {negocio.responsavel}, da {negocio.nome}, em {negocio.cidade} ({negocio.uf}). Fale pelo
+        <a href={linkWhatsapp(mensagemPadrao)} target="_blank" rel="noopener noreferrer">WhatsApp {negocio.whatsappVisivel}</a>.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .texto {
+    display: grid;
+    gap: 14px;
+    max-width: 760px;
+    margin-inline: 0;
+    padding-bottom: var(--respiro);
+  }
+  .texto h2 {
+    font-size: 1.6rem;
+    margin-top: 22px;
+  }
+  .texto a {
+    color: var(--marinho);
+    font-weight: 600;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--rosa);
+  }
+</style>

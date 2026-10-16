@@ -1,0 +1,138 @@
+---
+import Base from "../layouts/Base.astro";
+import Foto from "../components/Foto.astro";
+import Intro from "../components/Intro.astro";
+import { linkWhatsapp } from "../data/site.ts";
+
+const msg = linkWhatsapp("Oi, Vanessa! Quero encomendar um bentô cake.");
+const usos = [
+  { titulo: "Uma mensagem", texto: "Uma frase divertida ou uma declaração especial, escrita à mão no bolo." },
+  { titulo: "Um desenho", texto: "Flores, corações ou o que você imaginar, desenhado à mão." },
+  { titulo: "Um kit", texto: "O bentô cake junto com docinhos, em uma caixa para presentear." },
+];
+---
+
+<Base titulo="Bentô cakes | VS Cakes, em Itajaí" descricao="Bentô cakes personalizados da VS Cakes, em Itajaí: mini bolos com frase, desenho ou declaração, e kits com docinhos para presentear.">
+  <Intro titulo="Bentô cakes: pequenos no tamanho, gigantes na criatividade.">
+    <p>Um mini bolo em caixinha, com a mensagem que você quiser. Perfeito para presentear no aniversário, no Dia dos Namorados, das Mães, dos Pais ou só porque sim.</p>
+  </Intro>
+
+  <section class="secao--curta fotos" aria-label="Fotos de bentô cakes">
+    <div class="envolve grade">
+      <Foto id="bento-namorados" proporcao="1 / 1" sizes="(min-width: 980px) 30vw, 92vw" widths={[420, 700, 1000]} carregar="eager" />
+      <Foto id="bento-maes" proporcao="1 / 1" sizes="(min-width: 980px) 30vw, 46vw" widths={[420, 700, 1000]} />
+      <Foto id="bento-pais" proporcao="1 / 1" sizes="(min-width: 980px) 30vw, 46vw" widths={[420, 700, 1000]} />
+    </div>
+  </section>
+
+  <section class="secao" aria-labelledby="t-usos">
+    <div class="envolve">
+      <h2 id="t-usos">O que cabe em um bentô.</h2>
+      <ul class="usos">
+        {
+          usos.map((u) => (
+            <li>
+              <h3>{u.titulo}</h3>
+              <p>{u.texto}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="valor">O cardápio de bentô cakes, com valores e opções, está em PDF no link da Vanessa. Para tirar dúvidas ou pedir, chame no WhatsApp.</p>
+      <div class="acoes">
+        <a class="botao botao--zap" href={msg} target="_blank" rel="noopener noreferrer">Pedir pelo WhatsApp</a>
+        <a class="botao botao--linha" href="/encomendar?produto=bento">Montar meu pedido</a>
+        <a class="botao botao--linha" href="https://linktr.ee/vscakes__" target="_blank" rel="noopener noreferrer">Ver o cardápio em PDF</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="secao fundo-rosa bico" aria-labelledby="t-mais">
+    <div class="envolve mais">
+      <div>
+        <h2 id="t-mais">Mais fotos de bentôs.</h2>
+        <p class="abre">Os mais pedidos acompanham as datas: Namorados, Mães, Pais e Dia do Amigo. Cada um sai com uma frase diferente.</p>
+        <p class="abre"><a class="link" href="/datas-especiais">Ver as datas especiais</a></p>
+      </div>
+      <div class="duas">
+        <Foto id="bento-pais-caixa" proporcao="4 / 5" sizes="(min-width: 980px) 22vw, 46vw" widths={[360, 560, 800]} />
+        <Foto id="bento-amigo" proporcao="4 / 5" sizes="(min-width: 980px) 22vw, 46vw" widths={[360, 560, 800]} />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .grade {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: 1fr 1fr;
+  }
+  .grade :global(.foto:first-child) {
+    grid-column: 1 / -1;
+  }
+  @media (min-width: 760px) {
+    .grade {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .grade :global(.foto:first-child) {
+      grid-column: auto;
+    }
+  }
+  .usos {
+    display: grid;
+    gap: 26px;
+    margin-top: clamp(26px, 3vw, 40px);
+  }
+  @media (min-width: 800px) {
+    .usos {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+  }
+  .usos li {
+    display: grid;
+    gap: 8px;
+    padding-top: 18px;
+    border-top: 3px solid var(--rosa);
+  }
+  .usos p {
+    color: var(--tinta-2);
+  }
+  .valor {
+    margin-top: clamp(28px, 3vw, 44px);
+    font-weight: 560;
+  }
+  .acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 26px;
+  }
+  .mais {
+    display: grid;
+    gap: 36px;
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .mais {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .mais .abre {
+    margin-top: 18px;
+  }
+  .duas {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: 1fr 1fr;
+  }
+  .link {
+    font-weight: 650;
+    color: var(--vinho);
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--rosa);
+  }
+</style>

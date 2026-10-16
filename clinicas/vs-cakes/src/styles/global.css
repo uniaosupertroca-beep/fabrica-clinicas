@@ -1,0 +1,320 @@
+/* VS Cakes: marinho, rosa e creme sobre mármore claro, com título em serifa macia e pesada (Fraunces)
+   e texto em Hanken Grotesk. O rosa vivo é só enfeite: sobre claro ele não tem contraste para texto. */
+:root {
+  --marmore: #f8f6f3;
+  --marmore-2: #eeeae6;
+  --marinho: #223579;
+  --marinho-fundo: #18265f;
+  --rosa: #ed96c0;
+  --rosa-suave: #f6cfdc;
+  --rosa-papel: #fcebf1;
+  --creme: #f4e1c1;
+  --creme-claro: #faf0dd;
+  --vinho: #8d2a22;
+  --tinta: #1f2b63;
+  --tinta-2: #4a5486;
+  --linha: #ddd6d6;
+  --zap: #157f4b;
+  --zap-escuro: #106b3e;
+
+  --titulo: "Fraunces", "Recoleta", Georgia, serif;
+  --texto: "Hanken Grotesk", "Avenir Next", system-ui, sans-serif;
+
+  --largura: 1240px;
+  --margem: clamp(20px, 4.6vw, 56px);
+  --respiro: clamp(72px, 9vw, 128px);
+  --raio: 22px;
+  --raio-foto: 28px;
+  --bico: 14px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+body {
+  margin: 0;
+  background: var(--marmore);
+  color: var(--tinta);
+  font-family: var(--texto);
+  font-size: 1.0625rem;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+img {
+  height: auto;
+}
+a {
+  color: inherit;
+}
+p {
+  margin: 0;
+  max-width: 62ch;
+}
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: var(--titulo);
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 100, "WONK" 0;
+  color: var(--marinho);
+  text-wrap: balance;
+}
+h1 {
+  font-size: clamp(2.9rem, 1.25rem + 6.6vw, 6.6rem);
+  font-weight: 780;
+  line-height: 0.96;
+  letter-spacing: -0.022em;
+}
+h2 {
+  font-size: clamp(2.05rem, 1.15rem + 3.2vw, 3.9rem);
+  font-weight: 740;
+  line-height: 1.02;
+  letter-spacing: -0.018em;
+}
+h3 {
+  font-size: clamp(1.35rem, 1.1rem + 0.95vw, 1.85rem);
+  font-weight: 650;
+  line-height: 1.14;
+  letter-spacing: -0.008em;
+}
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--marinho);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+.escuro :focus-visible,
+.fundo-marinho :focus-visible {
+  outline-color: var(--creme);
+}
+.pular {
+  position: absolute;
+  left: 12px;
+  top: -64px;
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--marinho);
+  color: var(--creme);
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+}
+.pular:focus {
+  top: 12px;
+}
+.so-leitor {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Estrutura */
+.envolve {
+  width: min(100% - 2 * var(--margem), var(--largura));
+  margin-inline: auto;
+}
+.secao {
+  position: relative;
+  padding-block: var(--respiro);
+}
+.secao--curta {
+  padding-block: clamp(48px, 6vw, 84px);
+}
+
+/* Blocos coloridos. O "bico" imita a borda de glacê: bolinhas de confeitar no topo do bloco. */
+.fundo-marinho {
+  background: var(--marinho);
+  color: var(--creme-claro);
+}
+.fundo-marinho h1,
+.fundo-marinho h2,
+.fundo-marinho h3 {
+  color: var(--creme);
+}
+.fundo-creme {
+  background: var(--creme);
+}
+.fundo-rosa {
+  background: var(--rosa-papel);
+}
+.fundo-marmore-2 {
+  background: var(--marmore-2);
+}
+.padrao {
+  position: relative;
+  isolation: isolate;
+}
+.padrao::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url("/padrao-vs.svg") 0 0 / 150px 100px;
+  color: var(--rosa);
+  opacity: 0.09;
+  mask-image: linear-gradient(180deg, #000, transparent 85%);
+}
+.bico {
+  --cor-acima: var(--marmore);
+  position: relative;
+}
+.bico::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--bico) * -1 + 1px);
+  height: var(--bico);
+  background: radial-gradient(circle at 50% 100%, var(--cor-bloco, var(--marinho)) calc(var(--bico) - 0.5px), transparent var(--bico)) 0 0 / calc(var(--bico) * 2) var(--bico) repeat-x;
+  pointer-events: none;
+}
+.bico.fundo-marinho {
+  --cor-bloco: var(--marinho);
+}
+.bico.fundo-creme {
+  --cor-bloco: var(--creme);
+}
+.bico.fundo-rosa {
+  --cor-bloco: var(--rosa-papel);
+}
+.bico.fundo-marmore-2 {
+  --cor-bloco: var(--marmore-2);
+}
+
+/* Botões */
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 0 28px;
+  border: 2px solid var(--marinho);
+  border-radius: 999px;
+  background: var(--marinho);
+  color: var(--creme-claro);
+  font-weight: 650;
+  font-size: 1.0625rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    transform 0.2s;
+}
+.botao:hover {
+  background: var(--marinho-fundo);
+  transform: translateY(-1px);
+}
+.botao--linha {
+  background: transparent;
+  color: var(--marinho);
+}
+.botao--linha:hover {
+  background: var(--marinho);
+  color: var(--creme-claro);
+}
+.botao--rosa {
+  background: var(--rosa);
+  border-color: var(--rosa);
+  color: var(--marinho);
+}
+.botao--rosa:hover {
+  background: var(--rosa-suave);
+  border-color: var(--rosa-suave);
+}
+.botao--zap {
+  background: var(--zap);
+  border-color: var(--zap);
+  color: #fff;
+}
+.botao--zap:hover {
+  background: var(--zap-escuro);
+  border-color: var(--zap-escuro);
+}
+.fundo-marinho .botao--linha {
+  border-color: var(--creme);
+  color: var(--creme);
+}
+.fundo-marinho .botao--linha:hover {
+  background: var(--creme);
+  color: var(--marinho);
+}
+
+/* Fotos */
+.foto {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--raio-foto);
+  background: var(--marmore-2);
+}
+.foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Texto de apoio */
+.abre {
+  font-size: clamp(1.125rem, 1.02rem + 0.5vw, 1.375rem);
+  line-height: 1.55;
+  color: var(--tinta-2);
+}
+.fundo-marinho .abre {
+  color: #d9d9ee;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: var(--creme);
+  color: var(--marinho);
+  font-weight: 600;
+  font-size: 0.9375rem;
+}

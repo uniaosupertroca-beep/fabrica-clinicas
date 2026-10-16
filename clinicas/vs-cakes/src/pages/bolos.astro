@@ -1,0 +1,169 @@
+---
+import Base from "../layouts/Base.astro";
+import Foto from "../components/Foto.astro";
+import Intro from "../components/Intro.astro";
+import { fotos, nomeDoTipo, type Tipo } from "../data/galeria.ts";
+
+const filtros: { id: "tudo" | Tipo; nome: string }[] = [{ id: "tudo", nome: "Todos" }, ...(["vintage", "floral", "tematico", "casamento", "natal", "bento", "docinhos"] as Tipo[]).map((t) => ({ id: t, nome: nomeDoTipo[t] }))];
+
+// Filtro só com CSS: o link muda o #endereço e o :target esconde o que não é do tipo escolhido.
+const css = filtros
+  .filter((f) => f.id !== "tudo")
+  .map(
+    (f) =>
+      `.galeria:has(#${f.id}:target) .item:not([data-tipos~="${f.id}"]){display:none}` +
+      `.galeria:has(#${f.id}:target) .filtros a[href="#${f.id}"]{background:var(--marinho);color:var(--creme-claro);border-color:var(--marinho)}`,
+  )
+  .join("\n");
+---
+
+<Base titulo="Bolos | VS Cakes, em Itajaí" descricao="Bolos vintage, florais, temáticos, de casamento e de Natal feitos à mão pela Vanessa, em Itajaí. Escolha uma foto e peça um bolo assim.">
+  <Intro titulo="Bolos feitos à mão.">
+    <p>Cada bolo é único e pensado nos mínimos detalhes. Escolha uma foto de que você gostou e peça um assim: a Vanessa adapta ao tema, às cores e à data da sua festa.</p>
+  </Intro>
+
+  <section class="galeria secao--curta" aria-label="Galeria de bolos">
+    <style set:html={css}></style>
+    {filtros.map((f) => <span id={f.id} class="alvo"></span>)}
+    <div class="envolve">
+      <nav class="filtros" aria-label="Filtrar por tipo">
+        <ul>
+          {
+            filtros.map((f) => (
+              <li>
+                <a class:list={[f.id === "tudo" && "padrao-ativo"]} href={`#${f.id}`}>
+                  {f.nome}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <ul class="grade">
+        {
+          fotos.map((f) => (
+            <li class="item" data-tipos={f.tipos.join(" ")}>
+              <Foto id={f.id} proporcao="4 / 5" sizes="(min-width: 980px) 28vw, (min-width: 560px) 44vw, 92vw" widths={[360, 560, 820]} />
+              <div class="rodape-item">
+                <h2>{f.titulo}</h2>
+                <a class="pedir" href={`/encomendar?ref=${f.id}`}>
+                  Quero um assim
+                </a>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="aviso">Fotos de bolos reais da VS Cakes. Cada encomenda é feita sob medida, então o seu pode ter outras cores, frases e tamanhos.</p>
+    </div>
+  </section>
+
+  <section class="secao fundo-marinho padrao bico" aria-labelledby="t-faixa">
+    <div class="envolve faixa">
+      <h2 id="t-faixa">Não achou o bolo que imaginou?</h2>
+      <p class="abre">Conte a ideia: tema, cores e o que torna o momento especial. Referências de qualquer lugar são bem-vindas.</p>
+      <div class="acoes">
+        <a class="botao botao--rosa" href="/encomendar">Montar meu pedido</a>
+        <a class="botao botao--linha" href="/como-encomendar">Tamanhos, sabores e valores</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .alvo {
+    position: absolute;
+    scroll-margin-top: 90px;
+  }
+  .galeria {
+    position: relative;
+    padding-bottom: var(--respiro);
+  }
+  .filtros ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .filtros a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 20px;
+    border: 2px solid color-mix(in oklab, var(--marinho) 30%, transparent);
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.975rem;
+    color: var(--marinho);
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+  .filtros a:hover {
+    border-color: var(--marinho);
+  }
+  .galeria:not(:has(.alvo:target)) .padrao-ativo,
+  .galeria:has(#tudo:target) .padrao-ativo {
+    background: var(--marinho);
+    color: var(--creme-claro);
+    border-color: var(--marinho);
+  }
+  .grade {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 14px;
+    margin-top: clamp(24px, 3vw, 40px);
+  }
+  @media (min-width: 640px) {
+    .grade {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px 20px;
+    }
+  }
+  @media (min-width: 1100px) {
+    .grade {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .item {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+  }
+  .rodape-item {
+    display: grid;
+    gap: 4px;
+  }
+  .rodape-item h2 {
+    font-size: 1.15rem;
+    font-weight: 680;
+    line-height: 1.2;
+  }
+  .pedir {
+    justify-self: start;
+    font-weight: 650;
+    font-size: 0.95rem;
+    color: var(--vinho);
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--rosa);
+  }
+  .pedir:hover {
+    color: var(--marinho);
+  }
+  .aviso {
+    margin-top: 40px;
+    font-size: 0.95rem;
+    color: var(--tinta-2);
+  }
+  .faixa .abre {
+    margin-top: 20px;
+  }
+  .acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 30px;
+  }
+</style>

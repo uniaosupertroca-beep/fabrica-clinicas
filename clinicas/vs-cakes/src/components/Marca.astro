@@ -1,0 +1,33 @@
+---
+// Logotipo feito com a fonte do site: "VS" pesado e "cakes" leve, como o cardápio da Vanessa alterna os pesos.
+interface Props {
+  tamanho?: "p" | "g";
+}
+const { tamanho = "p" } = Astro.props;
+---
+
+<span class:list={["marca", tamanho === "g" && "marca--g"]}><span class="vs">VS</span><span class="cakes">cakes</span></span>
+
+<style>
+  .marca {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.14em;
+    font-family: var(--titulo);
+    font-variation-settings: "SOFT" 100, "WONK" 1;
+    font-size: 1.9rem;
+    line-height: 1;
+    color: currentColor;
+  }
+  .vs {
+    font-weight: 820;
+    letter-spacing: -0.03em;
+  }
+  .cakes {
+    font-weight: 380;
+    letter-spacing: -0.01em;
+  }
+  .marca--g {
+    font-size: clamp(3rem, 8vw, 4.6rem);
+  }
+</style>

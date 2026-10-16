@@ -1,0 +1,178 @@
+---
+import Marca from "./Marca.astro";
+import Selo from "./Selo.astro";
+import { negocio, linkWhatsapp, mensagemPadrao } from "../data/site.ts";
+
+interface Props {
+  semFlutuante?: boolean;
+}
+const { semFlutuante = false } = Astro.props;
+const ano = new Date().getFullYear();
+---
+
+<footer class="rodape fundo-marinho padrao">
+  <div class="envolve grade">
+    <div class="marca-bloco">
+      <a class="logo" href="/"><Marca tamanho="g" /></a>
+      <p class="frase">Bolos com sabor de afeto. Feitos à mão pela Vanessa, em {negocio.cidade} ({negocio.uf}).</p>
+      <div class="selo"><Selo /></div>
+    </div>
+
+    <nav aria-label="Páginas do site">
+      <h2 class="rotulo">O site</h2>
+      <ul>
+        <li><a href="/bolos">Bolos</a></li>
+        <li><a href="/bento">Bentô cakes</a></li>
+        <li><a href="/casamentos-e-eventos">Casamentos e eventos</a></li>
+        <li><a href="/datas-especiais">Datas especiais</a></li>
+        <li><a href="/como-encomendar">Como encomendar</a></li>
+        <li><a href="/sobre">Sobre a Vanessa</a></li>
+        <li><a href="/encomendar">Monte seu pedido</a></li>
+      </ul>
+    </nav>
+
+    <div>
+      <h2 class="rotulo">Fale com a Vanessa</h2>
+      <ul>
+        <li>
+          <a href={linkWhatsapp(mensagemPadrao)} target="_blank" rel="noopener noreferrer">WhatsApp {negocio.whatsappVisivel}</a>
+        </li>
+        <li>
+          <a href={negocio.instagramUrl} target="_blank" rel="noopener noreferrer">Instagram @{negocio.instagram}</a>
+        </li>
+      </ul>
+      <h2 class="rotulo segundo">Retirada com agendamento</h2>
+      <ul class="horas">
+        {negocio.retirada.map((r) => <li>{r.texto}</li>)}
+      </ul>
+      <p class="mini">{negocio.entrega}</p>
+    </div>
+  </div>
+
+  <div class="envolve fim">
+    <p>© {ano} VS Cakes · {negocio.responsavel}{negocio.cnpj ? ` · CNPJ ${negocio.cnpj}` : ""}. Fotos do acervo da VS Cakes.</p>
+    <p><a href="/privacidade">Privacidade</a> <a href="/links">Todos os links</a></p>
+  </div>
+</footer>
+
+{
+  !semFlutuante && (
+    <nav aria-label="Atalho para encomendar">
+      <a class="flutuante" href="/encomendar">
+        Montar meu pedido
+      </a>
+    </nav>
+  )
+}
+
+<style>
+  .rodape {
+    padding-top: clamp(56px, 7vw, 96px);
+    margin-top: 0;
+  }
+  .grade {
+    display: grid;
+    gap: 44px 56px;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 900px) {
+    .grade {
+      grid-template-columns: 1.3fr 0.8fr 1fr;
+    }
+  }
+  .marca-bloco {
+    position: relative;
+  }
+  .logo {
+    color: var(--creme);
+    text-decoration: none;
+  }
+  .frase {
+    margin-top: 18px;
+    max-width: 24em;
+    font-family: var(--titulo);
+    font-variation-settings: "SOFT" 100;
+    font-size: 1.35rem;
+    line-height: 1.3;
+    color: var(--creme);
+  }
+  .selo {
+    width: 104px;
+    margin-top: 26px;
+    color: var(--rosa);
+  }
+  .rotulo {
+    font-family: var(--texto);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    color: var(--rosa);
+    margin-bottom: 12px;
+  }
+  .segundo {
+    margin-top: 26px;
+  }
+  ul {
+    display: grid;
+    gap: 8px;
+  }
+  a {
+    color: var(--creme-claro);
+    text-underline-offset: 4px;
+    text-decoration-color: color-mix(in oklab, var(--rosa) 60%, transparent);
+  }
+  a:hover {
+    color: #fff;
+    text-decoration-color: var(--rosa);
+  }
+  .horas {
+    gap: 4px;
+  }
+  .mini {
+    margin-top: 12px;
+    font-size: 0.9375rem;
+    color: #c9cae6;
+  }
+  .fim {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px 24px;
+    margin-top: clamp(40px, 5vw, 64px);
+    padding-block: 22px 96px;
+    border-top: 1px solid color-mix(in oklab, var(--creme) 20%, transparent);
+    font-size: 0.9375rem;
+    color: #c9cae6;
+  }
+  .fim p {
+    max-width: none;
+  }
+  .fim p + p a {
+    margin-left: 16px;
+  }
+  @media (min-width: 761px) {
+    .fim {
+      padding-bottom: 28px;
+    }
+  }
+
+  .flutuante {
+    position: fixed;
+    z-index: 40;
+    left: 50%;
+    bottom: 16px;
+    translate: -50% 0;
+    padding: 15px 26px;
+    border-radius: 999px;
+    background: var(--rosa);
+    color: var(--marinho);
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 16px 34px -12px rgba(24, 38, 95, 0.55);
+  }
+  @media (min-width: 761px) {
+    .flutuante {
+      display: none;
+    }
+  }
+</style>

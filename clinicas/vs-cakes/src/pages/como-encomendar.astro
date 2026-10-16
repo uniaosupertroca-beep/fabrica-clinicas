@@ -1,0 +1,312 @@
+---
+import Base from "../layouts/Base.astro";
+import Intro from "../components/Intro.astro";
+import { negocio } from "../data/site.ts";
+import { tamanhos, sabores, nomeDaLinha, real, type Linha } from "../data/cardapio.ts";
+
+const linhas: Linha[] = ["tradicional", "especial"];
+const regras = [
+  { titulo: "Antecedência", texto: `Encomendas com pelo menos ${negocio.prazoMinimoDias} dias de antecedência. Em datas especiais e eventos grandes, quanto antes, melhor.` },
+  { titulo: "Pagamento", texto: `${negocio.pagamento.formas}. ${negocio.pagamento.entrada}% na encomenda e ${100 - negocio.pagamento.entrada}% na retirada.` },
+  { titulo: "Retirada", texto: `Com agendamento, ${negocio.retirada.map((r) => r.texto).join(" e ")}.` },
+  { titulo: "Entrega", texto: negocio.entrega },
+];
+const perguntas = [
+  {
+    p: "Como faço para escolher o tamanho?",
+    r: "Pense em uma fatia por pessoa. O Mini serve 6 fatias e o GG serve de 45 a 50. Na tabela acima, cada tamanho mostra as fatias e o peso aproximado. Na dúvida, a Vanessa ajuda a escolher pelo WhatsApp.",
+  },
+  {
+    p: "Posso mandar uma referência de decoração?",
+    r: "Pode, e é o melhor jeito de começar. As referências podem ser da página da VS Cakes ou de fora, e a Vanessa as adapta ao estilo dela. Conte também o tema, a paleta de cores e o que torna o momento especial.",
+  },
+  {
+    p: "Como é calculado o valor final?",
+    r: "O valor final do bolo é composto pelo tamanho, pelo sabor e pela decoração escolhida. A tabela mostra o valor base de cada tamanho e sabor. Decorações adicionais e técnicas especiais têm taxa à parte, e a Vanessa informa antes de fechar.",
+  },
+  {
+    p: "Onde e quando retiro o bolo?",
+    r: `A retirada é feita com agendamento, ${negocio.retirada.map((r) => r.texto).join(" e ")}. O endereço é combinado pelo WhatsApp ao agendar.`,
+  },
+  {
+    p: "Vocês entregam?",
+    r: "Sim. A entrega tem taxa, que depende do endereço e é combinada pelo WhatsApp.",
+  },
+  {
+    p: "Tenho alergia ou restrição alimentar. E agora?",
+    r: "Conte no pedido. A Vanessa avalia o que é possível fazer e orienta você antes de confirmar a encomenda.",
+  },
+];
+---
+
+<Base titulo="Como encomendar | VS Cakes, em Itajaí" descricao="Tamanhos, sabores, valores base e regras de encomenda da VS Cakes: antecedência de 4 dias, 50% na encomenda e retirada com agendamento em Itajaí.">
+  <Intro titulo="Como encomendar.">
+    <p>Tudo o que você precisa saber antes de pedir: antecedência, pagamento, retirada, tamanhos e sabores. Quando estiver pronto, monte o pedido e envie para a Vanessa.</p>
+  </Intro>
+
+  <section class="secao--curta" aria-labelledby="t-regras">
+    <div class="envolve">
+      <h2 id="t-regras" class="so-leitor">Regras de encomenda</h2>
+      <ul class="regras">
+        {
+          regras.map((r) => (
+            <li>
+              <h3>{r.titulo}</h3>
+              <p>{r.texto}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="secao fundo-rosa bico" aria-labelledby="t-tamanhos">
+    <div class="envolve">
+      <h2 id="t-tamanhos">Tamanhos{negocio.mostrarPrecos ? " e valores base" : ""}.</h2>
+      <p class="abre">São seis tamanhos, do Mini ao GG. {negocio.mostrarPrecos ? "Os valores abaixo são o ponto de partida: a decoração escolhida pode ter taxa à parte." : ""}</p>
+      <div class="tabela-caixa" role="group" aria-labelledby="t-tamanhos" tabindex="0">
+        <table>
+          <caption class="so-leitor">Tamanhos dos bolos, com diâmetro, fatias e peso{negocio.mostrarPrecos ? " e valor base por linha de sabor" : ""}</caption>
+          <thead>
+            <tr>
+              <th scope="col">Tamanho</th>
+              <th scope="col">Diâmetro</th>
+              <th scope="col">Fatias</th>
+              <th scope="col">Peso</th>
+              {negocio.mostrarPrecos && linhas.map((l) => <th scope="col">{nomeDaLinha[l]}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {
+              tamanhos.map((t) => (
+                <tr>
+                  <th scope="row">{t.nome}</th>
+                  <td>{t.diametro} cm</td>
+                  <td>{t.fatias}</td>
+                  <td>{t.peso}</td>
+                  {negocio.mostrarPrecos && linhas.map((l) => <td class="valor">{real(t.valor[l])}</td>)}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      {negocio.mostrarPrecos && <p class="nota">Valores conferidos no cardápio da Vanessa em {negocio.valoresConferidosEm}. O valor final é confirmado por ela no pedido.</p>}
+    </div>
+  </section>
+
+  <section class="secao" aria-labelledby="t-sabores">
+    <div class="envolve">
+      <h2 id="t-sabores">{sabores.length} sabores.</h2>
+      <p class="abre">Os tradicionais usam massa amanteigada. Os especiais têm massas e recheios mais elaborados.</p>
+      <div class="sabores">
+        {
+          linhas.map((l) => (
+            <div>
+              <h3>{nomeDaLinha[l]}s</h3>
+              <ul>
+                {sabores
+                  .filter((s) => s.linha === l)
+                  .map((s) => (
+                    <li>
+                      <strong>{s.nome}</strong>
+                      <span>{s.recheio}</span>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="secao fundo-creme bico" aria-labelledby="t-duvidas">
+    <div class="envolve duvidas">
+      <h2 id="t-duvidas">Perguntas frequentes.</h2>
+      <div class="lista">
+        {
+          perguntas.map((q) => (
+            <details>
+              <summary>{q.p}</summary>
+              <p>{q.r}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="secao fundo-marinho padrao bico" aria-labelledby="t-pronto">
+    <div class="envolve fim">
+      <h2 id="t-pronto">Pronto para pedir?</h2>
+      <p class="abre">Escolha tamanho, sabor, decoração e data. A mensagem chega pronta no WhatsApp da Vanessa.</p>
+      <a class="botao botao--rosa" href="/encomendar">Montar meu pedido</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .regras {
+    display: grid;
+    gap: 28px;
+  }
+  @media (min-width: 700px) {
+    .regras {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1100px) {
+    .regras {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .regras li {
+    display: grid;
+    gap: 8px;
+    align-content: start;
+    padding-top: 18px;
+    border-top: 3px solid var(--rosa);
+  }
+  .regras p {
+    color: var(--tinta-2);
+    font-size: 1rem;
+  }
+  .abre {
+    margin-top: 18px;
+  }
+  .tabela-caixa {
+    margin-top: 32px;
+    overflow-x: auto;
+    border-radius: 24px;
+    background: var(--marmore);
+    box-shadow: 0 0 0 1.5px color-mix(in oklab, var(--marinho) 18%, transparent);
+  }
+  table {
+    width: 100%;
+    min-width: 560px;
+    border-collapse: collapse;
+    font-size: 1.0625rem;
+  }
+  th,
+  td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid color-mix(in oklab, var(--marinho) 14%, transparent);
+  }
+  thead th {
+    background: var(--marinho);
+    color: var(--creme-claro);
+    font-weight: 600;
+    font-size: 0.975rem;
+  }
+  tbody th {
+    font-family: var(--titulo);
+    font-variation-settings: "SOFT" 100;
+    font-weight: 740;
+    font-size: 1.35rem;
+    color: var(--marinho);
+  }
+  tbody tr:last-child th,
+  tbody tr:last-child td {
+    border-bottom: 0;
+  }
+  .valor {
+    font-weight: 700;
+    color: var(--marinho);
+    font-variant-numeric: tabular-nums;
+  }
+  .nota {
+    margin-top: 16px;
+    font-size: 0.95rem;
+    color: var(--tinta-2);
+  }
+  .sabores {
+    display: grid;
+    gap: 40px;
+    margin-top: 32px;
+  }
+  @media (min-width: 980px) {
+    .sabores {
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 64px;
+    }
+  }
+  .sabores h3 {
+    margin-bottom: 14px;
+    color: var(--vinho);
+  }
+  .sabores ul {
+    display: grid;
+    gap: 14px;
+  }
+  .sabores li {
+    display: grid;
+    gap: 2px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--linha);
+  }
+  .sabores strong {
+    font-weight: 650;
+    color: var(--marinho);
+  }
+  .sabores span {
+    font-size: 0.975rem;
+    color: var(--tinta-2);
+  }
+  .duvidas {
+    display: grid;
+    gap: 36px;
+  }
+  @media (min-width: 980px) {
+    .duvidas {
+      grid-template-columns: 0.7fr 1.3fr;
+      gap: 64px;
+    }
+  }
+  .lista {
+    display: grid;
+    gap: 12px;
+  }
+  details {
+    border-radius: 20px;
+    background: var(--creme-claro);
+    border: 1.5px solid color-mix(in oklab, var(--marinho) 14%, transparent);
+  }
+  summary {
+    position: relative;
+    padding: 20px 56px 20px 24px;
+    font-weight: 650;
+    cursor: pointer;
+    list-style: none;
+    color: var(--marinho);
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary::after {
+    content: "";
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    width: 11px;
+    height: 11px;
+    border-right: 2.5px solid var(--marinho);
+    border-bottom: 2.5px solid var(--marinho);
+    translate: 0 -70%;
+    rotate: 45deg;
+    transition: rotate 0.2s;
+  }
+  details[open] summary::after {
+    rotate: -135deg;
+    translate: 0 -30%;
+  }
+  details p {
+    padding: 0 24px 22px;
+    color: var(--tinta-2);
+  }
+  .fim .abre {
+    margin: 20px 0 30px;
+    max-width: 44ch;
+  }
+</style>

@@ -1,0 +1,117 @@
+---
+import Base from "../layouts/Base.astro";
+import Foto from "../components/Foto.astro";
+import Intro from "../components/Intro.astro";
+import { datas } from "../data/datas.ts";
+import { negocio, linkWhatsapp } from "../data/site.ts";
+---
+
+<Base titulo="Datas especiais | VS Cakes, em Itajaí" descricao="Natal, Dia das Mães, Dia dos Namorados, Dia dos Pais e Dia do Amigo: veja o que a VS Cakes preparou em cada data e como ficar sabendo da próxima.">
+  <Intro titulo="Datas especiais.">
+    <p>Em cada data, a Vanessa lança um cardápio com bentôs, caixas, docinhos e bolos do momento. Ele sai no Instagram e no WhatsApp, com o prazo para encomendar. Aqui está como foi da última vez.</p>
+  </Intro>
+
+  <section class="secao--curta" aria-label="Datas especiais">
+    <div class="envolve">
+      <ul class="lista">
+        {
+          datas.map((d) => (
+            <li class="cartao">
+              <Foto id={d.foto} proporcao="4 / 5" class="cartao-foto" sizes="(min-width: 980px) 24vw, (min-width: 640px) 40vw, 92vw" widths={[360, 560, 800]} />
+              <div class="cartao-texto">
+                <h2>{d.nome}</h2>
+                <p class="quando">{d.quando}</p>
+                <p>{d.ultima}</p>
+                <a
+                  class="aviso"
+                  href={linkWhatsapp(`Oi, Vanessa! Quero saber quando abrem as encomendas do ${d.nome}.`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Perguntar pelo WhatsApp
+                </a>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="secao fundo-marinho padrao bico" aria-labelledby="t-fique">
+    <div class="envolve fique">
+      <h2 id="t-fique">Fique de olho.</h2>
+      <p class="abre">O cardápio de cada data é publicado primeiro no Instagram da Vanessa. As quantidades são limitadas e as encomendas fecham em um prazo: depois disso, só na próxima data.</p>
+      <div class="acoes">
+        <a class="botao botao--rosa" href={negocio.instagramUrl} target="_blank" rel="noopener noreferrer">Seguir @{negocio.instagram}</a>
+        <a class="botao botao--linha" href="/encomendar">Encomendar um bolo agora</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lista {
+    display: grid;
+    gap: 22px;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px) {
+    .lista {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1100px) {
+    .lista {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .cartao {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--raio-foto);
+    overflow: hidden;
+    background: var(--creme-claro);
+    border: 1.5px solid var(--creme);
+  }
+  .cartao :global(.foto) {
+    border-radius: 0;
+  }
+  .cartao-texto {
+    display: grid;
+    gap: 10px;
+    align-content: start;
+    padding: 22px 24px 26px;
+    flex: 1;
+  }
+  .cartao-texto h2 {
+    font-size: 1.7rem;
+  }
+  .quando {
+    font-weight: 650;
+    color: var(--vinho);
+  }
+  .cartao-texto p:not(.quando) {
+    color: var(--tinta-2);
+    font-size: 1rem;
+  }
+  .aviso {
+    margin-top: 6px;
+    justify-self: start;
+    font-weight: 650;
+    color: var(--marinho);
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--rosa);
+  }
+  .fique .abre {
+    margin-top: 20px;
+    max-width: 48ch;
+  }
+  .acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 30px;
+  }
+</style>

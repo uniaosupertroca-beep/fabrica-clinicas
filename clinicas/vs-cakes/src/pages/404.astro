@@ -1,0 +1,24 @@
+---
+import Base from "../layouts/Base.astro";
+import Intro from "../components/Intro.astro";
+---
+
+<Base titulo="Página não encontrada | VS Cakes" descricao="Esta página não existe. Volte para o início da VS Cakes ou monte o seu pedido." semIndice>
+  <Intro titulo="Essa página saiu do forno e não voltou.">
+    <p>O endereço que você abriu não existe ou mudou de lugar. Volte para o início ou veja os bolos.</p>
+    <p class="acoes">
+      <a class="botao" href="/">Voltar ao início</a>
+      <a class="botao botao--linha" href="/bolos">Ver os bolos</a>
+    </p>
+  </Intro>
+</Base>
+
+<style>
+  .acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 26px;
+    padding-bottom: 90px;
+  }
+</style>

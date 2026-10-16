@@ -1,0 +1,84 @@
+---
+import fonteTitulo from "@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2?url";
+import fonteTexto from "@fontsource-variable/hanken-grotesk/files/hanken-grotesk-latin-wght-normal.woff2?url";
+import "../styles/global.css";
+import Cabecalho from "../components/Cabecalho.astro";
+import Rodape from "../components/Rodape.astro";
+import { negocio, linkWhatsapp } from "../data/site.ts";
+
+interface Props {
+  titulo: string;
+  descricao: string;
+  /** Página que nunca vai para o Google (ex.: 404). */
+  semIndice?: boolean;
+  /** Dados estruturados (schema.org) só na página inicial. */
+  comDadosEstruturados?: boolean;
+  /** Esconde o botão flutuante de encomendar (na página de encomenda ele sobra). */
+  semFlutuante?: boolean;
+}
+
+const { titulo, descricao, semIndice = false, comDadosEstruturados = false, semFlutuante = false } = Astro.props;
+const canonico = new URL(Astro.url.pathname, negocio.endereco).href;
+const imagem = new URL("/og.png", negocio.endereco).href;
+const fora = semIndice || !negocio.indexavel;
+
+const fontes = `
+@font-face{font-family:"Fraunces";font-style:normal;font-weight:100 900;font-display:swap;src:url(${fonteTitulo}) format("woff2");}
+@font-face{font-family:"Hanken Grotesk";font-style:normal;font-weight:100 900;font-display:swap;src:url(${fonteTexto}) format("woff2");}
+`;
+
+const dados = {
+  "@context": "https://schema.org",
+  "@type": "Bakery",
+  name: negocio.nome,
+  url: negocio.endereco,
+  image: imagem,
+  description: descricao,
+  telephone: `+${negocio.whatsapp}`,
+  founder: { "@type": "Person", name: negocio.responsavel },
+  address: { "@type": "PostalAddress", addressLocality: negocio.cidade, addressRegion: negocio.uf, addressCountry: "BR" },
+  areaServed: negocio.area,
+  sameAs: [negocio.instagramUrl],
+  potentialAction: { "@type": "OrderAction", target: linkWhatsapp() },
+};
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descricao} />
+    {fora ? <meta name="robots" content="noindex, nofollow" /> : <link rel="canonical" href={canonico} />}
+    <meta name="theme-color" content="#223579" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" href={fonteTitulo} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={fonteTexto} as="font" type="font/woff2" crossorigin />
+    <style set:html={fontes}></style>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={negocio.nome} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descricao} />
+    <meta property="og:url" content={canonico} />
+    <meta property="og:image" content={imagem} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="VS Cakes: bolos com sabor de afeto, em Itajaí (SC)" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    {comDadosEstruturados && <script type="application/ld+json" set:html={JSON.stringify(dados)} />}
+  </head>
+  <body>
+    <a class="pular" href="#conteudo">Ir para o conteúdo</a>
+    <Cabecalho />
+    <main id="conteudo">
+      <slot />
+    </main>
+    <Rodape semFlutuante={semFlutuante} />
+  </body>
+</html>

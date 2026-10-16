@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: "Fraunces"; src: url("../node_modules/@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2") format("woff2"); font-weight: 100 900; }
+  @font-face { font-family: "Hanken Grotesk"; src: url("../node_modules/@fontsource-variable/hanken-grotesk/files/hanken-grotesk-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; }
+  * { box-sizing: border-box; margin: 0; }
+  body { width: 1200px; height: 630px; display: grid; grid-template-columns: 1.05fr 0.95fr; background: #223579; overflow: hidden; font-family: "Hanken Grotesk", sans-serif; }
+  .texto { position: relative; padding: 64px 56px 56px 72px; color: #faf0dd; display: flex; flex-direction: column; justify-content: space-between; isolation: isolate; }
+  .texto::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url("../public/padrao-vs.svg") 0 0 / 150px 100px; opacity: .1; }
+  .marca { font: 380 54px/1 "Fraunces"; font-variation-settings: "SOFT" 100, "WONK" 1; color: #f4e1c1; }
+  .marca b { font-weight: 820; letter-spacing: -.03em; margin-right: 8px; }
+  h1 { font: 780 92px/.98 "Fraunces"; font-variation-settings: "SOFT" 100; letter-spacing: -.022em; color: #f4e1c1; }
+  p { font-size: 28px; font-weight: 500; color: #ed96c0; }
+  .foto { position: relative; background: #eeeae6; }
+  .foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 58%; }
+</style>
+</head>
+<body>
+  <div class="texto">
+    <div class="marca"><b>VS</b>cakes</div>
+    <h1>Bolos com sabor de afeto.</h1>
+    <p>Bolos, bentô cakes e docinhos em Itajaí</p>
+  </div>
+  <div class="foto"><img src="../src/assets/fotos/vintage-coracao-vermelho.jpg" alt=""></div>
+</body>
+</html>
