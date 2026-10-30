@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Ilustracao } from '../components/Ilustracao'
+import { ProdutoImagem } from '../components/ProdutoImagem'
 import { ocasioes, produtos } from '../data/catalogo'
 import { useMeta } from '../lib/useMeta'
 
@@ -27,7 +27,7 @@ export function Ocasioes() {
                 }`}
               >
                 <span className={`block bg-rosa-claro ${destaque ? 'aspect-[4/3] sm:aspect-auto' : 'aspect-[4/3]'}`}>
-                  {exemplo && <Ilustracao arte={exemplo.arte} tons={exemplo.tons} />}
+                  {exemplo && <ProdutoImagem produto={exemplo} />}
                 </span>
                 <span className="flex flex-col justify-end gap-3 p-7">
                   <span className="font-serif text-3xl leading-tight text-vinho">{o.nome}</span>

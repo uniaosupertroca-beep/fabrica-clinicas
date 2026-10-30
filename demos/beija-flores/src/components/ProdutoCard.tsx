@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import type { Produto } from '../data/catalogo'
 import { formatarPreco } from '../lib/formato'
-import { Ilustracao } from './Ilustracao'
+import { ProdutoImagem } from './ProdutoImagem'
 
 export function ProdutoCard({ produto }: { produto: Produto }) {
   return (
@@ -12,7 +12,7 @@ export function ProdutoCard({ produto }: { produto: Produto }) {
         aria-label={`Ver detalhes: ${produto.nome}`}
       >
         <div className="h-full w-full transition-transform duration-700 ease-suave group-hover:scale-[1.035]">
-          <Ilustracao arte={produto.arte} tons={produto.tons} />
+          <ProdutoImagem produto={produto} />
         </div>
         {!produto.disponivel && (
           <span className="absolute left-3 top-3 rounded-full bg-creme/95 px-3 py-1 text-xs text-vinho">

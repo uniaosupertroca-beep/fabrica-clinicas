@@ -24,6 +24,8 @@ export type Produto = {
   id: string
   slug: string
   nome: string
+  /** Arquivo em public/fotos/ (foto real do catálogo da loja). Sem foto, usa ilustração. */
+  foto?: string
   categoria: string
   ocasioes: string[]
   /** Preço ilustrativo em centavos. */
@@ -68,6 +70,7 @@ export const produtos: Produto[] = [
   {
     id: 'p-buque-rosas-vermelhas',
     slug: 'buque-de-rosas-vermelhas',
+    foto: 'buques-rosas-vermelhas.jpg',
     nome: 'Buquê de Rosas Vermelhas',
     categoria: 'buques',
     ocasioes: ['aniversario', 'namorados', 'declaracoes'],
@@ -84,18 +87,19 @@ export const produtos: Produto[] = [
   {
     id: 'p-buque-girassois',
     slug: 'buque-de-girassois',
+    foto: 'buque-girassois.jpg',
     nome: 'Buquê de Girassóis',
     categoria: 'rosas-girassois',
     ocasioes: ['aniversario', 'agradecimentos'],
     precoCentavos: 13900,
-    resumo: 'Girassóis luminosos com folhagem verde oliva e acabamento rústico.',
+    resumo: 'Girassóis luminosos com alstroemérias e flor de noiva, em papel creme.',
     descricao:
-      'Alegria em forma de flor. Girassóis em tons de sol, acompanhados de folhagem verde oliva e embalagem de juta natural.',
+      'Alegria em forma de flor. Girassóis em tons de sol, com alstroemérias e flor de noiva, envoltos em papel creme e laço de cetim marrom.',
     arte: 'girassol',
     tons: ['#e0b04f', '#8f7650'],
     destaque: true,
     disponivel: true,
-    composicao: ['5 girassóis', 'Folhagem verde oliva', 'Embalagem de juta'],
+    composicao: ['Girassóis', 'Alstroemérias', 'Flor de noiva', 'Papel creme com laço marrom'],
   },
   {
     id: 'p-arranjo-lirios-rosas',
@@ -132,18 +136,19 @@ export const produtos: Produto[] = [
   {
     id: 'p-cesta-flores-chocolates',
     slug: 'cesta-de-flores-e-chocolates',
-    nome: 'Cesta de Flores e Chocolates',
+    foto: 'cesta-chocolates-mimos.jpg',
+    nome: 'Cesta de Chocolates e Mimos',
     categoria: 'cestas',
     ocasioes: ['namorados', 'aniversario', 'agradecimentos'],
     precoCentavos: 25900,
-    resumo: 'Cesta de vime com flores da estação, chocolates finos e laço de tecido.',
+    resumo: 'Cesta de vime com pelúcia, chocolates e mimos.',
     descricao:
-      'Uma cesta com flores da estação e uma seleção de chocolates. A combinação perfeita para surpreender com doçura.',
+      'Uma cesta de vime com chocolates selecionados e um mimo de pelúcia. A combinação perfeita para surpreender com doçura.',
     arte: 'cesta',
     tons: ['#c5a67b', '#65745a'],
     destaque: true,
     disponivel: true,
-    composicao: ['Flores da estação', 'Chocolates finos (ilustrativo)', 'Cesta de vime'],
+    composicao: ['Pelúcia', 'Chocolates', 'Cesta de vime'],
   },
   {
     id: 'p-buque-flores-do-campo',

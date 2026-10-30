@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowUpRight, Flower2, HandHeart, MapPin } from 'lucide-react'
 import { Ilustracao } from '../components/Ilustracao'
+import { ProdutoImagem } from '../components/ProdutoImagem'
 import { ProdutoCard } from '../components/ProdutoCard'
 import { Secao } from '../components/Secao'
 import { Avaliacoes } from '../components/AvaliacoesConvite'
@@ -119,7 +120,7 @@ export function Home() {
                   className="group flex h-full flex-col overflow-hidden rounded-[1.25rem] bg-branco ring-1 ring-vinho/10 transition-shadow duration-500 hover:shadow-[0_20px_40px_-24px_rgba(84,46,61,0.45)]"
                 >
                   <span className="aspect-[4/5] bg-rosa-claro">
-                    {exemplo && <Ilustracao arte={exemplo.arte} tons={exemplo.tons} />}
+                    {exemplo && <ProdutoImagem produto={exemplo} />}
                   </span>
                   <span className="flex flex-1 flex-col gap-1 p-4">
                     <span className="font-serif text-xl leading-tight text-vinho">{o.nome}</span>

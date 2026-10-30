@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Minus, Plus, ShoppingBag } from 'lucide-react'
 import { Ilustracao } from '../components/Ilustracao'
+import { ProdutoImagem } from '../components/ProdutoImagem'
 import { ProdutoCard } from '../components/ProdutoCard'
 import { NaoEncontrado } from './NaoEncontrado'
 import { categorias, complementos, ocasioes, produtos, type Produto as TipoProduto } from '../data/catalogo'
@@ -21,6 +22,11 @@ const vistas = [
   { id: 'geral', rotulo: 'Vista geral' },
   { id: 'detalhe', rotulo: 'Detalhe' },
   { id: 'tons', rotulo: 'Tons alternativos' },
+] as const
+
+const vistasComFoto = [
+  { id: 'geral', rotulo: 'Foto' },
+  { id: 'detalhe', rotulo: 'Detalhe' },
 ] as const
 
 function ProdutoDetalhe({ produto }: { produto: TipoProduto }) {
@@ -91,17 +97,21 @@ function ProdutoDetalhe({ produto }: { produto: TipoProduto }) {
       <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
         <div className="space-y-4 lg:col-span-7">
           <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-rosa-claro">
-            <div className="h-full w-full transition-transform duration-700 ease-suave" style={{ transform: vista === 'detalhe' ? 'scale(1.55)' : 'none', transformOrigin: '50% 40%' }}>
-              <Ilustracao
-                arte={produto.arte}
-                tons={vista === 'tons' ? tonsAlternativos : produto.tons}
-                titulo={`${produto.nome}, ilustração demonstrativa (${vista === 'geral' ? 'vista geral' : vista === 'detalhe' ? 'detalhe' : 'tons alternativos'})`}
-              />
+            <div className="h-full w-full transition-transform duration-700 ease-suave" style={{ transform: vista === 'detalhe' && !produto.foto ? 'scale(1.55)' : 'none', transformOrigin: '50% 40%' }}>
+              {produto.foto ? (
+                <ProdutoImagem produto={produto} zoom={vista === 'detalhe'} />
+              ) : (
+                <Ilustracao
+                  arte={produto.arte}
+                  tons={vista === 'tons' ? tonsAlternativos : produto.tons}
+                  titulo={`${produto.nome}, ilustração demonstrativa (${vista === 'geral' ? 'vista geral' : vista === 'detalhe' ? 'detalhe' : 'tons alternativos'})`}
+                />
+              )}
             </div>
-            <p className="absolute bottom-3 left-3 rounded-full bg-creme/90 px-3 py-1 text-xs text-vinho">Ilustração de demonstração</p>
+            <p className="absolute bottom-3 left-3 rounded-full bg-creme/90 px-3 py-1 text-xs text-vinho">{produto.foto ? 'Foto do catálogo da loja' : 'Ilustração de demonstração'}</p>
           </div>
           <div role="group" aria-label="Galeria de imagens" className="grid grid-cols-3 gap-3">
-            {vistas.map((v) => (
+            {(produto.foto ? vistasComFoto : vistas).map((v) => (
               <button
                 key={v.id}
                 type="button"
@@ -112,7 +122,7 @@ function ProdutoDetalhe({ produto }: { produto: TipoProduto }) {
                 }`}
               >
                 <span className="block aspect-square overflow-hidden rounded-xl bg-rosa-claro">
-                  <Ilustracao arte={produto.arte} tons={v.id === 'tons' ? tonsAlternativos : produto.tons} />
+                  {produto.foto ? <ProdutoImagem produto={produto} zoom={v.id === 'detalhe'} /> : <Ilustracao arte={produto.arte} tons={v.id === 'tons' ? tonsAlternativos : produto.tons} />}
                 </span>
                 <span className="mt-2 block text-center">{v.rotulo}</span>
               </button>

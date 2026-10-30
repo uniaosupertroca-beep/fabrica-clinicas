@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Minus, Plus, Trash2 } from 'lucide-react'
-import { Ilustracao } from '../components/Ilustracao'
+import { ProdutoImagem } from '../components/ProdutoImagem'
 import { ocasioes } from '../data/catalogo'
 import { useCarrinho } from '../lib/CarrinhoContexto'
 import { LIMITE_QUANTIDADE, limitarQuantidade } from '../lib/carrinho'
@@ -37,7 +37,7 @@ export function Carrinho() {
           {resumo.linhas.map(({ item, produto, complementosSelecionados, totalCentavos }) => (
             <li key={item.linha} className="flex gap-5 py-7 first:pt-0 sm:gap-7">
               <div className="h-28 w-24 shrink-0 overflow-hidden rounded-2xl bg-rosa-claro sm:h-36 sm:w-32">
-                <Ilustracao arte={produto.arte} tons={produto.tons} />
+                <ProdutoImagem produto={produto} />
               </div>
               <div className="flex flex-1 flex-col gap-3">
                 <div className="flex items-start justify-between gap-4">

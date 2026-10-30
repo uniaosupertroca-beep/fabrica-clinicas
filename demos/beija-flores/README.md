@@ -64,7 +64,7 @@ capturas/      prévias desktop e celular geradas nesta versão
 **Ilustrativo ou fictício (não representa a loja):**
 - **Produtos e preços:** todos fictícios. Estão marcados como "ilustrativo" em cada tela.
 - **Complementos** (chocolates, pelúcia, vela): opções visuais, com preço fictício.
-- **Imagens:** são ilustrações SVG originais, não fotografias. Devem ser substituídas por fotos profissionais com direito de uso.
+- **Imagens:** três produtos usam fotos reais do catálogo público da loja (`public/fotos/`): Buquê de Rosas Vermelhas, Buquê de Girassóis e Cesta de Chocolates e Mimos. Os demais usam ilustrações SVG originais. Antes da publicação definitiva, confirmar com a loja o direito de uso dessas fotos.
 - **Logotipo:** a marca em `src/components/Logo.tsx` é um desenho original que apenas sugere o beija-flor. **O logotipo original não foi usado** e só deve ser aplicado em avaliação privada, com autorização da empresa.
 - **Painel administrativo, pedidos e clientes:** dados fictícios que vivem só na memória da página. Não há login, backend, pedidos reais nem pagamentos.
 - **Carrinho:** guardado apenas no navegador (`localStorage`, com proteção contra falhas de armazenamento). Nenhum pedido é enviado.
