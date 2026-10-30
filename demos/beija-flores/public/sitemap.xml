@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Substituir SEU-DOMINIO pelo domínio final, somente após aprovação. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://SEU-DOMINIO/</loc></url>
+  <url><loc>https://SEU-DOMINIO/catalogo</loc></url>
+  <url><loc>https://SEU-DOMINIO/ocasioes</loc></url>
+  <url><loc>https://SEU-DOMINIO/nossa-historia</loc></url>
+  <url><loc>https://SEU-DOMINIO/contato</loc></url>
+  <url><loc>https://SEU-DOMINIO/inspiracoes</loc></url>
+</urlset>

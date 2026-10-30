@@ -1,0 +1,3 @@
+# Demonstração: não indexar até a aprovação da Floricultura Beija-Flores.
+User-agent: *
+Disallow: /
