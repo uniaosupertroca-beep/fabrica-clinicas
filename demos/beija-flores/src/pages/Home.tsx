@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { ArrowUpRight, Flower2, HandHeart, MapPin } from 'lucide-react'
-import { Ilustracao } from '../components/Ilustracao'
 import { ProdutoImagem } from '../components/ProdutoImagem'
 import { ProdutoCard } from '../components/ProdutoCard'
 import { Secao } from '../components/Secao'
@@ -63,7 +62,12 @@ export function Home() {
           <div className="relative lg:col-span-6">
             <div className="absolute -right-3 -top-3 hidden h-full w-full rounded-[2rem] border border-ouro/60 sm:block" aria-hidden="true" />
             <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-rosa-claro shadow-[0_30px_60px_-30px_rgba(84,46,61,0.35)] motion-safe:animate-[revelar_1.6s_var(--ease-suave)_both]">
-              <Ilustracao arte="rosa" tons={['#8e2f45', '#d9b5b5']} titulo="Ilustração de buquê de rosas vermelhas, peça demonstrativa" />
+              <img
+                src="/fotos/buques-rosas-vermelhas.jpg"
+                alt="Buquê de rosas vermelhas, foto do catálogo da Floricultura Beija-Flores"
+                className="h-full w-full object-cover"
+                fetchPriority="high"
+              />
             </div>
           </div>
         </div>
