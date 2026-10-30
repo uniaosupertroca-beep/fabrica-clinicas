@@ -1,0 +1,68 @@
+# Publica o demo da Floricultura Beija-Flores (proposta independente, sem aprovação da loja)
+# no Cloudflare Pages, em beija-flores-demo.pages.dev. Não usa o domínio da empresa.
+# O site traz noindex e robots.txt bloqueando indexação.
+name: Publicar demo Beija-Flores
+
+on:
+  push:
+    branches: [demo/floricultura-beija-flores]
+    paths: ["demos/beija-flores/**", ".github/workflows/publicar-demo-beija-flores.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publicar-demo-beija-flores
+  cancel-in-progress: false
+
+env:
+  CONTA: 06f7b50c56ad607422d73fd18fe4ea29
+  WRANGLER: wrangler@4.149.0
+  PROJETO: beija-flores-demo
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: demos/beija-flores
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: demos/beija-flores/package-lock.json
+
+      - run: npm ci
+
+      - name: Conferir tipos, testes e gerar o site
+        run: |
+          npm run typecheck
+          npm test
+          npm run build
+
+      - name: Criar o projeto no Cloudflare Pages (só na primeira vez)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || env.CONTA }}
+        run: |
+          if ! saida=$(npx --yes "$WRANGLER" pages project create "$PROJETO" --production-branch main 2>&1); then
+            echo "$saida"
+            echo "$saida" | grep -qiE "already exist" || exit 1
+            echo "O projeto $PROJETO já existe."
+          fi
+
+      - name: Publicar
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || env.CONTA }}
+        run: |
+          npx --yes "$WRANGLER" pages deploy dist --project-name "$PROJETO" --branch main --commit-dirty=true
+          {
+            echo "## ${PROJETO} publicado"
+            echo
+            echo "https://${PROJETO}.pages.dev"
+          } >> "$GITHUB_STEP_SUMMARY"
